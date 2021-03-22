@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
-import ConfirmationDialog from 'src/components/ConfirmDialog';
+import ConfirmDialog from 'src/components/ConfirmDialog';
 import Toolbar from './Toolbar';
 import FavoritoCard from './FavoritoCard';
 import data from './data';
@@ -53,7 +53,7 @@ const FavoritoList = () => {
           {/* quantidade de páginas de anúncios aqui em cima.
           Precisa variar com a quantidade de itens que teremos em cada página */}
         </Box>
-        <ConfirmationDialog
+        <ConfirmDialog
           isConfirmDialogOpen={isConfirmDialogOpen}
           closeConfirmDialog={closeConfirmDialog}
         />

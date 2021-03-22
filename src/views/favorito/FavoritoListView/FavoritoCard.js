@@ -29,12 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PropriedadeCard = ({
-  openConfirmDialog,
-  className,
-  product,
-  ...rest
-}) => {
+const FavoritoCard = ({ openConfirmDialog, className, product, ...rest }) => {
   const classes = useStyles();
 
   const handleFavoritePress = () => {
@@ -78,10 +73,10 @@ const PropriedadeCard = ({
   );
 };
 
-PropriedadeCard.propTypes = {
+FavoritoCard.propTypes = {
   openConfirmDialog: PropTypes.func,
   className: PropTypes.string,
   product: PropTypes.object.isRequired,
 };
 
-export default PropriedadeCard;
+export default FavoritoCard;

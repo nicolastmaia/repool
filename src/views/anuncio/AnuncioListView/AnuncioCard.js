@@ -30,11 +30,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnuncioCard = ({ className, product, ...rest }) => {
+const AnuncioCard = ({ openConfirmDialog, className, product, ...rest }) => {
   const classes = useStyles();
   const [favorite, setFavorite] = useState(false);
 
   const handleFavoritePress = () => {
+    if (favorite) {
+      openConfirmDialog(true);
+    }
+
     setFavorite((prevState) => !prevState);
   };
 
@@ -80,6 +84,7 @@ const AnuncioCard = ({ className, product, ...rest }) => {
 };
 
 AnuncioCard.propTypes = {
+  openConfirmDialog: PropTypes.func,
   className: PropTypes.string,
   product: PropTypes.object.isRequired,
 };
