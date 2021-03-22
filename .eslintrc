@@ -14,6 +14,10 @@
     }
   },
   "rules": {
+    "react/jsx-wrap-multilines": "off",
+    "jsx-quotes":"off",
+    "arrow-parens":"off",
+    "object-curly-newline":"off",
     "no-underscore-dangle": "off",
     "arrow-body-style": "off",
     "comma-dangle": "off",
