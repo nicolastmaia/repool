@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Container,
-  Grid,
-  makeStyles
-} from '@material-ui/core';
+import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
 import Toolbar from './Toolbar';
-import ProductCard from './ProductCard';
+import PropriedadeCard from './ProprieadeCard';
 import data from './data';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,38 +11,26 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.dark,
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
+    paddingTop: theme.spacing(3),
   },
   productCard: {
-    height: '100%'
-  }
+    height: '100%',
+  },
 }));
 
-const ProductList = () => {
+const PropriedadeList = () => {
   const classes = useStyles();
   const [products] = useState(data);
 
   return (
-    <Page
-      className={classes.root}
-      title="Products"
-    >
+    <Page className={classes.root} title='Products'>
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          <Grid
-            container
-            spacing={3}
-          >
+          <Grid container spacing={3}>
             {products.map((product) => (
-              <Grid
-                item
-                key={product.id}
-                lg={4}
-                md={6}
-                xs={12}
-              >
-                <ProductCard
+              <Grid item key={product.id} lg={4} md={6} xs={12}>
+                <PropriedadeCard
                   className={classes.productCard}
                   product={product}
                 />
@@ -55,20 +38,14 @@ const ProductList = () => {
             ))}
           </Grid>
         </Box>
-        <Box
-          mt={3}
-          display="flex"
-          justifyContent="center"
-        >
-          <Pagination
-            color="primary"
-            count={3}
-            size="small"
-          />
+        <Box mt={3} display='flex' justifyContent='center'>
+          <Pagination color='primary' count={1} size='small' />
+          {/* quantidade de páginas de anúncios aqui em cima.
+          precisa variar com a quantidade de itens que teremos em cada página */}
         </Box>
       </Container>
     </Page>
   );
 };
 
-export default ProductList;
+export default PropriedadeList;

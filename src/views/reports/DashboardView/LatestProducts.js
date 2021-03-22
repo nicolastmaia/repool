@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import moment from 'moment';
 import {
   Box,
   Button,
@@ -22,34 +21,10 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 const data = [
   {
     id: uuid(),
-    name: 'Dropbox',
+    name: 'Nome da propriedade',
     imageUrl: '/static/images/products/product_1.png',
-    updatedAt: moment().subtract(2, 'hours')
+    notaMedia: 'Nota média'
   },
-  {
-    id: uuid(),
-    name: 'Medium Corporation',
-    imageUrl: '/static/images/products/product_2.png',
-    updatedAt: moment().subtract(2, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'Slack',
-    imageUrl: '/static/images/products/product_3.png',
-    updatedAt: moment().subtract(3, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'Lyft',
-    imageUrl: '/static/images/products/product_4.png',
-    updatedAt: moment().subtract(5, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'GitHub',
-    imageUrl: '/static/images/products/product_5.png',
-    updatedAt: moment().subtract(9, 'hours')
-  }
 ];
 
 const useStyles = makeStyles(({
@@ -73,7 +48,7 @@ const LatestProducts = ({ className, ...rest }) => {
     >
       <CardHeader
         subtitle={`${products.length} in total`}
-        title="Latest Products"
+        title="Anúncios Recentes"
       />
       <Divider />
       <List>
@@ -91,7 +66,7 @@ const LatestProducts = ({ className, ...rest }) => {
             </ListItemAvatar>
             <ListItemText
               primary={product.name}
-              secondary={`Updated ${product.updatedAt.fromNow()}`}
+              secondary={`Nota: ${product.notaMedia}`}
             />
             <IconButton
               edge="end"

@@ -1,25 +1,39 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import DashboardLayout from 'src/layouts/DashboardLayout';
+import DashboardOwnerLayout from 'src/layouts/DashboardOwner';
+import DashboardAdmLayout from 'src/layouts/DashboardAdm';
 import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
-import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
-import ProductListView from 'src/views/product/ProductListView';
+import AnuncioListView from 'src/views/anuncio/AnuncioListView';
+import PropriedadeListView from 'src/views/propriedade/PropriedadeListView';
+import FavoritoListView from 'src/views/favorito/FavoritoListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
 
 const routes = [
   {
     path: 'app',
-    element: <DashboardLayout />,
+    element: <DashboardOwnerLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
-      { path: 'customers', element: <CustomerListView /> },
       { path: 'dashboard', element: <DashboardView /> },
-      { path: 'products', element: <ProductListView /> },
+      { path: 'anuncios', element: <AnuncioListView /> },
+      { path: 'propriedades', element: <PropriedadeListView /> },
+      { path: 'favoritos', element: <FavoritoListView /> },
+      { path: 'settings', element: <SettingsView /> },
+      { path: '*', element: <Navigate to="/404" /> }
+    ]
+  },
+  {
+    path: 'adm',
+    element: <DashboardAdmLayout />,
+    children: [
+      { path: 'account', element: <AccountView /> },
+      { path: 'dashboard', element: <DashboardView /> },
+      { path: 'anuncios', element: <AnuncioListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
@@ -28,10 +42,9 @@ const routes = [
     path: '/',
     element: <MainLayout />,
     children: [
-      { path: 'login', element: <LoginView /> },
+      { path: '/', element: <LoginView /> },
       { path: 'register', element: <RegisterView /> },
       { path: '404', element: <NotFoundView /> },
-      { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   }
