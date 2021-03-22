@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import DashboardOwnerLayout from 'src/layouts/DashboardOwner';
+import DashboardOwnerLayout from 'src/layouts/DashboardSimple';
 import DashboardAdmLayout from 'src/layouts/DashboardAdm';
 import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
