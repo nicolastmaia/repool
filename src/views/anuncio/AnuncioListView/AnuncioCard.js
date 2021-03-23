@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnuncioCard = ({ openConfirmDialog, className, product, ...rest }) => {
+const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
   const [favorite, setFavorite] = useState(false);
 
@@ -46,7 +46,7 @@ const AnuncioCard = ({ openConfirmDialog, className, product, ...rest }) => {
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
         <Box display='flex' justifyContent='center' mb={3}>
-          <Avatar alt='Product' src={product.media} variant='square' />
+          <Avatar alt='Anuncio' src={anuncio.image} variant='square' />
         </Box>
         <Typography
           align='center'
@@ -54,10 +54,10 @@ const AnuncioCard = ({ openConfirmDialog, className, product, ...rest }) => {
           gutterBottom
           variant='h4'
         >
-          {product.title}
+          {anuncio.title}
         </Typography>
         <Typography align='center' color='textPrimary' variant='body1'>
-          {product.description}
+          {anuncio.description}
         </Typography>
       </CardContent>
       <Box flexGrow={1} />
@@ -67,7 +67,7 @@ const AnuncioCard = ({ openConfirmDialog, className, product, ...rest }) => {
           <Grid className={classes.statsItem} item>
             <StarRateIcon className={classes.statsIcon} color='action' />
             <Typography color='textSecondary' display='inline' variant='body2'>
-              {product.totalDownloads}
+              {anuncio.rate}
             </Typography>
           </Grid>
           <IconButton onClick={handleFavoritePress}>
@@ -86,7 +86,7 @@ const AnuncioCard = ({ openConfirmDialog, className, product, ...rest }) => {
 AnuncioCard.propTypes = {
   openConfirmDialog: PropTypes.func,
   className: PropTypes.string,
-  product: PropTypes.object.isRequired,
+  anuncio: PropTypes.object.isRequired,
 };
 
 export default AnuncioCard;
