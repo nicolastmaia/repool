@@ -13,13 +13,13 @@ import FavoritoListView from 'src/views/favorito/FavoritoListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
 
-const routes = [
+export const simpleLoggedInRoutes = [
   {
-    path: 'app',
+    path: '/',
     element: <DashboardSimpleLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
-      { path: 'dashboard', element: <DashboardView /> },
+      { path: '/', element: <DashboardView /> },
       { path: 'anuncios', element: <AnuncioListView /> },
       { path: 'propriedades', element: <PropriedadeListView /> },
       { path: 'favoritos', element: <FavoritoListView /> },
@@ -27,17 +27,23 @@ const routes = [
       { path: '*', element: <Navigate to='/404' /> },
     ],
   },
+];
+
+export const admLoggedInRoutes = [
   {
-    path: 'adm',
+    path: '/',
     element: <DashboardAdmLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
-      { path: 'dashboard', element: <DashboardView /> },
+      { path: '/', element: <DashboardView /> },
       { path: 'anuncios', element: <AnuncioListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to='/404' /> },
     ],
   },
+];
+
+export const loggedOutRoutes = [
   {
     path: '/',
     element: <MainLayout />,
@@ -49,5 +55,3 @@ const routes = [
     ],
   },
 ];
-
-export default routes;

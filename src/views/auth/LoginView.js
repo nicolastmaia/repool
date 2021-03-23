@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -9,22 +9,22 @@ import {
   Link,
   TextField,
   Typography,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import AuthContext from 'src/contexts/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
     height: '100%',
     paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  }
+    paddingTop: theme.spacing(3),
+  },
 }));
 
 const LoginView = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
 
   return (
     <Page className={classes.root} title='Login'>
@@ -38,21 +38,19 @@ const LoginView = () => {
           <Formik
             initialValues={{
               email: 'demo@devias.io',
-              password: 'Password123'
+              password: 'Password123',
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string()
                 .email('Must be a valid email')
                 .max(255)
                 .required('Email is required'),
-              password: Yup.string()
-                .max(255)
-                .required('Password is required')
+              password: Yup.string().max(255).required('Password is required'),
             })}
-            // deve verificar se o usuario é comum ou se é adm antes de mandar
-            // pra qualquer rota especifica
             onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+              // deve verificar se o usuario é comum ou se é adm antes de mandar
+              // pra qualquer rota especifica
+              // adicionar logica que altera o valor de isLoggedIn quando o usuario é autenticado
             }}
           >
             {({
@@ -62,7 +60,7 @@ const LoginView = () => {
               handleSubmit,
               isSubmitting,
               touched,
-              values
+              values,
             }) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
@@ -109,8 +107,7 @@ const LoginView = () => {
                   </Button>
                 </Box>
                 <Typography color='textSecondary' variant='body1'>
-                  Don&apos;t have an account?
-                  {' '}
+                  Don&apos;t have an account?{' '}
                   <Link component={RouterLink} to='/register' variant='h6'>
                     Sign up
                   </Link>
