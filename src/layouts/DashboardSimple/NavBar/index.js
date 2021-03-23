@@ -28,27 +28,27 @@ const user = {
 
 const items = [
   {
-    href: '/app/dashboard',
+    href: '/',
     icon: BarChartIcon,
     title: 'Dashboard',
   },
   {
-    href: '/app/anuncios',
+    href: '/anuncios',
     icon: AnuncioIcon,
     title: 'Anúncios',
   },
   {
-    href: '/app/favoritos',
+    href: '/favoritos',
     icon: FavoritoIcon,
     title: 'Meus Favoritos',
   },
   {
-    href: '/app/propriedades',
+    href: '/propriedades',
     icon: PropriedadeIcon,
     title: 'Minhas Propriedades',
   },
   {
-    href: '/app/account',
+    href: '/account',
     icon: UserIcon,
     title: 'Perfil',
   },

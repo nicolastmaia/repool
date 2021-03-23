@@ -26,17 +26,17 @@ const user = {
 
 const items = [
   {
-    href: '/adm/dashboard',
+    href: '/',
     icon: BarChartIcon,
     title: 'Dashboard',
   },
   {
-    href: '/adm/anuncios',
+    href: '/anuncios',
     icon: AnuncioIcon,
     title: 'Anúncios',
   },
   {
-    href: '/adm/account',
+    href: '/account',
     icon: UserIcon,
     title: 'Perfil',
   },
