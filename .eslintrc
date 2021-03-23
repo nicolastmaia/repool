@@ -14,6 +14,7 @@
     }
   },
   "rules": {
+    "no-unused-vars":"warn",
     "react/jsx-wrap-multilines": "off",
     "jsx-quotes":"off",
     "arrow-parens":"off",
