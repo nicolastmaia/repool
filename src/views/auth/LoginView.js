@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
 const LoginView = () => {
   const classes = useStyles();
 
+  const { login } = useContext(AuthContext);
+
   return (
     <Page className={classes.root} title='Login'>
       <Box
@@ -48,6 +50,7 @@ const LoginView = () => {
               password: Yup.string().max(255).required('Password is required'),
             })}
             onSubmit={() => {
+              login();
               // deve verificar se o usuario é comum ou se é adm antes de mandar
               // pra qualquer rota especifica
               // adicionar logica que altera o valor de isLoggedIn quando o usuario é autenticado

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -16,13 +16,8 @@ import {
   Layout as AnuncioIcon,
   User as UserIcon,
 } from 'react-feather';
+import AuthContext from 'src/contexts/AuthContext';
 import NavItem from './NavItem';
-
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-};
 
 const items = [
   {
@@ -61,6 +56,7 @@ const useStyles = makeStyles(() => ({
 const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -76,13 +72,13 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           className={classes.avatar}
           component={RouterLink}
           src={user.avatar}
-          to='/app/account'
+          to='/account'
         />
         <Typography className={classes.name} color='textPrimary' variant='h5'>
-          {user.name}
+          {`${user.firstName} ${user.lastName}`}
         </Typography>
         <Typography color='textSecondary' variant='body2'>
-          {user.jobTitle}
+          {user.email}
         </Typography>
       </Box>
       <Divider />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -15,6 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import Logo from 'src/components/Logo';
+import AuthContext from 'src/contexts/AuthContext';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -27,6 +28,7 @@ const useStyles = makeStyles(() => ({
 const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const classes = useStyles();
   const [notifications] = useState([]);
+  const { logout } = useContext(AuthContext);
 
   return (
     <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
@@ -45,7 +47,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton component={RouterLink} to='/' color='inherit'>
+          <IconButton onClick={logout} color='inherit'>
             <InputIcon />
           </IconButton>
         </Hidden>
