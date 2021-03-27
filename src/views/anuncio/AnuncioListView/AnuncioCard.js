@@ -54,7 +54,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
           gutterBottom
           variant='h4'
         >
-          {anuncio.title}
+          {anuncio.name}
         </Typography>
         <Typography align='center' color='textPrimary' variant='body1'>
           {anuncio.description}
