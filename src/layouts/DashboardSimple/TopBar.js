@@ -47,7 +47,12 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton onClick={logout} color='inherit'>
+          <IconButton
+            component={RouterLink}
+            to='/'
+            onClick={logout}
+            color='inherit'
+          >
             <InputIcon />
           </IconButton>
         </Hidden>
