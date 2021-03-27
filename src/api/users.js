@@ -1,8 +1,8 @@
 import axios from './base';
 
-const resourceEndpoint = '/anuncios';
+const resourceEndpoint = '/usuario';
 
-const anuncioApi = {
+const userApi = {
   getAll: async () => {
     try {
       const response = await axios.get(resourceEndpoint);
@@ -28,4 +28,4 @@ const anuncioApi = {
   remove: async (id) => {},
 };
 
-export default anuncioApi;
+export default userApi;

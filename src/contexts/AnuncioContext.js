@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getAll } from '../api/anuncios';
+import anuncioApi from '../api/anuncios';
 
 const AnuncioContext = createContext({
   anuncios: null,
@@ -13,7 +13,7 @@ export const AnuncioProvider = ({ children }) => {
   const [favoritos, setFavoritos] = useState([]);
 
   const fetchAnuncios = async () => {
-    const response = await getAll();
+    const response = await anuncioApi.getAll();
     setAnuncios(response);
   };
 
