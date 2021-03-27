@@ -1,11 +1,12 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import anuncioApi from '../api/anuncios';
 
 const AnuncioContext = createContext({
   anuncios: null,
-  favoritos: null,
   fetchAnuncios: null,
+  favoritos: null,
+  fetchFavoritos: null,
 });
 
 export const AnuncioProvider = ({ children }) => {
@@ -17,16 +18,15 @@ export const AnuncioProvider = ({ children }) => {
     setAnuncios(response);
   };
 
-  useEffect(() => {
-    const filtrarFavoritos = () => {
-      const tmpFav = anuncios.filter((anuncio) => anuncio.isFavorite === true);
-      setFavoritos(tmpFav);
-    };
-    filtrarFavoritos();
-  }, [anuncios]);
+  const fetchFavoritos = async () => {
+    const response = await anuncioApi.getFavorites();
+    setFavoritos(response);
+  };
 
   return (
-    <AnuncioContext.Provider value={{ anuncios, favoritos, fetchAnuncios }}>
+    <AnuncioContext.Provider
+      value={{ anuncios, fetchAnuncios, favoritos, fetchFavoritos }}
+    >
       {children}
     </AnuncioContext.Provider>
   );

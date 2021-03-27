@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FavoritoCard = ({ openConfirmDialog, className, product, ...rest }) => {
+const FavoritoCard = ({ openConfirmDialog, className, favorito, ...rest }) => {
   const classes = useStyles();
 
   const handleFavoritePress = () => {
@@ -40,7 +40,7 @@ const FavoritoCard = ({ openConfirmDialog, className, product, ...rest }) => {
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
         <Box display='flex' justifyContent='center' mb={3}>
-          <Avatar alt='Product' src={product.media} variant='square' />
+          <Avatar alt='Favorito' src={favorito.media} variant='square' />
         </Box>
         <Typography
           align='center'
@@ -48,10 +48,10 @@ const FavoritoCard = ({ openConfirmDialog, className, product, ...rest }) => {
           gutterBottom
           variant='h4'
         >
-          {product.title}
+          {favorito.title}
         </Typography>
         <Typography align='center' color='textPrimary' variant='body1'>
-          {product.description}
+          {favorito.description}
         </Typography>
       </CardContent>
       <Box flexGrow={1} />
@@ -61,7 +61,7 @@ const FavoritoCard = ({ openConfirmDialog, className, product, ...rest }) => {
           <Grid className={classes.statsItem} item>
             <StarRateIcon className={classes.statsIcon} color='action' />
             <Typography color='textSecondary' display='inline' variant='body2'>
-              {product.totalDownloads}
+              {favorito.rate}
             </Typography>
           </Grid>
           <IconButton onClick={handleFavoritePress}>
@@ -76,7 +76,7 @@ const FavoritoCard = ({ openConfirmDialog, className, product, ...rest }) => {
 FavoritoCard.propTypes = {
   openConfirmDialog: PropTypes.func,
   className: PropTypes.string,
-  product: PropTypes.object.isRequired,
+  favorito: PropTypes.object.isRequired,
 };
 
 export default FavoritoCard;

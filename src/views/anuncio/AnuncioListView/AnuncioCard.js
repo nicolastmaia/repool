@@ -32,14 +32,14 @@ const useStyles = makeStyles((theme) => ({
 
 const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
-  const [favorite, setFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(anuncio.isFavorite);
 
   const handleFavoritePress = () => {
-    if (favorite) {
+    if (isFavorite) {
       openConfirmDialog(true);
+    } else {
+      setIsFavorite(true);
     }
-
-    setFavorite((prevState) => !prevState);
   };
 
   return (
@@ -71,7 +71,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
             </Typography>
           </Grid>
           <IconButton onClick={handleFavoritePress}>
-            {favorite ? (
+            {isFavorite ? (
               <FavoriteIcon color='action' />
             ) : (
               <FavoriteBorderIcon color='action' />

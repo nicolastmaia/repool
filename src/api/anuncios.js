@@ -23,6 +23,16 @@ const anuncioApi = {
     }
   },
 
+  getFavorites: async () => {
+    try {
+      const response = await axios.get('/favoritos'); // TODO mudar rota para /anuncios/favoritos
+      return response.data;
+    } catch (error) {
+      console.log(error.message);
+      throw error;
+    }
+  },
+
   post: async (anuncio) => {},
   edit: async (id, newData) => {},
   remove: async (id) => {},
