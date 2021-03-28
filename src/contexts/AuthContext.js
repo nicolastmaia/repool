@@ -21,8 +21,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = async () => {
     const response = await userApi.getOne(1);
-    response.avatar =
-      'https://www.flaticon.com/svg/vstatic/svg/147/147144.svg?token=exp=1616682918~hmac=d2798b19f5384169f6835f209e37b7f7';
     setUser(response);
     setUserToken('asdadasasd');
   };

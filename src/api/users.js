@@ -16,6 +16,8 @@ const userApi = {
   getOne: async (id) => {
     try {
       const response = await axios.get(`${resourceEndpoint}/${id}`);
+      response.data.avatar = 'https://www.w3schools.com/howto/img_avatar.png';
+
       return response.data;
     } catch (error) {
       console.log(error.message);
