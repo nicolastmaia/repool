@@ -58,10 +58,14 @@ const useStyles = makeStyles(() => ({
     top: 64,
     height: 'calc(100% - 64px)',
   },
+  name: {
+    marginBottom: 5,
+  },
   avatar: {
     cursor: 'pointer',
     width: 64,
     height: 64,
+    marginBottom: 15,
   },
 }));
 
@@ -74,13 +78,13 @@ const NavBar = ({ onMobileClose, openMobile }) => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   const content = (
     <Box height='100%' display='flex' flexDirection='column'>
       <Box alignItems='center' display='flex' flexDirection='column' p={2}>
         <Avatar
+          variant='rounded'
           className={classes.avatar}
           component={RouterLink}
           src={user.avatar}
