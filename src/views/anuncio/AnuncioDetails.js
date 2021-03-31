@@ -104,8 +104,8 @@ const tileData = [
 ];
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
-  gridListContainer: {
+  root: { paddingTop: '1em', paddingBottom: '1em' },
+  imageGridContainer: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
@@ -126,8 +126,8 @@ const useStyles = makeStyles((theme) => ({
   favoriteText: {
     marginLeft: '5%',
   },
-  titleText: {
-    marginBottom: '0.5em',
+  textGutterBottom: {
+    marginBottom: '1em',
   },
   featureContainer: {
     paddingTop: '3em',
@@ -173,42 +173,39 @@ const AnuncioDetails = ({ className, ...rest }) => {
   return (
     <Container className={classes.root}>
       <Container className={classes.titleContainer}>
-        <Box>
-          <Typography className={classes.titleText} variant='h1'>
-            Quarto com banheiro na Paulista
-          </Typography>
-        </Box>
-        <Box>
-          <Grid
-            container
-            justify='space-between'
-            alignItems='center'
-            spacing={2}
-          >
-            <Grid item>
-              <Rating name='read-only' value={value} readOnly />
-            </Grid>
-            <IconButton onClick={handleFavoritePress}>
-              {isFavorite ? (
-                <>
-                  <FavoriteIcon color='action' />
-                  <Typography className={classes.favoriteText} variant='h4'>
-                    Desfavoritar
-                  </Typography>
-                </>
-              ) : (
-                <>
-                  <FavoriteBorderIcon color='action' />
-                  <Typography className={classes.favoriteText} variant='h4'>
-                    Favoritar
-                  </Typography>
-                </>
-              )}
-            </IconButton>
+        <Typography className={classes.textGutterBottom} variant='h1'>
+          Quarto com banheiro na Paulista
+        </Typography>
+        <Grid
+          container
+          justify='space-between'
+          alignItems='baseline'
+          spacing={2}
+        >
+          <Grid item>
+            <Rating name='read-only' value={value} readOnly />
           </Grid>
-        </Box>
+          <IconButton onClick={handleFavoritePress}>
+            {isFavorite ? (
+              <>
+                <FavoriteIcon color='action' />
+                <Typography className={classes.favoriteText} variant='h4'>
+                  Desfavoritar
+                </Typography>
+              </>
+            ) : (
+              <>
+                <FavoriteBorderIcon color='action' />
+                <Typography className={classes.favoriteText} variant='h4'>
+                  Favoritar
+                </Typography>
+              </>
+            )}
+          </IconButton>
+        </Grid>
       </Container>
-      <Container className={classes.gridListContainer}>
+
+      <Container className={classes.imageGridContainer}>
         <GridList cellHeight={160} className={classes.gridList} cols={3}>
           {tileData.map((tile) => (
             <GridListTile key={tile.img} cols={tile.cols || 1}>
@@ -217,55 +214,51 @@ const AnuncioDetails = ({ className, ...rest }) => {
           ))}
         </GridList>
       </Container>
+
       <Container className={classes.descriptionContainer}>
-        <Box>
-          <Typography variant='h2' className={classes.titleText}>
-            <ShowMoreText
-              lines={1}
-              more={<ExpandMoreIcon />}
-              less={<ExpandLessIcon />}
-              onClick={toggleExpand}
-              expanded={expand}
-              width={500}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-              eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor
-              massa. Pellentesque habitant morbi tristique senectus et netus et
-              malesuada fames ac turpis egestas. Nulla at risus. Quisque purus
-              magna, auctor et, sagittis ac, posuere eu, lectus. Nam mattis,
-              felis ut adipiscing
-            </ShowMoreText>
-          </Typography>
-        </Box>
-        <Box>
-          <Typography variant='h4'>2 vagas</Typography>
-        </Box>
+        <Typography
+          variant='h2'
+          gutterBottom
+          className={classes.textGutterBottom}
+        >
+          <ShowMoreText
+            lines={1}
+            more={<ExpandMoreIcon />}
+            less={<ExpandLessIcon />}
+            onClick={toggleExpand}
+            expanded={expand}
+            width={500}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget
+            ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Nulla at risus. Quisque purus magna, auctor
+            et, sagittis ac, posuere eu, lectus. Nam mattis, felis ut adipiscing
+          </ShowMoreText>
+        </Typography>
+        <Typography variant='h4'>2 vagas</Typography>
       </Container>
 
       <Divider />
 
       <Container className={classes.featureContainer}>
-        <Grid container direction='column' justify='space-evenly' spacing={4}>
+        <Grid container direction='column' justify='space-evenly' spacing={6}>
           <Grid item>
-            <Typography gutterBottom={2} variant='h2'>
+            <Typography gutterBottom variant='h2'>
               Comodidades
             </Typography>
           </Grid>
           <Grid item className={classes.featureItem}>
-            <Box>
-              <PetIcon
-                fontSize='large'
-                color='primary'
-                className={classes.petIcon}
-              />
-            </Box>
+            <PetIcon
+              fontSize='large'
+              color='primary'
+              className={classes.petIcon}
+            />
             <Box ml={3}>
-              <Box mb={1}>
-                <Typography variant='h4'>Traga seu pet</Typography>
-              </Box>
-              <Box>
-                <Typography variant='body1'>Descrição da feature</Typography>
-              </Box>
+              <Typography gutterBottom variant='h4'>
+                Traga seu pet
+              </Typography>
+              <Typography variant='body1'>Descrição da feature</Typography>
             </Box>
           </Grid>
           <Grid item className={classes.featureItem}>
@@ -277,12 +270,10 @@ const AnuncioDetails = ({ className, ...rest }) => {
               />
             </Box>
             <Box ml={3}>
-              <Box mb={1}>
-                <Typography variant='h4'>Tem piscina</Typography>
-              </Box>
-              <Box>
-                <Typography variant='body1'>Descrição da feature</Typography>
-              </Box>
+              <Typography gutterBottom variant='h4'>
+                Tem piscina
+              </Typography>
+              <Typography variant='body1'>Descrição da feature</Typography>
             </Box>
           </Grid>
           <Grid item className={classes.featureItem}>
@@ -294,12 +285,10 @@ const AnuncioDetails = ({ className, ...rest }) => {
               />
             </Box>
             <Box ml={3}>
-              <Box mb={1}>
-                <Typography variant='h4'>Tem garagem</Typography>
-              </Box>
-              <Box>
-                <Typography variant='body1'>Descrição da feature</Typography>
-              </Box>
+              <Typography gutterBottom variant='h4'>
+                Tem garagem
+              </Typography>
+              <Typography variant='body1'>Descrição da feature</Typography>
             </Box>
           </Grid>
           <Grid item className={classes.featureItem}>
@@ -311,12 +300,10 @@ const AnuncioDetails = ({ className, ...rest }) => {
               />
             </Box>
             <Box ml={3}>
-              <Box mb={1}>
-                <Typography variant='h4'>Tem internet wifi</Typography>
-              </Box>
-              <Box>
-                <Typography variant='body1'>Descrição da feature</Typography>
-              </Box>
+              <Typography gutterBottom variant='h4'>
+                Tem internet wifi
+              </Typography>
+              <Typography variant='body1'>Descrição da feature</Typography>
             </Box>
           </Grid>
           <Grid item className={classes.featureItem}>
@@ -328,12 +315,10 @@ const AnuncioDetails = ({ className, ...rest }) => {
               />
             </Box>
             <Box ml={3}>
-              <Box mb={1}>
-                <Typography variant='h4'>Tem área gourmet</Typography>
-              </Box>
-              <Box>
-                <Typography variant='body1'>Descrição da feature</Typography>
-              </Box>
+              <Typography gutterBottom variant='h4'>
+                Tem área gourmet
+              </Typography>
+              <Typography variant='body1'>Descrição da feature</Typography>
             </Box>
           </Grid>
         </Grid>
