@@ -13,6 +13,7 @@ import {
   IconButton,
   GridListTileBar,
   GridListTile,
+  Button,
 } from '@material-ui/core';
 import PetIcon from '@material-ui/icons/Pets';
 import PoolIcon from '@material-ui/icons/Pool';
@@ -22,6 +23,7 @@ import WifiIcon from '@material-ui/icons/Wifi';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Rating } from '@material-ui/lab';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,7 +88,12 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   };
 
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card
+      className={clsx(classes.root, className)}
+      {...rest}
+      component={NavLink}
+      to={anuncio.id}
+    >
       <CardContent classes={{ root: classes.cardContentRoot }}>
         <Box position='relative' mb={3}>
           <Avatar

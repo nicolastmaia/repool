@@ -12,6 +12,7 @@ import PropriedadeListView from 'src/views/propriedade/PropriedadeListView';
 import FavoritoListView from 'src/views/favorito/FavoritoListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
+import AnuncioDetails from './views/anuncio/AnuncioDetails';
 
 export const simpleLoggedInRoutes = [
   {
@@ -21,6 +22,7 @@ export const simpleLoggedInRoutes = [
       { path: 'account', element: <AccountView /> },
       { path: '/', element: <DashboardView /> },
       { path: 'anuncios', element: <AnuncioListView /> },
+      { path: 'anuncios/:id', element: <AnuncioDetails /> },
       { path: 'propriedades', element: <PropriedadeListView /> },
       { path: 'favoritos', element: <FavoritoListView /> },
       { path: 'settings', element: <SettingsView /> },
