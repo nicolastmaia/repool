@@ -1,7 +1,7 @@
 import { Box, Grid, Icon, makeStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import comodidades from './comodidades.json';
+import comodidadesContent from '../comodidades';
 
 const useStyles = makeStyles((theme) => ({
   comodidadeItem: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ComodidadeItem = ({ nome }) => {
   const classes = useStyles();
-  const comodidade = comodidades[nome];
+  const comodidade = comodidadesContent[nome];
 
   return (
     <Grid item className={classes.comodidadeItem}>
