@@ -8,18 +8,13 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
-  makeStyles
+  makeStyles,
+  Button,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
-  importButton: {
-    marginRight: theme.spacing(1)
-  },
-  exportButton: {
-    marginRight: theme.spacing(1)
-  }
 }));
 
 const Toolbar = ({ className, ...rest }) => {
@@ -27,6 +22,12 @@ const Toolbar = ({ className, ...rest }) => {
 
   return (
     <div className={clsx(classes.root, className)} {...rest}>
+      <Box display='flex' justifyContent='flex-end'>
+        <Button color='primary' variant='contained'>
+          Cadastrar Propriedade
+        </Button>
+      </Box>
+
       <Box mt={3}>
         <Card>
           <CardContent>
@@ -35,15 +36,15 @@ const Toolbar = ({ className, ...rest }) => {
                 fullWidth
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon fontSize="small" color="action">
+                    <InputAdornment position='start'>
+                      <SvgIcon fontSize='small' color='action'>
                         <SearchIcon />
                       </SvgIcon>
                     </InputAdornment>
-                  )
+                  ),
                 }}
-                placeholder="Procurar anúncio"
-                variant="outlined"
+                placeholder='Procurar anúncio'
+                variant='outlined'
               />
             </Box>
           </CardContent>
@@ -54,7 +55,7 @@ const Toolbar = ({ className, ...rest }) => {
 };
 
 Toolbar.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default Toolbar;
