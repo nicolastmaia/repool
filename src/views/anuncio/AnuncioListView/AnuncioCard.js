@@ -1,6 +1,3 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import {
   Avatar,
   Box,
@@ -8,22 +5,19 @@ import {
   CardContent,
   Divider,
   Grid,
-  Typography,
-  makeStyles,
   IconButton,
-  GridListTileBar,
-  GridListTile,
-  Button,
+  makeStyles,
+  Typography,
+  Icon,
 } from '@material-ui/core';
-import PetIcon from '@material-ui/icons/Pets';
-import PoolIcon from '@material-ui/icons/Pool';
-import GourmetAreaIcon from '@material-ui/icons/Fastfood';
-import CarIcon from '@material-ui/icons/DirectionsCar';
-import WifiIcon from '@material-ui/icons/Wifi';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Rating } from '@material-ui/lab';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import comodidadesContent from '../comodidades';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,35 +36,10 @@ const useStyles = makeStyles((theme) => ({
     height: 150,
     width: '100%',
   },
-  petAvatar: {
+  comodidadeIcon: {
     height: 25,
     width: 25,
     color: '#fff',
-    backgroundColor: '#87C094',
-  },
-  poolAvatar: {
-    height: 25,
-    width: 25,
-    color: '#fff',
-    backgroundColor: '#76CFD0',
-  },
-  carAvatar: {
-    height: 25,
-    width: 25,
-    color: '#fff',
-    backgroundColor: '#DB6B6B',
-  },
-  wifiAvatar: {
-    height: 25,
-    width: 25,
-    color: '#fff',
-    backgroundColor: '#858DFF',
-  },
-  gourmetAvatar: {
-    height: 25,
-    width: 25,
-    color: '#fff',
-    backgroundColor: '#D9C06D',
   },
 }));
 
@@ -78,6 +47,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
   const [isFavorite, setIsFavorite] = useState(anuncio.isFavorite);
   const [value, setValue] = useState(2);
+  const { comodidades } = anuncio;
 
   const handleFavoritePress = () => {
     if (isFavorite) {
@@ -88,13 +58,12 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   };
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-      component={NavLink}
-      to={anuncio.id}
-    >
-      <CardContent classes={{ root: classes.cardContentRoot }}>
+    <Card className={clsx(classes.root, className)} {...rest}>
+      <CardContent
+        classes={{ root: classes.cardContentRoot }}
+        component={NavLink}
+        to={anuncio.id}
+      >
         <Box position='relative' mb={3}>
           <Avatar
             alt='Anuncio'
@@ -103,21 +72,25 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
             variant='square'
           />
           <Box display='flex' position='absolute' right={0} bottom={0}>
-            <Avatar variant='square' className={classes.wifiAvatar}>
-              <WifiIcon style={{ fontSize: 15 }} />
-            </Avatar>
-            <Avatar variant='square' className={classes.petAvatar}>
-              <PetIcon style={{ fontSize: 15 }} />
-            </Avatar>
-            <Avatar variant='square' className={classes.gourmetAvatar}>
-              <GourmetAreaIcon style={{ fontSize: 15 }} />
-            </Avatar>
-            <Avatar variant='square' className={classes.carAvatar}>
-              <CarIcon style={{ fontSize: 15 }} />
-            </Avatar>
-            <Avatar variant='square' className={classes.poolAvatar}>
-              <PoolIcon style={{ fontSize: 15 }} />
-            </Avatar>
+            {comodidades &&
+              comodidades.map((comodidade) => (
+                <Avatar
+                  variant='square'
+                  style={{
+                    backgroundColor:
+                      comodidadesContent[comodidade.nome].lightColor,
+                  }}
+                  className={classes.comodidadeIcon}
+                >
+                  <Icon
+                    style={{
+                      fontSize: 15,
+                    }}
+                  >
+                    {comodidadesContent[comodidade.nome].icon}{' '}
+                  </Icon>
+                </Avatar>
+              ))}{' '}
           </Box>
         </Box>
 
