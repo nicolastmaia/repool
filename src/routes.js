@@ -12,7 +12,7 @@ import PropriedadeListView from 'src/views/propriedade/PropriedadeListView';
 import FavoritoListView from 'src/views/favorito/FavoritoListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
-import AnuncioDetails from './views/anuncio/AnuncioDetails';
+import AnuncioDetails from './views/anuncio/AnuncioDetailsView';
 
 export const simpleLoggedInRoutes = [
   {
