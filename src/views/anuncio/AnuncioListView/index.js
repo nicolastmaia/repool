@@ -54,7 +54,7 @@ const AnuncioList = () => {
         </Box>
         <Box mt={3} display='flex' justifyContent='center'>
           <Pagination color='primary' count={1} size='small' />
-          {/* quantidade de páginas de anúncios aqui em cima.
+          {/* TODO quantidade de páginas de anúncios aqui em cima.
           precisa variar com a quantidade de itens que teremos em cada página */}
         </Box>
         <ConfirmDialog

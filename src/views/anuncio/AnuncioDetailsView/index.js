@@ -111,7 +111,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
                   Comodidades
                 </Typography>
               </Grid>
-              {/* lista de comodidades que vem da api */}
+              {/* TODO lista de comodidades que vem da api */}
               <ComodidadeItem nome='wifi' />
             </Grid>
           </Grid>
@@ -134,7 +134,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
                   </Grid>
                   <Grid item>
                     <Typography gutterBottom variant='h2'>
-                      {/* nota e quantidade de comentarios */}
+                      {/* TODO nota e quantidade de comentarios */}
                       2,30 (132 Comentários)
                     </Typography>
                   </Grid>
@@ -142,7 +142,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
               </Grid>
               <Grid item>
                 <List className={classes.commentList}>
-                  {/* lista de comentarios que vem da api */}
+                  {/* TODO lista de comentarios que vem da api */}
                   <ComentarioItem />
                 </List>
               </Grid>

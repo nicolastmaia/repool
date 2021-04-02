@@ -15,12 +15,12 @@ export const AnuncioProvider = ({ children }) => {
 
   const fetchAnuncios = async () => {
     const response = await anuncioApi.getAll();
-    // precisa fazer algo do tipo pros icones de comodidades aparecerem no card de anuncio
-    // response[0].comodidades = [
-    //   { nome: 'wifi' },
-    //   { nome: 'pet' },
-    //   { nome: 'gourmet' },
-    // ];
+    /* TODO precisa fazer algo do tipo pros icones de comodidades aparecerem no card de anuncio
+    response[0].comodidades = [
+      { nome: 'wifi' },
+      { nome: 'pet' },
+      { nome: 'gourmet' },
+    ]; */
     setAnuncios(response);
   };
 
