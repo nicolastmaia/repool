@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
 import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
-import Page from 'src/components/Page';
+import React, { useContext, useEffect, useState } from 'react';
 import ConfirmDialog from 'src/components/ConfirmDialog';
+import Page from 'src/components/Page';
 import AnuncioContext from 'src/contexts/AnuncioContext';
-import Toolbar from './Toolbar';
 import AnuncioCard from './AnuncioCard';
+import Toolbar from './Toolbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,8 +21,11 @@ const useStyles = makeStyles((theme) => ({
 
 const AnuncioList = () => {
   const classes = useStyles();
-  const { anuncios, fetchAnuncios } = useContext(AnuncioContext);
+  const { anuncios, favoritos, fetchAnuncios, fetchFavoritos } = useContext(
+    AnuncioContext
+  );
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  let { pathname } = window.location;
 
   const closeConfirmDialog = () => {
     setIsConfirmDialogOpen(false);
@@ -32,8 +35,13 @@ const AnuncioList = () => {
   };
 
   useEffect(() => {
-    fetchAnuncios();
-  }, []);
+    pathname = pathname.slice(1);
+    if (pathname === 'anuncios') {
+      fetchAnuncios();
+    } else if (pathname === 'favoritos') {
+      fetchFavoritos();
+    }
+  }, [pathname]);
 
   return (
     <Page className={classes.root} title='Anuncios'>
@@ -65,5 +73,7 @@ const AnuncioList = () => {
     </Page>
   );
 };
+
+AnuncioList.propTypes = {};
 
 export default AnuncioList;

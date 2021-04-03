@@ -12,7 +12,8 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import StarIcon from '@material-ui/icons/StarRate';
 import { Rating } from '@material-ui/lab';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import AnuncioContext from 'src/contexts/AnuncioContext';
 import AnuncioDescription from './AnuncioDescription';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
@@ -47,12 +48,14 @@ const useStyles = makeStyles((theme) => ({
 const AnuncioDetails = ({ className, ...rest }) => {
   const classes = useStyles();
   const [isFavorite, setIsFavorite] = useState(false);
-  const [value, setValue] = useState(2);
+  const [value] = useState(2.1);
+  const { activeAnuncio } = useContext(AnuncioContext);
 
   const handleFavoritePress = () => {
     if (isFavorite) {
       return true;
     }
+    console.log(activeAnuncio);
     return false;
   };
 
@@ -60,7 +63,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
     <Container className={classes.root}>
       <Container className={classes.titleContainer}>
         <Typography className={classes.textGutterBottom} variant='h1'>
-          Quarto com banheiro na Paulista
+          {activeAnuncio.title}
         </Typography>
         <Grid
           container
@@ -69,7 +72,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
           spacing={2}
         >
           <Grid item>
-            <Rating name='read-only' value={value} readOnly />
+            <Rating name='read-only' value={value} precision={0.2} readOnly />
           </Grid>
           <IconButton onClick={handleFavoritePress}>
             {isFavorite ? (

@@ -1,17 +1,18 @@
-import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { createContext, useState } from 'react';
 import anuncioApi from '../api/anuncios';
 
 const AnuncioContext = createContext({
   anuncios: null,
+  activeAnuncio: null,
   fetchAnuncios: null,
-  favoritos: null,
   fetchFavoritos: null,
+  setActive: null,
 });
 
 export const AnuncioProvider = ({ children }) => {
   const [anuncios, setAnuncios] = useState([]);
-  const [favoritos, setFavoritos] = useState([]);
+  const [activeAnuncio, setActiveAnuncio] = useState({});
 
   const fetchAnuncios = async () => {
     const response = await anuncioApi.getAll();
@@ -26,12 +27,22 @@ export const AnuncioProvider = ({ children }) => {
 
   const fetchFavoritos = async () => {
     const response = await anuncioApi.getFavorites();
-    setFavoritos(response);
+    setAnuncios(response);
+  };
+
+  const setActive = (anuncio) => {
+    setActiveAnuncio(anuncio);
   };
 
   return (
     <AnuncioContext.Provider
-      value={{ anuncios, fetchAnuncios, favoritos, fetchFavoritos }}
+      value={{
+        anuncios,
+        activeAnuncio,
+        fetchAnuncios,
+        fetchFavoritos,
+        setActive,
+      }}
     >
       {children}
     </AnuncioContext.Provider>

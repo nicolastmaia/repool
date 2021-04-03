@@ -5,18 +5,19 @@ import {
   CardContent,
   Divider,
   Grid,
+  Icon,
   IconButton,
   makeStyles,
   Typography,
-  Icon,
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Rating } from '@material-ui/lab';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import AnuncioContext from 'src/contexts/AnuncioContext';
 import comodidadesContent from '../comodidades';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
   const [isFavorite, setIsFavorite] = useState(anuncio.isFavorite);
+  const { setActive } = useContext(AnuncioContext);
   const [value, setValue] = useState(2);
   const { comodidades } = anuncio;
 
@@ -59,60 +61,64 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardContent
-        classes={{ root: classes.cardContentRoot }}
-        component={NavLink}
-        to={anuncio.id}
+      <Link
+        onClick={() => {
+          setActive(anuncio);
+        }}
+        to={{ pathname: anuncio.id }}
       >
-        <Box position='relative' mb={3}>
-          <Avatar
-            alt='Anuncio'
-            src={anuncio.image}
-            className={classes.image}
-            variant='square'
-          />
-          <Box display='flex' position='absolute' right={0} bottom={0}>
-            {comodidades &&
-              comodidades.map((comodidade) => (
-                <Avatar
-                  variant='square'
-                  style={{
-                    backgroundColor:
-                      comodidadesContent[comodidade.nome].lightColor,
-                  }}
-                  className={classes.comodidadeIcon}
-                >
-                  <Icon
+        <CardContent classes={{ root: classes.cardContentRoot }}>
+          <Box position='relative' mb={3}>
+            <Avatar
+              alt='Anuncio'
+              src={anuncio.image}
+              className={classes.image}
+              variant='square'
+            />
+            <Box display='flex' position='absolute' right={0} bottom={0}>
+              {comodidades &&
+                comodidades.map((comodidade) => (
+                  <Avatar
+                    variant='square'
                     style={{
-                      fontSize: 15,
+                      backgroundColor:
+                        comodidadesContent[comodidade.nome].lightColor,
                     }}
+                    className={classes.comodidadeIcon}
                   >
-                    {comodidadesContent[comodidade.nome].icon}{' '}
-                  </Icon>
-                </Avatar>
-              ))}{' '}
+                    <Icon
+                      style={{
+                        fontSize: 15,
+                      }}
+                    >
+                      {comodidadesContent[comodidade.nome].icon}{' '}
+                    </Icon>
+                  </Avatar>
+                ))}{' '}
+            </Box>
           </Box>
-        </Box>
 
-        <Typography
-          align='center'
-          color='textPrimary'
-          gutterBottom
-          variant='h4'
-        >
-          {anuncio.title}
-        </Typography>
-        <Typography align='center' color='textPrimary' variant='body1'>
-          {`${anuncio.city}, ${anuncio.state}`}
-        </Typography>
-      </CardContent>
+          <Typography
+            align='center'
+            color='textPrimary'
+            gutterBottom
+            variant='h4'
+          >
+            {anuncio.title}
+          </Typography>
+          <Typography align='center' color='textPrimary' variant='body1'>
+            {`${anuncio.city}, ${anuncio.state}`}
+          </Typography>
+        </CardContent>
+      </Link>
+
       <Box flexGrow={1} />
       <Divider />
       <Box p={0.5}>
         <Grid container justify='space-between' spacing={2}>
           <Grid className={classes.statsItem} item>
             <Box component='fieldset' borderColor='transparent'>
-              <Rating name='read-only' value={value} readOnly />
+              <Rating name='read-only' value={value} precision={0.2} readOnly />
             </Box>
           </Grid>
           <IconButton onClick={handleFavoritePress}>
