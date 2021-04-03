@@ -1,20 +1,19 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import DashboardSimpleLayout from 'src/layouts/DashboardSimple';
 import DashboardAdmLayout from 'src/layouts/DashboardAdm';
+import DashboardSimpleLayout from 'src/layouts/DashboardSimple';
 import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
-import DashboardView from 'src/views/reports/DashboardView';
-import LoginView from 'src/views/auth/LoginView';
-import NotFoundView from 'src/views/errors/NotFoundView';
 import AnuncioListView from 'src/views/anuncio/AnuncioListView';
-import PropriedadeListView from 'src/views/propriedade/PropriedadeListView';
-import FavoritoListView from 'src/views/favorito/FavoritoListView';
+import LoginView from 'src/views/auth/LoginView';
 import RegisterView from 'src/views/auth/RegisterView';
+import NotFoundView from 'src/views/errors/NotFoundView';
+import PropriedadeListView from 'src/views/propriedade/PropriedadeListView';
+import DashboardView from 'src/views/reports/DashboardView';
 import SettingsView from 'src/views/settings/SettingsView';
 import AnuncioDetails from './views/anuncio/AnuncioDetailsView';
 
-export const simpleLoggedInRoutes = [
+const simpleLoggedInRoutes = [
   {
     path: '/',
     element: <DashboardSimpleLayout />,
@@ -24,14 +23,15 @@ export const simpleLoggedInRoutes = [
       { path: 'anuncios', element: <AnuncioListView /> },
       { path: 'anuncios/:id', element: <AnuncioDetails /> },
       { path: 'propriedades', element: <PropriedadeListView /> },
-      { path: 'favoritos', element: <FavoritoListView /> },
+      { path: 'favoritos', element: <AnuncioListView /> },
+      { path: 'favoritos/:id', element: <AnuncioDetails /> },
       { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to='/404' /> },
     ],
   },
 ];
 
-export const admLoggedInRoutes = [
+const admLoggedInRoutes = [
   {
     path: '/',
     element: <DashboardAdmLayout />,
@@ -45,7 +45,7 @@ export const admLoggedInRoutes = [
   },
 ];
 
-export const loggedOutRoutes = [
+const loggedOutRoutes = [
   {
     path: '/',
     element: <MainLayout />,
@@ -57,3 +57,15 @@ export const loggedOutRoutes = [
     ],
   },
 ];
+
+const routes = (isLoggedIn, isAdm) => {
+  if (isLoggedIn) {
+    if (isAdm) {
+      return admLoggedInRoutes;
+    }
+    return simpleLoggedInRoutes;
+  }
+  return loggedOutRoutes;
+};
+
+export default routes;
