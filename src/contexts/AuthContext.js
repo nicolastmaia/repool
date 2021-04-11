@@ -1,14 +1,13 @@
-import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { createContext, useState } from 'react';
 import userApi from 'src/api/users';
-import { RepeatOne } from '@material-ui/icons';
-import axios from '../api/base';
 
 const AuthContext = createContext({
   user: null,
   userToken: null,
   isLoggedIn: null,
   isAdm: null,
+  signup: null,
   login: null,
   logout: null,
 });
@@ -19,10 +18,17 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn] = useState(userToken);
   const [isAdm, setIsAdm] = useState(false);
 
-  const login = async () => {
-    const response = await userApi.getOne(1);
-    setUser(response);
-    setUserToken('asdadasasd');
+  const login = async (userCreds) => {
+    const jwtToken = await userApi.login(userCreds);
+    const authUser = await userApi.getUserByToken(jwtToken);
+    setUser(authUser);
+    setUserToken(jwtToken);
+  };
+
+  const signup = async (newUser) => {
+    const [authUser, jwtToken] = await userApi.signup(newUser);
+    setUser(authUser);
+    setUserToken(jwtToken);
   };
 
   const logout = () => {
@@ -37,6 +43,7 @@ export const AuthProvider = ({ children }) => {
         userToken,
         isLoggedIn: !!userToken,
         isAdm,
+        signup,
         login,
         logout,
       }}

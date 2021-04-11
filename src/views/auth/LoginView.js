@@ -49,8 +49,9 @@ const LoginView = () => {
                 .required('Email is required'),
               password: Yup.string().max(255).required('Password is required'),
             })}
-            onSubmit={() => {
-              login();
+            onSubmit={({ email, password }) => {
+              const userCreds = { email, password };
+              login(userCreds);
               // deve verificar se o usuario é comum ou se é adm antes de mandar
               // pra qualquer rota especifica
               // adicionar logica que altera o valor de isLoggedIn quando o usuario é autenticado
