@@ -1,5 +1,5 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://5fccf355603c0c00164873c8.mockapi.io';
+axios.defaults.baseURL = 'http://localhost:5050';
 
 export default axios;
