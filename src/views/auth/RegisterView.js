@@ -50,7 +50,7 @@ const RegisterView = () => {
               lastName: '',
               cel: '',
               tel: '',
-              gender: '',
+              sex: '',
               password: '',
               policy: false,
             }}
@@ -67,7 +67,7 @@ const RegisterView = () => {
                 .required('Sobrenome é obrigatório'),
               cel: Yup.string().required('Número de celular é obrigatório'),
               tel: Yup.string(),
-              gender: Yup.string().required('Gênero é obrigatório'),
+              sex: Yup.string().required('Gênero é obrigatório'),
               password: Yup.string().max(255).required('Senha é obrigatória'),
               policy: Yup.boolean().oneOf(
                 [true],
@@ -80,7 +80,7 @@ const RegisterView = () => {
               lastName,
               cel,
               tel,
-              gender,
+              sex,
               password,
             }) => {
               const user = {
@@ -88,7 +88,7 @@ const RegisterView = () => {
                 email,
                 cel,
                 tel,
-                gender,
+                sex,
                 password,
               };
               signup(user);
@@ -195,16 +195,16 @@ const RegisterView = () => {
                   <RadioGroup
                     style={{ marginLeft: '0.2em' }}
                     defaultValue=''
-                    aria-label='gender'
+                    aria-label='sex'
                     name='gender1'
-                    value={values.gender}
+                    value={values.sex}
                   >
                     <FormControlLabel
                       value='FEMALE'
                       control={
                         <Field
                           type='radio'
-                          name='gender'
+                          name='sex'
                           value='FEMALE'
                           component={({ field, form, ...props }) => {
                             return <Radio {...field} {...props} />;
@@ -218,7 +218,7 @@ const RegisterView = () => {
                       control={
                         <Field
                           type='radio'
-                          name='gender'
+                          name='sex'
                           value='MALE'
                           component={({ field, form, ...props }) => {
                             return <Radio {...field} {...props} />;
@@ -232,7 +232,7 @@ const RegisterView = () => {
                       control={
                         <Field
                           type='radio'
-                          name='gender'
+                          name='sex'
                           value='NOTKNOW'
                           component={({ field, form, ...props }) => {
                             return <Radio {...field} {...props} />;
@@ -242,8 +242,8 @@ const RegisterView = () => {
                       label='Outro'
                     />
                   </RadioGroup>
-                  {Boolean(touched.gender && errors.gender) && (
-                    <FormHelperText error>{errors.gender}</FormHelperText>
+                  {Boolean(touched.sex && errors.sex) && (
+                    <FormHelperText error>{errors.sex}</FormHelperText>
                   )}
                 </Form>
 
