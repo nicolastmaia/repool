@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import DashboardAdmLayout from 'src/layouts/DashboardAdm';
 import DashboardSimpleLayout from 'src/layouts/DashboardSimple';
@@ -58,8 +59,8 @@ const loggedOutRoutes = [
   },
 ];
 
-const routes = (isLoggedIn, isAdm) => {
-  if (isLoggedIn) {
+const routes = (userToken, isAdm) => {
+  if (userToken) {
     if (isAdm) {
       return admLoggedInRoutes;
     }

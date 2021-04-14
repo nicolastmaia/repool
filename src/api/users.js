@@ -1,11 +1,11 @@
-import axios from './base';
+import api from './base';
 
 const resourceEndpoint = '/user';
 
 const userApi = {
   getAll: async () => {
     try {
-      const response = await axios.get(resourceEndpoint);
+      const response = await api.get(resourceEndpoint);
       return response.data;
     } catch (error) {
       console.log(error.message);
@@ -15,7 +15,7 @@ const userApi = {
 
   login: async (user) => {
     try {
-      const response = await axios.post(`${resourceEndpoint}/signin`, user);
+      const response = await api.post(`${resourceEndpoint}/signin`, user);
       const jwtToken = response.data;
       return jwtToken;
     } catch (error) {
@@ -26,7 +26,7 @@ const userApi = {
 
   signup: async (newUser) => {
     try {
-      const response = await axios.post(`${resourceEndpoint}/signup`, newUser);
+      const response = await api.post(`${resourceEndpoint}/signup`, newUser);
       const authenticatedUser = response.data;
       return authenticatedUser;
     } catch (error) {
@@ -36,14 +36,12 @@ const userApi = {
   },
 
   getUserByToken: async (token) => {
-    const qualquercoisa = {
-      headers: {
-        Authorization: token,
-        'Content-Type': 'application/json',
-      },
-    };
     try {
-      const response = await axios.get('subscriber/full-user', qualquercoisa);
+      const response = await api.get('/subscriber/full-user', {
+        headers: {
+          Authorization: token,
+        },
+      });
       const userData = response.data;
       return userData;
     } catch (error) {

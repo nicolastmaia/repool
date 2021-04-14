@@ -26,7 +26,8 @@ const ProfileDetails = ({ className, ...rest }) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    phone: user.phone,
+    cel: user.cel,
+    tel: user.tel,
   });
 
   const handleChange = (event) => {
@@ -88,10 +89,24 @@ const ProfileDetails = ({ className, ...rest }) => {
                 label='Phone Number'
                 name='phone'
                 onChange={handleChange}
-                value={values.phone}
+                value={values.cel}
                 variant='outlined'
               />
             </Grid>
+            {user.tel ? (
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label='Phone Number'
+                  name='phone'
+                  onChange={handleChange}
+                  value={values.cel}
+                  variant='outlined'
+                />
+              </Grid>
+            ) : (
+              <></>
+            )}
           </Grid>
         </CardContent>
         <Divider />

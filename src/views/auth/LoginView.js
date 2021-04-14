@@ -54,7 +54,6 @@ const LoginView = () => {
               login(userCreds);
               // deve verificar se o usuario é comum ou se é adm antes de mandar
               // pra qualquer rota especifica
-              // adicionar logica que altera o valor de isLoggedIn quando o usuario é autenticado
             }}
           >
             {({

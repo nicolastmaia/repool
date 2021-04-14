@@ -91,7 +91,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           to='/account'
         />
         <Typography className={classes.name} color='textPrimary' variant='h5'>
-          {`${user.firstName} ${user.lastName}`}
+          {user.name}
         </Typography>
         <Typography color='textSecondary' variant='body2'>
           {user.email}

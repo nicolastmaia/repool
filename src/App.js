@@ -13,16 +13,16 @@ import MyRouter from './MyRouter';
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <AnuncioProvider>
-          <PropriedadeProvider>
-            <GlobalStyles />
-            <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
+          <AnuncioProvider>
+            <PropriedadeProvider>
+              <GlobalStyles />
               <MyRouter />
-            </BrowserRouter>
-          </PropriedadeProvider>
-        </AnuncioProvider>
-      </AuthProvider>
+            </PropriedadeProvider>
+          </AnuncioProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };

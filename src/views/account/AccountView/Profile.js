@@ -38,17 +38,13 @@ const Profile = ({ className, ...rest }) => {
             src={user.avatar}
           />
           <Typography color='textPrimary' gutterBottom variant='h3'>
-            {`${user.firstName} ${user.lastName}`}
+            {user.name}
           </Typography>
           <Typography color='textSecondary' variant='body1'>
             {`${user.email}`}
           </Typography>
-          <Typography
-            className={classes.dateText}
-            color='textSecondary'
-            variant='body1'
-          >
-            {`${user.phone[0] || ''}`}
+          <Typography color='textSecondary' variant='body1'>
+            {user.cel}
           </Typography>
         </Box>
       </CardContent>

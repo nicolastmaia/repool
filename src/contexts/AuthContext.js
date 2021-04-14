@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { createContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import userApi from 'src/api/users';
 
 const AuthContext = createContext({
   user: null,
   userToken: null,
-  isLoggedIn: null,
   isAdm: null,
   signup: null,
   login: null,
@@ -15,8 +15,8 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [userToken, setUserToken] = useState('');
-  const [isLoggedIn] = useState(userToken);
   const [isAdm, setIsAdm] = useState(false);
+  const navigate = useNavigate();
 
   const login = async (userCreds) => {
     const jwtToken = await userApi.login(userCreds);
@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (newUser) => {
     const [authUser, jwtToken] = await userApi.signup(newUser);
+    navigate('/');
     setUser(authUser);
     setUserToken(jwtToken);
   };
@@ -41,7 +42,6 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         userToken,
-        isLoggedIn: !!userToken,
         isAdm,
         signup,
         login,
