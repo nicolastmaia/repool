@@ -1,11 +1,11 @@
-import axios from './base';
+import { repoolApi } from './base';
 
 const resourceEndpoint = '/anuncios';
 
 const anuncioApi = {
   getAll: async () => {
     try {
-      const response = await axios.get(resourceEndpoint);
+      const response = await repoolApi.get(resourceEndpoint);
       return response.data;
     } catch (error) {
       console.log(error.message);
@@ -15,7 +15,7 @@ const anuncioApi = {
 
   getOne: async (id) => {
     try {
-      const response = await axios.get(`${resourceEndpoint}/${id}`);
+      const response = await repoolApi.get(`${resourceEndpoint}/${id}`);
       return response.data;
     } catch (error) {
       console.log(error.message);
@@ -25,7 +25,7 @@ const anuncioApi = {
 
   getFavorites: async () => {
     try {
-      const response = await axios.get('/favoritos'); // TODO mudar rota para /anuncios/favoritos
+      const response = await repoolApi.get('/favoritos'); // TODO mudar rota para /anuncios/favoritos
       return response.data;
     } catch (error) {
       console.log(error.message);

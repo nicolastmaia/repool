@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: 'http://localhost:5050',
+export const repoolApi = axios.create({
+  baseURL: 'http://192.168.0.109:5050',
 });
-export default api;
+
+export const ibgeApi = axios.create({
+  baseURL: 'https://servicodados.ibge.gov.br/api/v1',
+});

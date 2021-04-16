@@ -19,8 +19,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const login = async (userCreds) => {
-    const jwtToken = await userApi.login(userCreds);
-    const authUser = await userApi.getUserByToken(jwtToken);
+    const [authUser, jwtToken] = await userApi.login(userCreds);
     setUser(authUser);
     setUserToken(jwtToken);
   };
