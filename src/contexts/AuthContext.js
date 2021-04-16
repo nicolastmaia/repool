@@ -10,6 +10,7 @@ const AuthContext = createContext({
   signup: null,
   login: null,
   logout: null,
+  changeUserToken: null,
 });
 
 export const AuthProvider = ({ children }) => {
@@ -36,6 +37,10 @@ export const AuthProvider = ({ children }) => {
     setUserToken('');
   };
 
+  const changeUserToken = (token) => {
+    setUserToken(token);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -45,6 +50,7 @@ export const AuthProvider = ({ children }) => {
         signup,
         login,
         logout,
+        changeUserToken,
       }}
     >
       {children}

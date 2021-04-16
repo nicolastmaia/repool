@@ -21,6 +21,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ibgeApi } from 'src/api/base';
 import propriedadeApi from 'src/api/propriedades';
 import AuthContext from 'src/contexts/AuthContext';
+import PropriedadeContext from 'src/contexts/PropriedadeContext';
 import comodidadesContent from '../../../constants/comodidades';
 
 const comodidades = [
@@ -42,6 +43,7 @@ const useStyles = makeStyles(() => ({
 const NewPropriedadeDetails = ({ className, ...rest }) => {
   const classes = useStyles();
   const { userToken } = useContext(AuthContext);
+  const { savePropriedade } = useContext(PropriedadeContext);
 
   const [values, setValues] = useState({
     name: '',
@@ -143,8 +145,8 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
     console.log(values);
   }, [values]);
 
-  const savePropriedade = () => {
-    propriedadeApi.post(values, userToken);
+  const handleSave = () => {
+    savePropriedade(values);
   };
 
   return (
@@ -387,7 +389,7 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             style={{ margin: 8 }}
             color='primary'
             variant='contained'
-            onClick={savePropriedade}
+            onClick={handleSave}
           >
             Salvar
           </Button>

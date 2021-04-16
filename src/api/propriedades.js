@@ -44,19 +44,33 @@ const propriedadeApi = {
     }
   },
 
-  post: async (propriedade, userToken) => {
+  postAsSubscriber: async (propriedade, userToken) => {
     const headers = {
       Authorization: userToken,
       'Content-Type': 'application/json',
     };
     try {
-      propriedade.vacancyNumber = parseInt(propriedade.vacancyNumber, 10);
-      propriedade.vacancyPrice = parseFloat(propriedade.vacancyPrice);
       const response = await repoolApi.post(
         `${subscriberEndpoint}`,
         propriedade,
         { headers }
       );
+      return response.data;
+    } catch (error) {
+      console.log(error.message);
+      throw error;
+    }
+  },
+
+  postAsOwner: async (propriedade, userToken) => {
+    const headers = {
+      Authorization: userToken,
+      'Content-Type': 'application/json',
+    };
+    try {
+      const response = await repoolApi.post(`${ownerEndpoint}`, propriedade, {
+        headers,
+      });
       return response.data;
     } catch (error) {
       console.log(error.message);
