@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import DashboardAdmLayout from 'src/layouts/DashboardAdm';
 import DashboardSimpleLayout from 'src/layouts/DashboardSimple';
@@ -13,6 +12,7 @@ import PropriedadeListView from 'src/views/propriedade/PropriedadeListView';
 import DashboardView from 'src/views/reports/DashboardView';
 import SettingsView from 'src/views/settings/SettingsView';
 import AnuncioDetails from './views/anuncio/AnuncioDetailsView';
+import CadPropriedadeView from './views/propriedade/CadPropriedadeView';
 
 const simpleLoggedInRoutes = [
   {
@@ -24,6 +24,7 @@ const simpleLoggedInRoutes = [
       { path: 'anuncios', element: <AnuncioListView /> },
       { path: 'anuncios/:id', element: <AnuncioDetails /> },
       { path: 'propriedades', element: <PropriedadeListView /> },
+      { path: 'propriedades/new', element: <CadPropriedadeView /> },
       { path: 'favoritos', element: <AnuncioListView /> },
       { path: 'favoritos/:id', element: <AnuncioDetails /> },
       { path: 'settings', element: <SettingsView /> },

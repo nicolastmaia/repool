@@ -12,6 +12,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -19,11 +20,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   return (
     <div className={clsx(classes.root, className)} {...rest}>
       <Box display='flex' justifyContent='flex-end'>
-        <Button color='primary' variant='contained'>
+        <Button
+          onClick={() => navigate('new')}
+          color='primary'
+          variant='contained'
+        >
           Cadastrar Propriedade
         </Button>
       </Box>

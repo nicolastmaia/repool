@@ -1,11 +1,12 @@
-import axios from './base';
+import { repoolApi } from './base';
 
-const resourceEndpoint = '/propriedades';
+const subscriberEndpoint = '/subscriber/property';
+const ownerEndpoint = '/owner/property';
 
 const propriedadeApi = {
   getAll: async () => {
     try {
-      const response = await axios.get(resourceEndpoint);
+      const response = await repoolApi.get(subscriberEndpoint);
       return response.data;
     } catch (error) {
       console.log(error.message);
@@ -15,7 +16,7 @@ const propriedadeApi = {
 
   getAsOwner: async () => {
     try {
-      const response = await axios.get(`${resourceEndpoint}/dono`);
+      const response = await repoolApi.get(`${subscriberEndpoint}/dono`);
       return response.data;
     } catch (error) {
       console.log(error.message);
@@ -25,7 +26,7 @@ const propriedadeApi = {
 
   getAsInquilino: async () => {
     try {
-      const response = await axios.get(`${resourceEndpoint}/inquilino`);
+      const response = await repoolApi.get(`${subscriberEndpoint}/inquilino`);
       return response.data;
     } catch (error) {
       console.log(error.message);
@@ -35,7 +36,7 @@ const propriedadeApi = {
 
   getOne: async (id) => {
     try {
-      const response = await axios.get(`${resourceEndpoint}/${id}`);
+      const response = await repoolApi.get(`${subscriberEndpoint}/${id}`);
       return response.data;
     } catch (error) {
       console.log(error.message);
@@ -43,7 +44,26 @@ const propriedadeApi = {
     }
   },
 
-  post: async (anuncio) => {},
+  post: async (propriedade, userToken) => {
+    const headers = {
+      Authorization: userToken,
+      'Content-Type': 'application/json',
+    };
+    try {
+      propriedade.vacancyNumber = parseInt(propriedade.vacancyNumber, 10);
+      propriedade.vacancyPrice = parseFloat(propriedade.vacancyPrice);
+      const response = await repoolApi.post(
+        `${subscriberEndpoint}`,
+        propriedade,
+        { headers }
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error.message);
+      throw error;
+    }
+  },
+
   edit: async (id, newData) => {},
   remove: async (id) => {},
 };
