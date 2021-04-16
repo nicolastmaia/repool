@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AnuncioContext from 'src/contexts/AnuncioContext';
-import comodidadesContent from '../comodidades';
+import comodidadesContent from '../../../constants/comodidades';
 
 const useStyles = makeStyles((theme) => ({
   root: {

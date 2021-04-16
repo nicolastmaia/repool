@@ -1,7 +1,7 @@
 import { Box, Grid, Icon, makeStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import comodidadesContent from '../comodidades';
+import comodidadesContent from '../../../constants/comodidades';
 
 const useStyles = makeStyles((theme) => ({
   comodidadeItem: {

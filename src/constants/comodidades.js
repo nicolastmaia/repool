@@ -1,6 +1,7 @@
 module.exports = {
   pet: {
     nome: 'pet',
+    attribute: 'isPetFriendly',
     icon: 'pets',
     titulo: 'Pet Friendly',
     descricao: 'Pode trazer seu pet! Adoramos os bichinhos.',
@@ -9,6 +10,7 @@ module.exports = {
   },
   wifi: {
     nome: 'wifi',
+    attribute: 'hasInternet',
     icon: 'wifi',
     titulo: 'Tem wifi',
     descricao: 'Temos internet pra você relaxar e trabalhar.',
@@ -17,6 +19,7 @@ module.exports = {
   },
   garage: {
     nome: 'garage',
+    attribute: 'hasGarage',
     icon: 'directions_car',
     titulo: 'Tem garagem',
     descricao:
@@ -26,6 +29,7 @@ module.exports = {
   },
   gourmet: {
     nome: 'gourmet',
+    attribute: 'hasGourmet',
     icon: 'fastfood',
     titulo: 'Tem área gourmet',
     descricao:
@@ -35,6 +39,7 @@ module.exports = {
   },
   pool: {
     nome: 'pool',
+    attribute: 'hasPool',
     icon: 'pool',
     titulo: 'Tem piscina',
     descricao: 'Área com piscina pra você pegar um sol e se refrescar.',
