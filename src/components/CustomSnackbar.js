@@ -1,22 +1,21 @@
 import { Snackbar } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 function CustomSnackbar({ message, handleCloseSnackbar }) {
   const renderAlert = () => {
     if (message === 'success') {
       return (
         <>
-          <AlertTitle>Sucesso!!</AlertTitle> Propriedade criada com sucesso!
+          <AlertTitle>Sucesso!!</AlertTitle> Ação realizada com sucesso!
         </>
       );
     }
     if (message === 'error') {
       return (
         <>
-          <AlertTitle>Erro</AlertTitle> Houve um erro na criação da propriedade.
-          Tente novamente
+          <AlertTitle>Erro</AlertTitle> Tente novamente, por favor.
         </>
       );
     }

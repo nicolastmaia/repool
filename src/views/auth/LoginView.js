@@ -1,18 +1,19 @@
-import React, { useContext } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import * as Yup from 'yup';
-import { Formik } from 'formik';
 import {
   Box,
   Button,
   Container,
   Link,
+  makeStyles,
   TextField,
   Typography,
-  makeStyles,
 } from '@material-ui/core';
+import { Formik } from 'formik';
+import React, { useContext, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import CustomSnackbar from 'src/components/CustomSnackbar';
 import Page from 'src/components/Page';
 import AuthContext from 'src/contexts/AuthContext';
+import * as Yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +27,20 @@ const useStyles = makeStyles((theme) => ({
 const LoginView = () => {
   const classes = useStyles();
 
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
   const { login } = useContext(AuthContext);
+
+  const handleLogin = async (email, password, setSubmittingLoader) => {
+    const userCreds = { email, password };
+    const message = await login(userCreds);
+    setSnackbarMessage(message);
+    setSubmittingLoader(false);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarMessage('');
+  };
 
   return (
     <Page className={classes.root} title='Login'>
@@ -39,21 +53,20 @@ const LoginView = () => {
         <Container maxWidth='sm'>
           <Formik
             initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123',
+              email: '',
+              password: '',
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string()
-                .email('Must be a valid email')
+                .email('Deve ser um email válido')
                 .max(255)
-                .required('Email is required'),
-              password: Yup.string().max(255).required('Password is required'),
+                .required('Preciso que digite seu email.'),
+              password: Yup.string()
+                .max(255)
+                .required('Preciso que digite sua senha'),
             })}
-            onSubmit={({ email, password }) => {
-              const userCreds = { email, password };
-              login(userCreds);
-              // deve verificar se o usuario é comum ou se é adm antes de mandar
-              // pra qualquer rota especifica
+            onSubmit={({ email, password }, actions) => {
+              handleLogin(email, password, actions.setSubmitting);
             }}
           >
             {({
@@ -68,7 +81,7 @@ const LoginView = () => {
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
                   <Typography color='textPrimary' variant='h2'>
-                    Sign in
+                    Login
                   </Typography>
                 </Box>
                 <TextField
@@ -106,15 +119,19 @@ const LoginView = () => {
                     type='submit'
                     variant='contained'
                   >
-                    Sign in now
+                    Fazer Login
                   </Button>
                 </Box>
                 <Typography color='textSecondary' variant='body1'>
-                  Don&apos;t have an account?{' '}
+                  Aindan não tem uma conta?{' '}
                   <Link component={RouterLink} to='/register' variant='h6'>
-                    Sign up
+                    Criar conta
                   </Link>
                 </Typography>
+                <CustomSnackbar
+                  message={snackbarMessage}
+                  handleCloseSnackbar={handleCloseSnackbar}
+                />
               </form>
             )}
           </Formik>

@@ -20,9 +20,14 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const login = async (userCreds) => {
-    const [authUser, jwtToken] = await userApi.login(userCreds);
-    setUser(authUser);
-    setUserToken(jwtToken);
+    try {
+      const [authUser, jwtToken] = await userApi.login(userCreds);
+      setUser(authUser);
+      setUserToken(jwtToken);
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
   };
 
   const signup = async (newUser) => {
