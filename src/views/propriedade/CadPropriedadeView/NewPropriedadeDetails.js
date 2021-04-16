@@ -46,17 +46,17 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
   const { savePropriedade } = useContext(PropriedadeContext);
 
   const [values, setValues] = useState({
-    name: '',
-    description: '',
-    category: '',
-    cep: '',
-    street: '',
-    neighborhood: '',
-    city: '',
-    uf: '',
+    name: null,
+    description: null,
+    category: null,
+    cep: null,
+    street: null,
+    neighborhood: null,
+    city: null,
+    uf: null,
     country: 'Brasil',
-    number: '',
-    complement: '',
+    number: null,
+    complement: null,
     hasPool: false,
     hasGarage: false,
     hasGourmet: false,
@@ -85,10 +85,10 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
   };
 
   const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
+    setValues((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value || null,
+    }));
     if (event.target.name === 'uf') {
       const tmpUf = ufs.find((element) => {
         return element.sigla === event.target.value;
@@ -142,10 +142,6 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
     fetchCities();
     setValues({ ...values, city: '' });
   }, [selectedUf]);
-
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
 
   const handleSave = async () => {
     const message = await savePropriedade(values);
@@ -268,6 +264,7 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
                 label='Bairro'
                 name='neighborhood'
                 onChange={handleChange}
+                required
                 value={values.neighborhood}
                 variant='outlined'
               />
@@ -332,7 +329,6 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
                 name='description'
                 multiline
                 onChange={handleChange}
-                required
                 value={values.description}
                 variant='outlined'
               />
