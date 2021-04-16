@@ -19,7 +19,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { ibgeApi } from 'src/api/base';
-import propriedadeApi from 'src/api/propriedades';
+import CustomSnackbar from 'src/components/CustomSnackbar';
 import AuthContext from 'src/contexts/AuthContext';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
 import comodidadesContent from '../../../constants/comodidades';
@@ -73,6 +73,8 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
 
   const [selectedComodidades, setSelectedComodidades] = useState([]);
   const [isAdvertising, setIsAdvertising] = useState(false);
+
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleSelectComodidade = (event, newComodidades) => {
     setSelectedComodidades(newComodidades);
@@ -145,8 +147,13 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
     console.log(values);
   }, [values]);
 
-  const handleSave = () => {
-    savePropriedade(values);
+  const handleSave = async () => {
+    const message = await savePropriedade(values);
+    setSnackbarMessage(message);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarMessage('');
   };
 
   return (
@@ -396,6 +403,10 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
           <Button style={{ margin: 8 }} variant='contained'>
             Cancelar
           </Button>
+          <CustomSnackbar
+            message={snackbarMessage}
+            handleCloseSnackbar={handleCloseSnackbar}
+          />
         </Box>
       </Card>
     </form>

@@ -30,14 +30,19 @@ export const PropriedadeProvider = ({ children }) => {
   const savePropriedade = async (propriedade) => {
     propriedade.vacancyNumber = parseInt(propriedade.vacancyNumber, 10);
     propriedade.vacancyPrice = parseFloat(propriedade.vacancyPrice);
-    if (user.role === 'USER') {
-      const [
-        newPropriedade,
-        newOwnerToken,
-      ] = await propriedadeApi.postAsSubscriber(propriedade, userToken);
-      changeUserToken(newOwnerToken);
-    } else {
-      await propriedadeApi.postAsOwner(propriedade, userToken);
+    try {
+      if (user.role === 'USER') {
+        const [
+          newPropriedade,
+          newOwnerToken,
+        ] = await propriedadeApi.postAsSubscriber(propriedade, userToken);
+        changeUserToken(newOwnerToken);
+      } else {
+        await propriedadeApi.postAsOwner(propriedade, userToken);
+      }
+      return 'success';
+    } catch (error) {
+      return 'error';
     }
   };
 
