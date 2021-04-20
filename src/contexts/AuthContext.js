@@ -31,10 +31,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signup = async (newUser) => {
-    const [authUser, jwtToken] = await userApi.signup(newUser);
-    navigate('/');
-    setUser(authUser);
-    setUserToken(jwtToken);
+    try {
+      const [authUser, jwtToken] = await userApi.signup(newUser);
+      navigate('/');
+      setUser(authUser);
+      setUserToken(jwtToken);
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
   };
 
   const logout = () => {

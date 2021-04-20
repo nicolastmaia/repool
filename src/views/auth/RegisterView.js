@@ -3,7 +3,6 @@ import {
   Button,
   Checkbox,
   Container,
-  FormControl,
   FormControlLabel,
   FormHelperText,
   FormLabel,
@@ -15,8 +14,9 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Field, Form, Formik } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import CustomSnackbar from 'src/components/CustomSnackbar';
 import Page from 'src/components/Page';
 import AuthContext from 'src/contexts/AuthContext';
 import * as Yup from 'yup';
@@ -31,7 +31,20 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterView = () => {
   const classes = useStyles();
+
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
   const { signup } = useContext(AuthContext);
+
+  const handleSignup = async (user, setSubmittingLoader) => {
+    const message = await signup(user);
+    setSnackbarMessage(message);
+    setSubmittingLoader(false);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarMessage('');
+  };
 
   return (
     <Page className={classes.root} title='Register'>
@@ -74,15 +87,10 @@ const RegisterView = () => {
                 'Deve aceitar os termos de contrato para prosseguir'
               ),
             })}
-            onSubmit={({
-              email,
-              firstName,
-              lastName,
-              cel,
-              tel,
-              sex,
-              password,
-            }) => {
+            onSubmit={(
+              { email, firstName, lastName, cel, tel, sex, password },
+              actions
+            ) => {
               const user = {
                 name: `${firstName} ${lastName}`,
                 email,
@@ -91,7 +99,7 @@ const RegisterView = () => {
                 sex,
                 password,
               };
-              signup(user);
+              handleSignup(user, actions.setSubmitting);
             }}
           >
             {({
@@ -287,6 +295,10 @@ const RegisterView = () => {
                     Fazer Login
                   </Link>
                 </Typography>
+                <CustomSnackbar
+                  message={snackbarMessage}
+                  handleCloseSnackbar={handleCloseSnackbar}
+                />
               </form>
             )}
           </Formik>
