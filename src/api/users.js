@@ -4,11 +4,6 @@ import { repoolApi } from './base';
 const resourceEndpoint = '/user';
 
 const userApi = {
-  getAll: async () => {
-    const response = await repoolApi.get(resourceEndpoint);
-    return response.data;
-  },
-
   login: async (user) => {
     const response = await repoolApi.post(`${resourceEndpoint}/signin`, user);
     const authenticatedUser = response.data;
@@ -48,6 +43,7 @@ const userApi = {
     const userData = response.data;
     return userData;
   },
+
   edit: async (id, newData) => {},
   remove: async (id) => {},
 };

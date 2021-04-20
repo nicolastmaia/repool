@@ -1,16 +1,12 @@
 import { repoolApi } from './base';
 
-const resourceEndpoint = '/anuncios';
+const resourceEndpoint = '/user/ad';
 
 const anuncioApi = {
   getAll: async () => {
-    try {
-      const response = await repoolApi.get(resourceEndpoint);
-      return response.data;
-    } catch (error) {
-      console.log(error.message);
-      throw error;
-    }
+    const response = await repoolApi.get(resourceEndpoint);
+    const anuncios = response.data;
+    return anuncios;
   },
 
   getOne: async (id) => {

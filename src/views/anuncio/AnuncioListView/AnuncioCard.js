@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
-  const [isFavorite, setIsFavorite] = useState(anuncio.isFavorite);
+  const [isFavorite, setIsFavorite] = useState(false);
   const { setActive } = useContext(AnuncioContext);
   const [value, setValue] = useState(2);
   const { comodidades } = anuncio;
@@ -61,17 +61,17 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <Link
-        onClick={() => {
-          setActive(anuncio);
-        }}
-        to={{ pathname: anuncio.id }}
-      >
-        <CardContent classes={{ root: classes.cardContentRoot }}>
+      <CardContent classes={{ root: classes.cardContentRoot }}>
+        <Link
+          to={`/anuncios/${anuncio.id}`}
+          onClick={() => {
+            setActive(anuncio);
+          }}
+        >
           <Box position='relative' mb={3}>
             <Avatar
               alt='Anuncio'
-              src={anuncio.image}
+              src={anuncio.img[0]}
               className={classes.image}
               variant='square'
             />
@@ -104,15 +104,14 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
             gutterBottom
             variant='h4'
           >
-            {anuncio.title}
+            {anuncio.name}
           </Typography>
           <Typography align='center' color='textPrimary' variant='body1'>
-            {`${anuncio.city}, ${anuncio.state}`}
+            {`${anuncio.city}, ${anuncio.uf}`}
           </Typography>
-        </CardContent>
-      </Link>
+        </Link>
+      </CardContent>
 
-      <Box flexGrow={1} />
       <Divider />
       <Box p={0.5}>
         <Grid container justify='space-between' spacing={2}>

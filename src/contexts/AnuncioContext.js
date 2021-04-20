@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { createContext, useState } from 'react';
+import { extractComodidades } from 'src/utils/anuncioUtils';
 import anuncioApi from '../api/anuncios';
 
 const AnuncioContext = createContext({
@@ -15,14 +16,14 @@ export const AnuncioProvider = ({ children }) => {
   const [activeAnuncio, setActiveAnuncio] = useState({});
 
   const fetchAnuncios = async () => {
-    const response = await anuncioApi.getAll();
-    /* TODO precisa fazer algo do tipo pros icones de comodidades aparecerem no card de anuncio
-    response[0].comodidades = [
-      { nome: 'wifi' },
-      { nome: 'pet' },
-      { nome: 'gourmet' },
-    ]; */
-    setAnuncios(response);
+    try {
+      const tmpAnuncios = await anuncioApi.getAll();
+      extractComodidades(tmpAnuncios);
+      setAnuncios(tmpAnuncios);
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
   };
 
   const fetchFavoritos = async () => {

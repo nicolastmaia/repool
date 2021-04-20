@@ -2,6 +2,7 @@ import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import React, { useContext, useEffect, useState } from 'react';
 import ConfirmDialog from 'src/components/ConfirmDialog';
+import CustomSnackbar from 'src/components/CustomSnackbar';
 import Page from 'src/components/Page';
 import AnuncioContext from 'src/contexts/AnuncioContext';
 import AnuncioCard from './AnuncioCard';
@@ -21,10 +22,12 @@ const useStyles = makeStyles((theme) => ({
 
 const AnuncioList = () => {
   const classes = useStyles();
-  const { anuncios, favoritos, fetchAnuncios, fetchFavoritos } = useContext(
+  const { anuncios, fetchAnuncios, fetchFavoritos } = useContext(
     AnuncioContext
   );
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
   let { pathname } = window.location;
 
   const closeConfirmDialog = () => {
@@ -34,13 +37,22 @@ const AnuncioList = () => {
     setIsConfirmDialogOpen(true);
   };
 
+  const handleCloseSnackbar = () => {
+    setSnackbarMessage('');
+  };
+
   useEffect(() => {
-    pathname = pathname.slice(1);
-    if (pathname === 'anuncios') {
-      fetchAnuncios();
-    } else if (pathname === 'favoritos') {
-      fetchFavoritos();
-    }
+    const fetchAllAnuncios = async () => {
+      pathname = pathname.slice(1);
+      let message;
+      if (pathname === 'anuncios') {
+        message = await fetchAnuncios();
+      } else if (pathname === 'favoritos') {
+        message = await fetchFavoritos();
+      }
+      setSnackbarMessage(message);
+    };
+    fetchAllAnuncios();
   }, [pathname]);
 
   return (
@@ -49,15 +61,16 @@ const AnuncioList = () => {
         <Toolbar />
         <Box mt={3}>
           <Grid container spacing={3}>
-            {anuncios.map((anuncio) => (
-              <Grid item key={anuncio.id} lg={4} md={6} xs={12}>
-                <AnuncioCard
-                  openConfirmDialog={openConfirmDialog}
-                  className={classes.anuncioCard}
-                  anuncio={anuncio}
-                />
-              </Grid>
-            ))}
+            {anuncios &&
+              anuncios.map((anuncio) => (
+                <Grid item key={anuncio.id} lg={4} md={6} xs={12}>
+                  <AnuncioCard
+                    openConfirmDialog={openConfirmDialog}
+                    className={classes.anuncioCard}
+                    anuncio={anuncio}
+                  />
+                </Grid>
+              ))}
           </Grid>
         </Box>
         <Box mt={3} display='flex' justifyContent='center'>
@@ -68,6 +81,10 @@ const AnuncioList = () => {
         <ConfirmDialog
           isConfirmDialogOpen={isConfirmDialogOpen}
           closeConfirmDialog={closeConfirmDialog}
+        />
+        <CustomSnackbar
+          message={snackbarMessage}
+          handleCloseSnackbar={handleCloseSnackbar}
         />
       </Container>
     </Page>

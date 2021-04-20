@@ -63,7 +63,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
     <Container className={classes.root}>
       <Container className={classes.titleContainer}>
         <Typography className={classes.textGutterBottom} variant='h1'>
-          {activeAnuncio.title}
+          {activeAnuncio.name}
         </Typography>
         <Grid
           container
