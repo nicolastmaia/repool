@@ -30,9 +30,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (newUser) => {
+  const signup = async (newUser, avatarFile) => {
     try {
-      const [authUser, jwtToken] = await userApi.signup(newUser);
+      const [authUser, jwtToken] = await userApi.signup(newUser, avatarFile);
       navigate('/');
       setUser(authUser);
       setUserToken(jwtToken);

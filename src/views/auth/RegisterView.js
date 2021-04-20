@@ -16,6 +16,7 @@ import {
 import { Field, Form, Formik } from 'formik';
 import React, { useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import AvatarPicker from 'src/components/AvatarPicker';
 import CustomSnackbar from 'src/components/CustomSnackbar';
 import Page from 'src/components/Page';
 import AuthContext from 'src/contexts/AuthContext';
@@ -33,17 +34,22 @@ const RegisterView = () => {
   const classes = useStyles();
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [avatarFile, setAvatarFile] = useState('');
 
   const { signup } = useContext(AuthContext);
 
   const handleSignup = async (user, setSubmittingLoader) => {
-    const message = await signup(user);
+    const message = await signup(user, avatarFile);
     setSnackbarMessage(message);
     setSubmittingLoader(false);
   };
 
   const handleCloseSnackbar = () => {
     setSnackbarMessage('');
+  };
+
+  const handleFileChange = (image) => {
+    setAvatarFile(image);
   };
 
   return (
@@ -254,7 +260,7 @@ const RegisterView = () => {
                     <FormHelperText error>{errors.sex}</FormHelperText>
                   )}
                 </Form>
-
+                <AvatarPicker handleFileChange={handleFileChange} />
                 <Box alignItems='center' display='flex' ml={-1}>
                   <Checkbox
                     checked={values.policy}

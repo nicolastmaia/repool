@@ -1,3 +1,4 @@
+import { Type } from 'react-feather';
 import { repoolApi } from './base';
 
 const resourceEndpoint = '/user';
@@ -14,10 +15,25 @@ const userApi = {
     return authenticatedUser;
   },
 
-  signup: async (newUser) => {
+  signup: async (newUser, avatarFile) => {
+    const formData = new FormData();
+    formData.append('avatar', avatarFile);
+    formData.append('name', newUser.name);
+    formData.append('email', newUser.email);
+    formData.append('password', newUser.password);
+    formData.append('cel', newUser.cel);
+    formData.append('tel', newUser.tel);
+    formData.append('bio', newUser.bio);
+    formData.append('sex', newUser.sex);
+
     const response = await repoolApi.post(
       `${resourceEndpoint}/signup`,
-      newUser
+      formData,
+      {
+        headers: {
+          'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+        },
+      }
     );
     const authenticatedUser = response.data;
     return authenticatedUser;
