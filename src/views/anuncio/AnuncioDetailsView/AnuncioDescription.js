@@ -1,4 +1,4 @@
-import { Container, Typography, makeStyles } from '@material-ui/core';
+import { Container, Typography, makeStyles, Divider } from '@material-ui/core';
 import React, { useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
 import PropTypes from 'prop-types';
@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
   textGutterBottom: {
     marginBottom: '1em',
   },
+  vacacyInfo: {
+    paddingTop: '3em',
+  },
 }));
 
 const AnuncioDescription = ({ anuncio }) => {
@@ -28,11 +31,7 @@ const AnuncioDescription = ({ anuncio }) => {
 
   return (
     <Container className={classes.descriptionContainer}>
-      <Typography
-        variant='h2'
-        gutterBottom
-        className={classes.textGutterBottom}
-      >
+      <Typography style={{ paddingBottom: '3em' }} variant='h4'>
         <ShowMoreText
           lines={1}
           more={<ExpandMoreIcon />}
@@ -44,12 +43,16 @@ const AnuncioDescription = ({ anuncio }) => {
           {anuncio.description}
         </ShowMoreText>
       </Typography>
-      <Typography gutterBottom variant='h4'>
-        Há {anuncio.vacancyNumber} vagas nessa propriedade
-      </Typography>
-      <Typography variant='h4'>
-        Valor de uma vaga: R${anuncio.vacancyPrice}
-      </Typography>
+
+      <Divider />
+      <Container className={classes.vacacyInfo}>
+        <Typography className={classes.textGutterBottom} variant='h3'>
+          Há {anuncio.vacancyNumber} vagas nessa propriedade
+        </Typography>
+        <Typography variant='h4'>
+          Valor de uma vaga: R${anuncio.vacancyPrice}
+        </Typography>
+      </Container>
     </Container>
   );
 };
