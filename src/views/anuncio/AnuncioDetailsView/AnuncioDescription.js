@@ -1,6 +1,8 @@
 import { Container, Typography, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
+import PropTypes from 'prop-types';
+
 import {
   ExpandLess as ExpandLessIcon,
   ExpandMore as ExpandMoreIcon,
@@ -16,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnuncioDescription = () => {
+const AnuncioDescription = ({ anuncio }) => {
   const classes = useStyles();
   const [expand, setExpand] = useState(false);
 
@@ -39,16 +41,21 @@ const AnuncioDescription = () => {
           expanded={expand}
           width={500}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget
-          ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.
-          Pellentesque habitant morbi tristique senectus et netus et malesuada
-          fames ac turpis egestas. Nulla at risus. Quisque purus magna, auctor
-          et, sagittis ac, posuere eu, lectus. Nam mattis, felis ut adipiscing
+          {anuncio.description}
         </ShowMoreText>
       </Typography>
-      <Typography variant='h4'>2 vagas</Typography>
+      <Typography gutterBottom variant='h4'>
+        Há {anuncio.vacancyNumber} vagas nessa propriedade
+      </Typography>
+      <Typography variant='h4'>
+        Valor de uma vaga: R${anuncio.vacancyPrice}
+      </Typography>
     </Container>
   );
+};
+
+AnuncioDescription.propTypes = {
+  anuncio: PropTypes.object,
 };
 
 export default AnuncioDescription;

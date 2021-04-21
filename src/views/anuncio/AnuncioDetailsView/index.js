@@ -12,8 +12,11 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import StarIcon from '@material-ui/icons/StarRate';
 import { Rating } from '@material-ui/lab';
 import PropTypes from 'prop-types';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import anuncioApi from 'src/api/anuncios';
+import CustomSnackbar from 'src/components/CustomSnackbar';
 import AnuncioContext from 'src/contexts/AnuncioContext';
+import anuncioUtils from 'src/utils/anuncioUtils';
 import AnuncioDescription from './AnuncioDescription';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
@@ -49,7 +52,16 @@ const AnuncioDetails = ({ className, ...rest }) => {
   const classes = useStyles();
   const [isFavorite, setIsFavorite] = useState(false);
   const [value] = useState(2.1);
-  const { activeAnuncio } = useContext(AnuncioContext);
+  const { activeAnuncio, fetchActiveAnuncio } = useContext(AnuncioContext);
+  const { comodidades } = activeAnuncio;
+
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleCloseSnackbar = () => {
+    setSnackbarMessage('');
+  };
+
+  const { pathname } = window.location;
 
   const handleFavoritePress = () => {
     if (isFavorite) {
@@ -58,6 +70,15 @@ const AnuncioDetails = ({ className, ...rest }) => {
     console.log(activeAnuncio);
     return false;
   };
+
+  useEffect(() => {
+    const activeAnuncioId = pathname.replace('/anuncios/', '');
+    const fetchOneAd = async () => {
+      const message = await fetchActiveAnuncio(activeAnuncioId);
+      setSnackbarMessage(message);
+    };
+    fetchOneAd();
+  }, []);
 
   return (
     <Container className={classes.root}>
@@ -94,9 +115,9 @@ const AnuncioDetails = ({ className, ...rest }) => {
         </Grid>
       </Container>
 
-      <ImageList />
+      <ImageList images={activeAnuncio.img} />
 
-      <AnuncioDescription />
+      <AnuncioDescription anuncio={activeAnuncio} />
 
       <Divider />
 
@@ -114,8 +135,10 @@ const AnuncioDetails = ({ className, ...rest }) => {
                   Comodidades
                 </Typography>
               </Grid>
-              {/* TODO lista de comodidades que vem da api */}
-              <ComodidadeItem nome='wifi' />
+              {comodidades &&
+                comodidades.map((comodidade) => (
+                  <ComodidadeItem nome={comodidade.nome} />
+                ))}
             </Grid>
           </Grid>
 
@@ -154,6 +177,10 @@ const AnuncioDetails = ({ className, ...rest }) => {
         </Grid>
       </Container>
       <Divider />
+      <CustomSnackbar
+        message={snackbarMessage}
+        handleCloseSnackbar={handleCloseSnackbar}
+      />
     </Container>
   );
 };

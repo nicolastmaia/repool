@@ -1,22 +1,17 @@
 import { repoolApi } from './base';
 
-const resourceEndpoint = '/user/ad';
+const resourceEndpoint = '/user';
 
 const anuncioApi = {
   getAll: async () => {
-    const response = await repoolApi.get(resourceEndpoint);
+    const response = await repoolApi.get(`${resourceEndpoint}/ad`);
     const anuncios = response.data;
     return anuncios;
   },
 
   getOne: async (id) => {
-    try {
-      const response = await repoolApi.get(`${resourceEndpoint}/${id}`);
-      return response.data;
-    } catch (error) {
-      console.log(error.message);
-      throw error;
-    }
+    const response = await repoolApi.get(`${resourceEndpoint}/${id}/property`);
+    return response.data;
   },
 
   getFavorites: async () => {

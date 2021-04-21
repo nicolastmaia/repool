@@ -62,12 +62,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent classes={{ root: classes.cardContentRoot }}>
-        <Link
-          to={`/anuncios/${anuncio.id}`}
-          onClick={() => {
-            setActive(anuncio);
-          }}
-        >
+        <Link to={`/anuncios/${anuncio.id}`}>
           <Box position='relative' mb={3}>
             <Avatar
               alt='Anuncio'

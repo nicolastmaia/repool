@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import PropTypes from 'prop-types';
 import React, { createContext, useState } from 'react';
 import { extractComodidades } from 'src/utils/anuncioUtils';
@@ -8,7 +9,7 @@ const AnuncioContext = createContext({
   activeAnuncio: null,
   fetchAnuncios: null,
   fetchFavoritos: null,
-  setActive: null,
+  fetchActiveAnuncio: null,
 });
 
 export const AnuncioProvider = ({ children }) => {
@@ -17,9 +18,13 @@ export const AnuncioProvider = ({ children }) => {
 
   const fetchAnuncios = async () => {
     try {
-      const tmpAnuncios = await anuncioApi.getAll();
-      extractComodidades(tmpAnuncios);
-      setAnuncios(tmpAnuncios);
+      const returnedAnuncios = await anuncioApi.getAll();
+      const auxAnuncios = [];
+      for (const anuncio of returnedAnuncios) {
+        const editedAnuncio = extractComodidades(anuncio);
+        auxAnuncios.push(editedAnuncio);
+      }
+      setAnuncios(auxAnuncios);
       return 'success';
     } catch (error) {
       return 'error';
@@ -31,8 +36,15 @@ export const AnuncioProvider = ({ children }) => {
     setAnuncios(response);
   };
 
-  const setActive = (anuncio) => {
-    setActiveAnuncio(anuncio);
+  const fetchActiveAnuncio = async (id) => {
+    try {
+      const tmpAnuncio = await anuncioApi.getOne(id);
+      const editedAnuncio = extractComodidades(tmpAnuncio);
+      setActiveAnuncio(editedAnuncio);
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
   };
 
   return (
@@ -42,7 +54,7 @@ export const AnuncioProvider = ({ children }) => {
         activeAnuncio,
         fetchAnuncios,
         fetchFavoritos,
-        setActive,
+        fetchActiveAnuncio,
       }}
     >
       {children}
