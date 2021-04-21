@@ -18,6 +18,9 @@ import anuncioApi from 'src/api/anuncios';
 import CustomSnackbar from 'src/components/CustomSnackbar';
 import AnuncioContext from 'src/contexts/AnuncioContext';
 import anuncioUtils from 'src/utils/anuncioUtils';
+import DeleteIcon from '@material-ui/icons/Delete';
+import HandIcon from '@material-ui/icons/PanTool';
+import { red } from '@material-ui/core/colors';
 import AnuncioDescription from './AnuncioDescription';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
@@ -50,13 +53,23 @@ const useStyles = makeStyles((theme) => ({
   interestButton: {
     height: '3.5em',
   },
+  removeButton: {
+    height: '3.5em',
+    color: '#FFFFFF',
+    backgroundColor: red[400],
+    '&:hover': {
+      backgroundColor: red[700],
+    },
+  },
 }));
 
 const AnuncioDetails = ({ className, ...rest }) => {
   const classes = useStyles();
   const [isFavorite, setIsFavorite] = useState(false);
   const [value] = useState(2.1);
-  const { activeAnuncio, fetchActiveAnuncio } = useContext(AnuncioContext);
+  const { activeAnuncio, fetchActiveAnuncio, toggleInterest } = useContext(
+    AnuncioContext
+  );
   const { comodidades } = activeAnuncio;
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -73,6 +86,11 @@ const AnuncioDetails = ({ className, ...rest }) => {
     }
     console.log(activeAnuncio);
     return false;
+  };
+
+  const handleInterestPress = async () => {
+    const message = await toggleInterest();
+    setSnackbarMessage(message);
   };
 
   useEffect(() => {
@@ -98,14 +116,28 @@ const AnuncioDetails = ({ className, ...rest }) => {
             <Typography variant='h1'>{activeAnuncio.name}</Typography>
           </Grid>
           <Grid item>
-            <Button
-              color='primary'
-              className={classes.interestButton}
-              fullWidth
-              variant='contained'
-            >
-              Demonstrar Interesse
-            </Button>
+            {activeAnuncio.isInterest ? (
+              <Button
+                className={classes.removeButton}
+                fullWidth
+                variant='contained'
+                startIcon={<DeleteIcon />}
+                onClick={handleInterestPress}
+              >
+                Remover Interesse
+              </Button>
+            ) : (
+              <Button
+                color='primary'
+                className={classes.interestButton}
+                fullWidth
+                variant='contained'
+                startIcon={<HandIcon />}
+                onClick={handleInterestPress}
+              >
+                Demonstrar Interesse
+              </Button>
+            )}
           </Grid>
         </Grid>
 
@@ -119,7 +151,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
             <Rating name='read-only' value={value} precision={0.2} readOnly />
           </Grid>
           <IconButton onClick={handleFavoritePress}>
-            {isFavorite ? (
+            {activeAnuncio.isFavorite ? (
               <>
                 <FavoriteIcon color='action' />
                 <Typography className={classes.favoriteText} variant='h4'>

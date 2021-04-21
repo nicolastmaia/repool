@@ -11,6 +11,7 @@ const AuthContext = createContext({
   login: null,
   logout: null,
   changeUserToken: null,
+  reloadUser: null,
 });
 
 export const AuthProvider = ({ children }) => {
@@ -22,7 +23,8 @@ export const AuthProvider = ({ children }) => {
   const login = async (userCreds) => {
     try {
       const [authUser, jwtToken] = await userApi.login(userCreds);
-      setUser(authUser);
+      const completeUser = await userApi.getUserByToken(jwtToken);
+      setUser(completeUser);
       setUserToken(jwtToken);
       return 'success';
     } catch (error) {
@@ -51,6 +53,11 @@ export const AuthProvider = ({ children }) => {
     setUserToken(token);
   };
 
+  const reloadUser = async () => {
+    const tmpUser = await userApi.getUserByToken(userToken);
+    setUser(tmpUser);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -61,6 +68,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         changeUserToken,
+        reloadUser,
       }}
     >
       {children}

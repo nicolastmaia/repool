@@ -30,6 +30,34 @@ const anuncioApi = {
     return anunciosFavoritos;
   },
 
+  createInterest: async (token, anuncioId) => {
+    await repoolApi.post(
+      `${subscriberResourceEndpoint}/property/${anuncioId}/interest`,
+      {},
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+  },
+
+  removeInterest: async (token, anuncioId) => {
+    await repoolApi.delete(
+      `${subscriberResourceEndpoint}/property/${anuncioId}/interest`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+  },
+  getInterest: async (token, anuncioId) => {
+    const response = await repoolApi;
+    const isInterested = response.data;
+    return isInterested;
+  },
+
   post: async (anuncio) => {},
   edit: async (id, newData) => {},
   remove: async (id) => {},

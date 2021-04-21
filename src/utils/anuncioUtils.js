@@ -18,4 +18,18 @@ module.exports = {
 
     return anuncio;
   },
+
+  checkIfFavorite: (anuncio, user) => {
+    anuncio.isFavorite = !!user.favorited.find(
+      (element) => element.propertyId === anuncio.id
+    );
+    return anuncio;
+  },
+
+  checkIfInterest: (anuncio, user) => {
+    anuncio.isInterest = !!user.interests.find(
+      (element) => element.propertyId === anuncio.id
+    );
+    return anuncio;
+  },
 };
