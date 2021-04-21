@@ -16,6 +16,7 @@ const AnuncioContext = createContext({
   fetchFavoritos: null,
   fetchActiveAnuncio: null,
   toggleInterest: null,
+  toggleFavorite: null,
 });
 
 export const AnuncioProvider = ({ children }) => {
@@ -59,7 +60,25 @@ export const AnuncioProvider = ({ children }) => {
       const tmpAnuncio = await anuncioApi.getOne(id);
       let editedAnuncio = extractComodidades(tmpAnuncio);
       editedAnuncio = checkIfInterest(editedAnuncio, user);
+      editedAnuncio = checkIfFavorite(editedAnuncio, user);
       setActiveAnuncio(editedAnuncio);
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
+  };
+
+  const toggleFavorite = async () => {
+    try {
+      const isFavorite = await anuncioApi.toggleFavorite(
+        userToken,
+        activeAnuncio.id
+      );
+      setActiveAnuncio((prevState) => {
+        return { ...prevState, isFavorite };
+      });
+
+      reloadUser();
       return 'success';
     } catch (error) {
       return 'error';
@@ -95,6 +114,7 @@ export const AnuncioProvider = ({ children }) => {
         fetchFavoritos,
         fetchActiveAnuncio,
         toggleInterest,
+        toggleFavorite,
       }}
     >
       {children}

@@ -67,9 +67,12 @@ const AnuncioDetails = ({ className, ...rest }) => {
   const classes = useStyles();
   const [isFavorite, setIsFavorite] = useState(false);
   const [value] = useState(2.1);
-  const { activeAnuncio, fetchActiveAnuncio, toggleInterest } = useContext(
-    AnuncioContext
-  );
+  const {
+    activeAnuncio,
+    fetchActiveAnuncio,
+    toggleInterest,
+    toggleFavorite,
+  } = useContext(AnuncioContext);
   const { comodidades } = activeAnuncio;
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -80,12 +83,9 @@ const AnuncioDetails = ({ className, ...rest }) => {
 
   const { pathname } = window.location;
 
-  const handleFavoritePress = () => {
-    if (isFavorite) {
-      return true;
-    }
-    console.log(activeAnuncio);
-    return false;
+  const handleFavoritePress = async () => {
+    const message = await toggleFavorite();
+    setSnackbarMessage(message);
   };
 
   const handleInterestPress = async () => {

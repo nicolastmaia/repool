@@ -52,10 +52,19 @@ const anuncioApi = {
       }
     );
   },
-  getInterest: async (token, anuncioId) => {
-    const response = await repoolApi;
-    const isInterested = response.data;
-    return isInterested;
+
+  toggleFavorite: async (token, anuncioId) => {
+    const response = await repoolApi.patch(
+      `${subscriberResourceEndpoint}/property/${anuncioId}/favorites`,
+      {},
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    const { favorited } = response.data;
+    return !!favorited.find((element) => element.id === anuncioId);
   },
 
   post: async (anuncio) => {},
