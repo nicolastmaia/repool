@@ -1,4 +1,5 @@
 import {
+  Button,
   Container,
   Divider,
   Grid,
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '5%',
   },
   textGutterBottom: {
-    marginBottom: '1em',
+    marginBottom: '0.5em',
   },
   pageBottomContainer: {
     paddingTop: '3em',
@@ -45,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '15em',
     paddingTop: '0',
     paddingBottom: '0',
+  },
+  interestButton: {
+    height: '3.5em',
   },
 }));
 
@@ -83,9 +87,28 @@ const AnuncioDetails = ({ className, ...rest }) => {
   return (
     <Container className={classes.root}>
       <Container className={classes.titleContainer}>
-        <Typography className={classes.textGutterBottom} variant='h1'>
-          {activeAnuncio.name}
-        </Typography>
+        <Grid
+          justify='space-between'
+          alignItems='center'
+          spacing={2}
+          container
+          className={classes.textGutterBottom}
+        >
+          <Grid item>
+            <Typography variant='h1'>{activeAnuncio.name}</Typography>
+          </Grid>
+          <Grid item>
+            <Button
+              color='primary'
+              className={classes.interestButton}
+              fullWidth
+              variant='contained'
+            >
+              Demonstrar Interesse
+            </Button>
+          </Grid>
+        </Grid>
+
         <Grid
           container
           justify='space-between'

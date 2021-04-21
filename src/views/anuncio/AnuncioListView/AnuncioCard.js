@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
 const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
   const [isFavorite, setIsFavorite] = useState(false);
-  const { setActive } = useContext(AnuncioContext);
   const [value, setValue] = useState(2);
   const { comodidades } = anuncio;
 
