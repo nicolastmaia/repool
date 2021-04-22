@@ -16,6 +16,7 @@ const AnuncioContext = createContext({
   fetchActiveAnuncio: null,
   toggleInterest: null,
   toggleFavorite: null,
+  loadFavorites: null,
 });
 
 export const AnuncioProvider = ({ children }) => {
@@ -84,9 +85,15 @@ export const AnuncioProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    fetchAnuncios();
-  }, [favorites]);
+  const loadFavorites = () => {
+    const auxAnuncios = [];
+    for (const anuncio of favorites) {
+      const editedAnuncio = checkIfFavorite(anuncio, favorites);
+      auxAnuncios.push(editedAnuncio);
+    }
+
+    setAnuncios(auxAnuncios);
+  };
 
   return (
     <AnuncioContext.Provider
@@ -97,6 +104,7 @@ export const AnuncioProvider = ({ children }) => {
         fetchActiveAnuncio,
         toggleInterest,
         toggleFavorite,
+        loadFavorites,
       }}
     >
       {children}

@@ -5,6 +5,7 @@ import ConfirmDialog from 'src/components/ConfirmDialog';
 import CustomSnackbar from 'src/components/CustomSnackbar';
 import Page from 'src/components/Page';
 import AnuncioContext from 'src/contexts/AnuncioContext';
+import AuthContext from 'src/contexts/AuthContext';
 import AnuncioCard from './AnuncioCard';
 import Toolbar from './Toolbar';
 
@@ -22,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 const AnuncioList = () => {
   const classes = useStyles();
-  const { anuncios, fetchAnuncios, fetchFavoritos } = useContext(
-    AnuncioContext
-  );
+  const { anuncios, fetchAnuncios, loadFavorites } = useContext(AnuncioContext);
+
+  const { favorites } = useContext(AuthContext);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -48,12 +49,12 @@ const AnuncioList = () => {
       if (pathname === 'anuncios') {
         message = await fetchAnuncios();
       } else if (pathname === 'favoritos') {
-        message = await fetchFavoritos();
+        message = loadFavorites();
       }
       setSnackbarMessage(message);
     };
     fetchAllAnuncios();
-  }, [pathname]);
+  }, [pathname, favorites]);
 
   return (
     <Page className={classes.root} title='Anuncios'>
