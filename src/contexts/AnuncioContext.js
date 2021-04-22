@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import PropTypes from 'prop-types';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   checkIfInterest,
   checkIfFavorite,
@@ -13,7 +13,6 @@ const AnuncioContext = createContext({
   anuncios: null,
   activeAnuncio: null,
   fetchAnuncios: null,
-  fetchFavoritos: null,
   fetchActiveAnuncio: null,
   toggleInterest: null,
   toggleFavorite: null,
@@ -22,7 +21,9 @@ const AnuncioContext = createContext({
 export const AnuncioProvider = ({ children }) => {
   const [anuncios, setAnuncios] = useState([]);
   const [activeAnuncio, setActiveAnuncio] = useState({});
-  const { userToken, user, reloadUser } = useContext(AuthContext);
+  const { userToken, user, reloadUser, favorites, fetchFavorites } = useContext(
+    AuthContext
+  );
 
   const fetchAnuncios = async () => {
     try {
@@ -30,25 +31,10 @@ export const AnuncioProvider = ({ children }) => {
       const auxAnuncios = [];
       for (const anuncio of returnedAnuncios) {
         let editedAnuncio = extractComodidades(anuncio);
-        editedAnuncio = checkIfFavorite(anuncio, user);
+        editedAnuncio = checkIfFavorite(anuncio, favorites);
         auxAnuncios.push(editedAnuncio);
       }
       setAnuncios(auxAnuncios);
-      return 'success';
-    } catch (error) {
-      return 'error';
-    }
-  };
-
-  const fetchFavoritos = async () => {
-    try {
-      const returnedFavorites = await anuncioApi.getFavorites(userToken);
-      const auxFavorites = [];
-      for (const favorite of returnedFavorites) {
-        const editedFavorite = extractComodidades(favorite);
-        auxFavorites.push(editedFavorite);
-      }
-      setAnuncios(auxFavorites);
       return 'success';
     } catch (error) {
       return 'error';
@@ -60,7 +46,7 @@ export const AnuncioProvider = ({ children }) => {
       const tmpAnuncio = await anuncioApi.getOne(id);
       let editedAnuncio = extractComodidades(tmpAnuncio);
       editedAnuncio = checkIfInterest(editedAnuncio, user);
-      editedAnuncio = checkIfFavorite(editedAnuncio, user);
+      editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
       setActiveAnuncio(editedAnuncio);
       return 'success';
     } catch (error) {
@@ -68,32 +54,25 @@ export const AnuncioProvider = ({ children }) => {
     }
   };
 
-  const toggleFavorite = async () => {
+  const toggleFavorite = async (anuncioId) => {
     try {
-      const isFavorite = await anuncioApi.toggleFavorite(
-        userToken,
-        activeAnuncio.id
-      );
-      setActiveAnuncio((prevState) => {
-        return { ...prevState, isFavorite };
-      });
-
-      reloadUser();
+      await anuncioApi.toggleFavorite(userToken, anuncioId);
+      await fetchFavorites();
       return 'success';
     } catch (error) {
       return 'error';
     }
   };
 
-  const toggleInterest = async () => {
+  const toggleInterest = async (anuncioId) => {
     try {
       if (!activeAnuncio.isInterest) {
-        await anuncioApi.createInterest(userToken, activeAnuncio.id);
+        await anuncioApi.createInterest(userToken, anuncioId);
         setActiveAnuncio((prevState) => {
           return { ...prevState, isInterest: true };
         });
       } else {
-        await anuncioApi.removeInterest(userToken, activeAnuncio.id);
+        await anuncioApi.removeInterest(userToken, anuncioId);
         setActiveAnuncio((prevState) => {
           return { ...prevState, isInterest: false };
         });
@@ -105,13 +84,16 @@ export const AnuncioProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    fetchAnuncios();
+  }, [favorites]);
+
   return (
     <AnuncioContext.Provider
       value={{
         anuncios,
         activeAnuncio,
         fetchAnuncios,
-        fetchFavoritos,
         fetchActiveAnuncio,
         toggleInterest,
         toggleFavorite,

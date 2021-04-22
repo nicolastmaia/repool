@@ -7,15 +7,18 @@ const AuthContext = createContext({
   user: null,
   userToken: null,
   isAdm: null,
+  favorites: null,
   signup: null,
   login: null,
   logout: null,
   changeUserToken: null,
   reloadUser: null,
+  fetchFavorites: null,
 });
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const [favorites, setFavorites] = useState([]);
   const [userToken, setUserToken] = useState('');
   const [isAdm, setIsAdm] = useState(false);
   const navigate = useNavigate();
@@ -26,6 +29,7 @@ export const AuthProvider = ({ children }) => {
       const completeUser = await userApi.getUserByToken(jwtToken);
       setUser(completeUser);
       setUserToken(jwtToken);
+      setFavorites(completeUser.favorited);
       return 'success';
     } catch (error) {
       return 'error';
@@ -35,9 +39,11 @@ export const AuthProvider = ({ children }) => {
   const signup = async (newUser, avatarFile) => {
     try {
       const [authUser, jwtToken] = await userApi.signup(newUser, avatarFile);
+      const completeUser = await userApi.getUserByToken(jwtToken);
       navigate('/');
-      setUser(authUser);
+      setUser(completeUser);
       setUserToken(jwtToken);
+      setFavorites(completeUser.favorited);
       return 'success';
     } catch (error) {
       return 'error';
@@ -47,6 +53,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser({});
     setUserToken('');
+    setFavorites([]);
   };
 
   const changeUserToken = (token) => {
@@ -58,17 +65,24 @@ export const AuthProvider = ({ children }) => {
     setUser(tmpUser);
   };
 
+  const fetchFavorites = async () => {
+    const favorited = await userApi.getFavorites(userToken);
+    setFavorites(favorited);
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
         userToken,
         isAdm,
+        favorites,
         signup,
         login,
         logout,
         changeUserToken,
         reloadUser,
+        fetchFavorites,
       }}
     >
       {children}

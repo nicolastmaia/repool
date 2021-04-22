@@ -19,8 +19,8 @@ module.exports = {
     return anuncio;
   },
 
-  checkIfFavorite: (anuncio, user) => {
-    anuncio.isFavorite = !!user.favorited.find(
+  checkIfFavorite: (anuncio, favorites) => {
+    anuncio.isFavorite = !!favorites.find(
       (element) => element.id === anuncio.id
     );
     return anuncio;

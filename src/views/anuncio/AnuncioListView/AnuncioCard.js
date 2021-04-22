@@ -46,16 +46,13 @@ const useStyles = makeStyles((theme) => ({
 
 const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
-  const [isFavorite, setIsFavorite] = useState(false);
   const [value, setValue] = useState(2);
-  const { comodidades } = anuncio;
+  const { toggleFavorite } = useContext(AnuncioContext);
+  const { comodidades, isFavorite } = anuncio;
 
-  const handleFavoritePress = () => {
-    if (isFavorite) {
-      openConfirmDialog(true);
-    } else {
-      setIsFavorite(true);
-    }
+  const handleFavoritePress = async () => {
+    await toggleFavorite(anuncio.id);
+    // openConfirmDialog(true);
   };
 
   return (

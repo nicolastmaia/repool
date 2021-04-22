@@ -44,6 +44,16 @@ const userApi = {
     return userData;
   },
 
+  getFavorites: async (token) => {
+    const response = await repoolApi.get('/subscriber/favorites', {
+      headers: {
+        Authorization: token,
+      },
+    });
+    const { favorited } = response.data;
+    return favorited;
+  },
+
   edit: async (id, newData) => {},
   remove: async (id) => {},
 };

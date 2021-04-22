@@ -21,6 +21,7 @@ import anuncioUtils from 'src/utils/anuncioUtils';
 import DeleteIcon from '@material-ui/icons/Delete';
 import HandIcon from '@material-ui/icons/PanTool';
 import { red } from '@material-ui/core/colors';
+import AuthContext from 'src/contexts/AuthContext';
 import AnuncioDescription from './AnuncioDescription';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
@@ -73,6 +74,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
     toggleInterest,
     toggleFavorite,
   } = useContext(AnuncioContext);
+  const { favorites } = useContext(AuthContext);
   const { comodidades } = activeAnuncio;
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -84,12 +86,12 @@ const AnuncioDetails = ({ className, ...rest }) => {
   const { pathname } = window.location;
 
   const handleFavoritePress = async () => {
-    const message = await toggleFavorite();
+    const message = await toggleFavorite(activeAnuncio.id);
     setSnackbarMessage(message);
   };
 
   const handleInterestPress = async () => {
-    const message = await toggleInterest();
+    const message = await toggleInterest(activeAnuncio.id);
     setSnackbarMessage(message);
   };
 
@@ -100,7 +102,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
       setSnackbarMessage(message);
     };
     fetchOneAd();
-  }, []);
+  }, [favorites]);
 
   return (
     <Container className={classes.root}>
