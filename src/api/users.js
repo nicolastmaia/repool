@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { Type } from 'react-feather';
 import { repoolApi } from './base';
 
@@ -13,13 +14,9 @@ const userApi = {
   signup: async (newUser, avatarFile) => {
     const formData = new FormData();
     formData.append('avatar', avatarFile);
-    formData.append('name', newUser.name);
-    formData.append('email', newUser.email);
-    formData.append('password', newUser.password);
-    formData.append('cel', newUser.cel);
-    formData.append('tel', newUser.tel);
-    formData.append('bio', newUser.bio);
-    formData.append('sex', newUser.sex);
+    for (const [key, value] of Object.entries(newUser)) {
+      formData.append(key, value);
+    }
 
     const response = await repoolApi.post(
       `${resourceEndpoint}/signup`,

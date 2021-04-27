@@ -11,8 +11,9 @@ import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
 import { Divide } from 'react-feather';
+import CustomSnackbar from 'src/components/CustomSnackbar';
 import Toolbar from './Toolbar';
-import PropriedadeCard from './ProprieadeCard';
+import PropriedadeCard from './PropriedadeCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,12 @@ const PropriedadeList = () => {
     propriedadeComoInquilino,
     fetchPropriedadeComoInquilino,
   } = useContext(PropriedadeContext);
+
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleCloseSnackbar = () => {
+    setSnackbarMessage('');
+  };
 
   useEffect(() => {
     fetchPropriedadesProprias();
@@ -96,6 +103,10 @@ const PropriedadeList = () => {
             )}
           </Grid>
         </Box>
+        <CustomSnackbar
+          message={snackbarMessage}
+          handleCloseSnackbar={handleCloseSnackbar}
+        />
       </Container>
     </Page>
   );

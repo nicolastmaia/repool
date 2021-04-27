@@ -39,7 +39,6 @@ const imageGallery = [
 const styles = (theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',

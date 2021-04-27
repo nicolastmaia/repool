@@ -19,6 +19,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { ibgeApi } from 'src/api/base';
+import AvatarPicker from 'src/components/AvatarPicker';
 import CustomSnackbar from 'src/components/CustomSnackbar';
 import AuthContext from 'src/contexts/AuthContext';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
@@ -74,6 +75,8 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
   const [selectedComodidades, setSelectedComodidades] = useState([]);
   const [isAdvertising, setIsAdvertising] = useState(false);
 
+  const [avatarFile, setAvatarFile] = useState('');
+
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleSelectComodidade = (event, newComodidades) => {
@@ -85,16 +88,30 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
   };
 
   const handleChange = (event) => {
-    setValues((prevState) => ({
-      ...prevState,
+    const newValues = {
+      ...values,
       [event.target.name]: event.target.value || null,
-    }));
+    };
+    setValues(newValues);
     if (event.target.name === 'uf') {
       const tmpUf = ufs.find((element) => {
         return element.sigla === event.target.value;
       });
       setSelectedUf(tmpUf);
     }
+  };
+
+  const handleFileChange = (image) => {
+    setAvatarFile(image);
+  };
+
+  const handleSave = async () => {
+    const message = await savePropriedade(values, avatarFile);
+    setSnackbarMessage(message);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarMessage('');
   };
 
   useEffect(() => {
@@ -143,15 +160,6 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
     setValues({ ...values, city: '' });
   }, [selectedUf]);
 
-  const handleSave = async () => {
-    const message = await savePropriedade(values);
-    setSnackbarMessage(message);
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarMessage('');
-  };
-
   return (
     <form
       autoComplete='off'
@@ -167,6 +175,9 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
+            <Grid item lg={12} md={12}>
+              <AvatarPicker handleFileChange={handleFileChange} />
+            </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth

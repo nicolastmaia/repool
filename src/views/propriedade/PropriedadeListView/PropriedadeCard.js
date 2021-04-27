@@ -6,18 +6,14 @@ import {
   Divider,
   Grid,
   Icon,
-  IconButton,
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Rating } from '@material-ui/lab';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import AnuncioContext from 'src/contexts/AnuncioContext';
 import comodidadesContent from '../../../constants/comodidades';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,25 +40,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
+const PropriedadeCard = ({
+  openConfirmDialog,
+  className,
+  propriedade,
+  ...rest
+}) => {
   const classes = useStyles();
   const [value, setValue] = useState(2);
-  const { toggleFavorite } = useContext(AnuncioContext);
-  const { comodidades, isFavorite } = anuncio;
-
-  const handleFavoritePress = async () => {
-    await toggleFavorite(anuncio.id);
-    // openConfirmDialog(true);
-  };
+  const { comodidades } = propriedade;
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent classes={{ root: classes.cardContentRoot }}>
-        <Link to={`/anuncios/${anuncio.id}`}>
+        <Link to={`/anuncios/${propriedade.id}`}>
           <Box position='relative' mb={3}>
             <Avatar
-              alt='Anuncio'
-              src={anuncio.img ? anuncio.img[0] : ''}
+              alt='Propriedade'
+              src={propriedade.img ? propriedade.img[0] : ''}
               className={classes.image}
               variant='square'
             />
@@ -95,10 +90,10 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
             gutterBottom
             variant='h4'
           >
-            {anuncio.name}
+            {`${propriedade.name}`}
           </Typography>
           <Typography align='center' color='textPrimary' variant='body1'>
-            {`${anuncio.city}, ${anuncio.uf}`}
+            {`${propriedade.city}, ${propriedade.uf}`}
           </Typography>
         </Link>
       </CardContent>
@@ -111,23 +106,16 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
               <Rating name='read-only' value={value} precision={0.2} readOnly />
             </Box>
           </Grid>
-          <IconButton onClick={handleFavoritePress}>
-            {isFavorite ? (
-              <FavoriteIcon color='action' />
-            ) : (
-              <FavoriteBorderIcon color='action' />
-            )}
-          </IconButton>
         </Grid>
       </Box>
     </Card>
   );
 };
 
-AnuncioCard.propTypes = {
+PropriedadeCard.propTypes = {
   openConfirmDialog: PropTypes.func,
   className: PropTypes.string,
-  anuncio: PropTypes.object.isRequired,
+  propriedade: PropTypes.object.isRequired,
 };
 
-export default AnuncioCard;
+export default PropriedadeCard;

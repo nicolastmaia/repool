@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { repoolApi } from './base';
 
 const subscriberEndpoint = '/subscriber/property';
@@ -24,16 +25,20 @@ const propriedadeApi = {
     return response.data;
   },
 
-  postAsSubscriber: async (propriedade, userToken) => {
-    const headers = {
-      Authorization: userToken,
-      'Content-Type': 'application/json',
-    };
-    const response = await repoolApi.post(
-      `${subscriberEndpoint}`,
-      propriedade,
-      { headers }
-    );
+  postAsSubscriber: async (propriedade, photo, userToken) => {
+    const formData = new FormData();
+    formData.append('img', photo);
+
+    for (const [key, value] of Object.entries(propriedade)) {
+      formData.append(key, value);
+    }
+
+    const response = await repoolApi.post('subscriber/property', formData, {
+      headers: {
+        Authorization: userToken,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
 

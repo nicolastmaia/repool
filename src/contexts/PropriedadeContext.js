@@ -27,15 +27,17 @@ export const PropriedadeProvider = ({ children }) => {
     setPropriedadeComoInquilino(response);
   };
 
-  const savePropriedade = async (propriedade) => {
-    propriedade.vacancyNumber = parseInt(propriedade.vacancyNumber, 10);
-    propriedade.vacancyPrice = parseFloat(propriedade.vacancyPrice);
+  const savePropriedade = async (propriedade, photo) => {
     try {
       if (user.role === 'USER') {
         const [
           newPropriedade,
           newOwnerToken,
-        ] = await propriedadeApi.postAsSubscriber(propriedade, userToken);
+        ] = await propriedadeApi.postAsSubscriber(
+          propriedade,
+          photo,
+          userToken
+        );
         changeUserToken(newOwnerToken);
       } else {
         await propriedadeApi.postAsOwner(propriedade, userToken);
