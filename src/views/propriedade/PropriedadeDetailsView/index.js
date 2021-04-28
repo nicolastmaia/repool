@@ -4,27 +4,24 @@ import {
   Container,
   Divider,
   Grid,
-  IconButton,
   List,
   makeStyles,
   Typography,
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import HandIcon from '@material-ui/icons/PanTool';
+import EditIcon from '@material-ui/icons/Edit';
 import StarIcon from '@material-ui/icons/StarRate';
 import { Rating } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CustomSnackbar from 'src/components/CustomSnackbar';
 import AnuncioContext from 'src/contexts/AnuncioContext';
-import AuthContext from 'src/contexts/AuthContext';
-import AnuncioDescription from './AnuncioDescription';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
 import ImageList from './ImageList';
+import PropriedadeDescription from './PropriedadeDescription';
 
 const useStyles = makeStyles((theme) => ({
   root: { paddingTop: '1em', paddingBottom: '1em' },
@@ -63,44 +60,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnuncioDetails = ({ className, ...rest }) => {
+const PropriedadeDetails = ({ className, ...rest }) => {
   const classes = useStyles();
   const [value] = useState(2.1);
-  const {
-    activeAnuncio,
-    fetchActiveAnuncio,
-    toggleInterest,
-    toggleFavorite,
-  } = useContext(AnuncioContext);
-  const { favorites } = useContext(AuthContext);
+  const { activeAnuncio, fetchActiveAnuncio } = useContext(AnuncioContext);
   const { comodidades } = activeAnuncio;
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const navigate = useNavigate();
+
+  const { pathname } = window.location;
 
   const handleCloseSnackbar = () => {
     setSnackbarMessage('');
   };
 
-  const handleFavoritePress = async () => {
-    const message = await toggleFavorite(activeAnuncio.id);
-    setSnackbarMessage(message);
+  const handleEditPress = () => {
+    navigate('/propriedades/edit');
   };
 
-  const handleInterestPress = async () => {
-    const message = await toggleInterest(activeAnuncio.id);
-    setSnackbarMessage(message);
-  };
+  const handleDeletePress = () => {};
 
   useEffect(() => {
-    const { pathname } = window.location;
-
-    const activeAnuncioId = pathname.replace('/anuncios/', '');
+    const activeAnuncioId = pathname.replace('/propriedades/', '');
     const fetchOneAd = async () => {
       const message = await fetchActiveAnuncio(activeAnuncioId);
       setSnackbarMessage(message);
     };
     fetchOneAd();
-  }, [favorites]);
+  }, [pathname]);
 
   return (
     <Container className={classes.root}>
@@ -116,28 +105,15 @@ const AnuncioDetails = ({ className, ...rest }) => {
             <Typography variant='h1'>{activeAnuncio.name}</Typography>
           </Grid>
           <Grid item>
-            {activeAnuncio.isInterest ? (
-              <Button
-                className={classes.removeButton}
-                fullWidth
-                variant='contained'
-                startIcon={<DeleteIcon />}
-                onClick={handleInterestPress}
-              >
-                Remover Interesse
-              </Button>
-            ) : (
-              <Button
-                color='primary'
-                className={classes.interestButton}
-                fullWidth
-                variant='contained'
-                startIcon={<HandIcon />}
-                onClick={handleInterestPress}
-              >
-                Demonstrar Interesse
-              </Button>
-            )}
+            <Button
+              className={classes.interestButton}
+              fullWidth
+              variant='contained'
+              startIcon={<EditIcon />}
+              onClick={handleEditPress}
+            >
+              Editar Propriedade
+            </Button>
           </Grid>
         </Grid>
 
@@ -150,29 +126,23 @@ const AnuncioDetails = ({ className, ...rest }) => {
           <Grid item>
             <Rating name='read-only' value={value} precision={0.2} readOnly />
           </Grid>
-          <IconButton onClick={handleFavoritePress}>
-            {activeAnuncio.isFavorite ? (
-              <>
-                <FavoriteIcon color='action' />
-                <Typography className={classes.favoriteText} variant='h4'>
-                  Desfavoritar
-                </Typography>
-              </>
-            ) : (
-              <>
-                <FavoriteBorderIcon color='action' />
-                <Typography className={classes.favoriteText} variant='h4'>
-                  Favoritar
-                </Typography>
-              </>
-            )}
-          </IconButton>
+          <Grid item>
+            <Button
+              className={classes.removeButton}
+              fullWidth
+              variant='contained'
+              startIcon={<DeleteIcon />}
+              onClick={handleDeletePress}
+            >
+              Deletar Propriedade
+            </Button>
+          </Grid>
         </Grid>
       </Container>
 
       <ImageList images={activeAnuncio.img} />
 
-      <AnuncioDescription anuncio={activeAnuncio} />
+      <PropriedadeDescription anuncio={activeAnuncio} />
 
       <Divider />
 
@@ -240,8 +210,8 @@ const AnuncioDetails = ({ className, ...rest }) => {
   );
 };
 
-AnuncioDetails.propTypes = {
+PropriedadeDetails.propTypes = {
   className: PropTypes.string,
 };
 
-export default AnuncioDetails;
+export default PropriedadeDetails;

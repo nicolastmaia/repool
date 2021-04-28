@@ -53,7 +53,7 @@ const PropriedadeCard = ({
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent classes={{ root: classes.cardContentRoot }}>
-        <Link to={`/anuncios/${propriedade.id}`}>
+        <Link to={`/propriedades/${propriedade.id}`}>
           <Box position='relative' mb={3}>
             <Avatar
               alt='Propriedade'

@@ -1,9 +1,10 @@
 /* eslint-disable no-restricted-syntax */
 import PropTypes from 'prop-types';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import {
-  checkIfInterest,
   checkIfFavorite,
+  checkIfInterest,
+  checkIfMyProperty,
   extractComodidades,
 } from 'src/utils/anuncioUtils';
 import anuncioApi from '../api/anuncios';
@@ -32,7 +33,8 @@ export const AnuncioProvider = ({ children }) => {
       const auxAnuncios = [];
       for (const anuncio of returnedAnuncios) {
         let editedAnuncio = extractComodidades(anuncio);
-        editedAnuncio = checkIfFavorite(anuncio, favorites);
+        editedAnuncio = checkIfMyProperty(editedAnuncio, user.property);
+        editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
         auxAnuncios.push(editedAnuncio);
       }
       setAnuncios(auxAnuncios);
@@ -47,6 +49,7 @@ export const AnuncioProvider = ({ children }) => {
       const tmpAnuncio = await anuncioApi.getOne(id);
       let editedAnuncio = extractComodidades(tmpAnuncio);
       editedAnuncio = checkIfInterest(editedAnuncio, user);
+      editedAnuncio = checkIfMyProperty(editedAnuncio, user.property);
       editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
       setActiveAnuncio(editedAnuncio);
       return 'success';

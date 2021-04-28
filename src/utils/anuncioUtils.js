@@ -32,4 +32,11 @@ module.exports = {
     );
     return anuncio;
   },
+
+  checkIfMyProperty: (anuncio, myProperties) => {
+    anuncio.isMyProperty = !!myProperties.find(
+      (element) => element.id === anuncio.id
+    );
+    return anuncio;
+  },
 };

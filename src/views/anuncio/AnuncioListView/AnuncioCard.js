@@ -48,7 +48,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
   const [value, setValue] = useState(2);
   const { toggleFavorite } = useContext(AnuncioContext);
-  const { comodidades, isFavorite } = anuncio;
+  const { comodidades, isFavorite, isMyProperty } = anuncio;
 
   const handleFavoritePress = async () => {
     await toggleFavorite(anuncio.id);
@@ -58,7 +58,13 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent classes={{ root: classes.cardContentRoot }}>
-        <Link to={`/anuncios/${anuncio.id}`}>
+        <Link
+          to={
+            anuncio.isMyProperty
+              ? `/propriedades/${anuncio.id}`
+              : `/anuncios/${anuncio.id}`
+          }
+        >
           <Box position='relative' mb={3}>
             <Avatar
               alt='Anuncio'
@@ -111,13 +117,17 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
               <Rating name='read-only' value={value} precision={0.2} readOnly />
             </Box>
           </Grid>
-          <IconButton onClick={handleFavoritePress}>
-            {isFavorite ? (
-              <FavoriteIcon color='action' />
-            ) : (
-              <FavoriteBorderIcon color='action' />
-            )}
-          </IconButton>
+          {!isMyProperty ? (
+            <IconButton onClick={handleFavoritePress}>
+              {isFavorite ? (
+                <FavoriteIcon color='action' />
+              ) : (
+                <FavoriteBorderIcon color='action' />
+              )}
+            </IconButton>
+          ) : (
+            <></>
+          )}
         </Grid>
       </Box>
     </Card>

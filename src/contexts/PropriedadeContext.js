@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { createContext, useContext, useState } from 'react';
 import propriedadeApi from 'src/api/propriedades';
 import AuthContext from './AuthContext';
 
@@ -16,7 +16,9 @@ export const PropriedadeProvider = ({ children }) => {
   const [propriedadeComoInquilino, setPropriedadeComoInquilino] = useState(
     null
   );
-  const { user, userToken, changeUserToken } = useContext(AuthContext);
+  const { user, userToken, reloadUser, changeUserToken } = useContext(
+    AuthContext
+  );
 
   const fetchPropriedadesProprias = async () => {
     try {
@@ -53,6 +55,7 @@ export const PropriedadeProvider = ({ children }) => {
       } else {
         await propriedadeApi.postAsOwner(propriedade, photo, userToken);
       }
+      reloadUser();
       return 'success';
     } catch (error) {
       return 'error';

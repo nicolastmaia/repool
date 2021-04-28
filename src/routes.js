@@ -13,6 +13,7 @@ import DashboardView from 'src/views/reports/DashboardView';
 import SettingsView from 'src/views/settings/SettingsView';
 import AnuncioDetails from './views/anuncio/AnuncioDetailsView';
 import CadPropriedadeView from './views/propriedade/CadPropriedadeView';
+import PropriedadeDetails from './views/propriedade/PropriedadeDetailsView';
 
 const simpleLoggedInRoutes = [
   {
@@ -25,6 +26,7 @@ const simpleLoggedInRoutes = [
       { path: 'anuncios/:id', element: <AnuncioDetails /> },
       { path: 'propriedades', element: <PropriedadeListView /> },
       { path: 'propriedades/new', element: <CadPropriedadeView /> },
+      { path: 'propriedades/:id', element: <PropriedadeDetails /> },
       { path: 'favoritos', element: <AnuncioListView /> },
       { path: 'favoritos/:id', element: <AnuncioDetails /> },
       { path: 'settings', element: <SettingsView /> },
