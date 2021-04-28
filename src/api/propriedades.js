@@ -5,17 +5,19 @@ const subscriberEndpoint = '/subscriber/property';
 const ownerEndpoint = '/owner/property';
 
 const propriedadeApi = {
-  getAll: async () => {
-    const response = await repoolApi.get(subscriberEndpoint);
-    return response.data;
+  getAll: async () => {},
+
+  getAsOwner: async (token) => {
+    const response = await repoolApi.get(ownerEndpoint, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    const propriedades = response.data;
+    return propriedades;
   },
 
-  getAsOwner: async () => {
-    const response = await repoolApi.get(`${subscriberEndpoint}/dono`);
-    return response.data;
-  },
-
-  getAsInquilino: async () => {
+  getAsInquilino: async (token) => {
     const response = await repoolApi.get(`${subscriberEndpoint}/inquilino`);
     return response.data;
   },
@@ -33,7 +35,7 @@ const propriedadeApi = {
       formData.append(key, value);
     }
 
-    const response = await repoolApi.post('subscriber/property', formData, {
+    const response = await repoolApi.post(subscriberEndpoint, formData, {
       headers: {
         Authorization: userToken,
         'Content-Type': 'multipart/form-data',

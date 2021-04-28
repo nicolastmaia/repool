@@ -68,7 +68,7 @@ const PropriedadeList = () => {
           <Grid container spacing={3}>
             {propriedadesProprias &&
               propriedadesProprias.map((propriedade) => (
-                <Grid item key={propriedade.id} lg={4} md={6} xs={12}>
+                <Grid item key={propriedade.id} lg={3} md={4} sm={6} xs={12}>
                   <PropriedadeCard
                     className={classes.propriedadeCard}
                     propriedade={propriedade}
@@ -87,20 +87,19 @@ const PropriedadeList = () => {
           <Grid container spacing={3}>
             {/* TODO mudar as linhas abaixo quando tiver uma rota de
             propriedadesProprias onde moro */}
-            {propriedadeComoInquilino && (
-              <Grid
-                item
-                key={propriedadeComoInquilino.id}
-                lg={4}
-                md={6}
-                xs={12}
-              >
+            <Grid item>
+              {propriedadeComoInquilino ? (
                 <PropriedadeCard
                   className={classes.propriedadeCard}
                   propriedade={propriedadeComoInquilino}
                 />
-              </Grid>
-            )}
+              ) : (
+                <Typography className={classes.minhasPropriedades} variant='h3'>
+                  Você ainda não mora em nenhuma propriedade cadastrada em nosso
+                  sistema.
+                </Typography>
+              )}
+            </Grid>
           </Grid>
         </Box>
         <CustomSnackbar

@@ -13,18 +13,29 @@ const PropriedadeContext = createContext({
 
 export const PropriedadeProvider = ({ children }) => {
   const [propriedadesProprias, setPropriedadesProprias] = useState([]);
-  const [propriedadeComoInquilino, setPropriedadeComoInquilino] = useState({});
+  const [propriedadeComoInquilino, setPropriedadeComoInquilino] = useState(
+    null
+  );
   const { user, userToken, changeUserToken } = useContext(AuthContext);
 
   const fetchPropriedadesProprias = async () => {
-    // TODO alterar pra rota que pega so as propriedades proprias (getAsOwner)
-    const response = await propriedadeApi.getAll();
-    setPropriedadesProprias(response);
+    try {
+      const response = await propriedadeApi.getAsOwner(userToken);
+      setPropriedadesProprias(response);
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
   };
 
   const fetchPropriedadeComoInquilino = async () => {
-    const response = await propriedadeApi.getAsInquilino();
-    setPropriedadeComoInquilino(response);
+    try {
+      const response = await propriedadeApi.getAsInquilino(userToken);
+      setPropriedadeComoInquilino(response);
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
   };
 
   const savePropriedade = async (propriedade, photo) => {
