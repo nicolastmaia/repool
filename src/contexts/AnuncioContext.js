@@ -49,7 +49,6 @@ export const AnuncioProvider = ({ children }) => {
       const tmpAnuncio = await anuncioApi.getOne(id);
       let editedAnuncio = extractComodidades(tmpAnuncio);
       editedAnuncio = checkIfInterest(editedAnuncio, user);
-      editedAnuncio = checkIfMyProperty(editedAnuncio, user.property);
       editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
       setActiveAnuncio(editedAnuncio);
       return 'success';
