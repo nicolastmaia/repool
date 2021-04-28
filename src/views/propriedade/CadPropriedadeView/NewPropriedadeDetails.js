@@ -19,6 +19,7 @@ import clsx from 'clsx';
 import { useFormik } from 'formik';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ibgeApi } from 'src/api/base';
 import AvatarPicker from 'src/components/AvatarPicker';
 import CustomSnackbar from 'src/components/CustomSnackbar';
@@ -57,6 +58,8 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
   const [avatarFile, setAvatarFile] = useState('');
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const navigate = useNavigate();
 
   const appendComodidades = (propriedade) => {
     // eslint-disable-next-line prefer-const
@@ -101,6 +104,7 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
     const message = await savePropriedade(tmpPropriedade, avatarFile);
     setSnackbarMessage(message);
     setSubmittingLoader(false);
+    navigate('/propriedades');
   };
 
   const handleCloseSnackbar = () => {
