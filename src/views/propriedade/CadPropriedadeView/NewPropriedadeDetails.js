@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import clsx from 'clsx';
+import { useFormik } from 'formik';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { ibgeApi } from 'src/api/base';
@@ -23,6 +24,7 @@ import AvatarPicker from 'src/components/AvatarPicker';
 import CustomSnackbar from 'src/components/CustomSnackbar';
 import AuthContext from 'src/contexts/AuthContext';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
+import * as Yup from 'yup';
 import comodidadesContent from '../../../constants/comodidades';
 
 const comodidades = [
@@ -46,32 +48,9 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
   const { userToken } = useContext(AuthContext);
   const { savePropriedade } = useContext(PropriedadeContext);
 
-  const [values, setValues] = useState({
-    name: null,
-    description: null,
-    category: null,
-    cep: null,
-    street: null,
-    neighborhood: null,
-    city: null,
-    uf: null,
-    country: 'Brasil',
-    number: null,
-    complement: null,
-    hasPool: false,
-    hasGarage: false,
-    hasGourmet: false,
-    hasInternet: false,
-    isPetFriendly: false,
-    isAdversiment: false,
-    vacancyNumber: 0,
-    vacancyPrice: 0,
-  });
-
   const [ufs, setUfs] = useState([]);
   const [selectedUf, setSelectedUf] = useState(null);
   const [cities, setCities] = useState([]);
-
   const [selectedComodidades, setSelectedComodidades] = useState([]);
   const [isAdvertising, setIsAdvertising] = useState(false);
 
@@ -79,46 +58,7 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const handleSelectComodidade = (event, newComodidades) => {
-    setSelectedComodidades(newComodidades);
-  };
-
-  const handleAdChange = () => {
-    setIsAdvertising((prevState) => !prevState);
-  };
-
-  const handleChange = (event) => {
-    const newValues = {
-      ...values,
-      [event.target.name]: event.target.value || null,
-    };
-    setValues(newValues);
-    if (event.target.name === 'uf') {
-      const tmpUf = ufs.find((element) => {
-        return element.sigla === event.target.value;
-      });
-      setSelectedUf(tmpUf);
-    }
-  };
-
-  const handleFileChange = (image) => {
-    setAvatarFile(image);
-  };
-
-  const handleSave = async () => {
-    const message = await savePropriedade(values, avatarFile);
-    setSnackbarMessage(message);
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarMessage('');
-  };
-
-  useEffect(() => {
-    setValues((prevState) => ({ ...prevState, isAdversiment: isAdvertising }));
-  }, [isAdvertising]);
-
-  useEffect(() => {
+  const appendComodidades = (propriedade) => {
     // eslint-disable-next-line prefer-const
     let elements = {
       hasPool: false,
@@ -131,13 +71,41 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
       elements[element] = true;
     });
 
-    setValues((prevState) => {
-      return {
-        ...prevState,
-        ...elements,
-      };
-    });
-  }, [selectedComodidades]);
+    const newPropriedade = { ...propriedade, ...elements };
+
+    return newPropriedade;
+  };
+
+  const appendAd = (propriedade) => {
+    const newPropriedade = { ...propriedade, isAdvertisement: isAdvertising };
+    return newPropriedade;
+  };
+
+  const handleSelectComodidade = (event, newComodidades) => {
+    setSelectedComodidades(newComodidades);
+  };
+
+  const handleAdChange = () => {
+    setIsAdvertising((prevState) => !prevState);
+  };
+
+  const handleFileChange = (image) => {
+    setAvatarFile(image);
+  };
+
+  const handleSave = async (propriedade, setSubmittingLoader) => {
+    let tmpPropriedade = appendComodidades(propriedade);
+    tmpPropriedade = appendAd(tmpPropriedade);
+    console.log(tmpPropriedade);
+
+    const message = await savePropriedade(tmpPropriedade, avatarFile);
+    setSnackbarMessage(message);
+    setSubmittingLoader(false);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarMessage('');
+  };
 
   useEffect(() => {
     const fetchUfs = async () => {
@@ -157,14 +125,75 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
       }
     };
     fetchCities();
-    setValues({ ...values, city: '' });
   }, [selectedUf]);
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      description: '',
+      category: '',
+      cep: '',
+      street: '',
+      neighborhood: '',
+      city: '',
+      uf: '',
+      country: 'Brasil',
+      number: '',
+      complement: '',
+      hasPool: false,
+      hasGarage: false,
+      hasGourmet: false,
+      hasInternet: false,
+      isPetFriendly: false,
+      isAdvertisement: false,
+      vacancyNumber: 0,
+      vacancyPrice: 0,
+    },
+    validationSchema: Yup.object().shape({
+      name: Yup.string().max(255).required('Nome da propriedade é obrigatório'),
+      category: Yup.string()
+        .max(255)
+        .required('Categoria da propriedade é obrigatória'),
+      cep: Yup.string().max(255).required('CEP da propriedade é obrigatório'),
+      street: Yup.string()
+        .max(255)
+        .required('Rua da propriedade é obrigatória'),
+      neighborhood: Yup.string()
+        .max(255)
+        .required('Bairro da propriedade é obrigatório'),
+      city: Yup.string()
+        .max(255)
+        .required('Cidade da propriedade é obrigatório'),
+      uf: Yup.string().max(255).required('Estado da propriedade é obrigatório'),
+      country: Yup.string()
+        .max(255)
+        .required('País da propriedade é obrigatório'),
+      vacancyNumber: Yup.number(),
+      vacancyPrice: Yup.number(),
+    }),
+    onSubmit: (propriedade, actions) => {
+      handleSave(propriedade, actions.setSubmitting);
+    },
+    validateOnChange: true,
+  });
+
+  const handleChange = (event) => {
+    if (event.target.name === 'uf') {
+      const tmpUf = ufs.find((element) => {
+        return element.sigla === event.target.value;
+      });
+      setSelectedUf(tmpUf);
+    }
+
+    formik.handleChange(event);
+  };
 
   return (
     <form
       autoComplete='off'
       noValidate
       className={clsx(classes.root, className)}
+      onSubmit={formik.handleSubmit}
       {...rest}
     >
       <Card>
@@ -180,24 +209,32 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.name && formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Título da propriedade'
                 name='name'
                 onChange={handleChange}
                 required
-                value={values.name}
+                value={formik.values.name}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(
+                  formik.touched.category && formik.errors.category
+                )}
+                helperText={formik.touched.category && formik.errors.category}
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Categoria'
                 name='category'
                 select
                 onChange={handleChange}
                 required
-                value={values.category}
+                value={formik.values.category}
                 variant='outlined'
               >
                 <MenuItem key={1} value='HOUSE'>
@@ -210,17 +247,23 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.cep && formik.errors.cep)}
+                helperText={formik.touched.cep && formik.errors.cep}
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='CEP'
                 name='cep'
                 onChange={handleChange}
                 required
-                value={values.cep}
+                value={formik.values.cep}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.country && formik.errors.country)}
+                helperText={formik.touched.country && formik.errors.country}
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='País'
                 name='country'
@@ -229,19 +272,22 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
                   readOnly: true,
                 }}
                 onChange={handleChange}
-                value={values.country}
+                value={formik.values.country}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.uf && formik.errors.uf)}
+                helperText={formik.touched.uf && formik.errors.uf}
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='UF'
                 name='uf'
                 select
                 onChange={handleChange}
                 required
-                value={values.uf}
+                value={formik.values.uf}
                 variant='outlined'
               >
                 {ufs.map((uf) => (
@@ -253,13 +299,16 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.city && formik.errors.city)}
+                helperText={formik.touched.city && formik.errors.city}
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Cidade'
                 name='city'
                 select
                 onChange={handleChange}
                 required
-                value={values.city}
+                value={formik.values.city}
                 variant='outlined'
               >
                 {cities.map((city) => (
@@ -271,76 +320,117 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(
+                  formik.touched.neighborhood && formik.errors.neighborhood
+                )}
+                helperText={
+                  formik.touched.neighborhood && formik.errors.neighborhood
+                }
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Bairro'
                 name='neighborhood'
                 onChange={handleChange}
                 required
-                value={values.neighborhood}
+                value={formik.values.neighborhood}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.street && formik.errors.street)}
+                helperText={formik.touched.street && formik.errors.street}
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Rua'
                 name='street'
                 onChange={handleChange}
                 required
-                value={values.street}
+                value={formik.values.street}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(formik.touched.number && formik.errors.number)}
+                helperText={formik.touched.number && formik.errors.number}
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Número do prédio'
                 name='number'
                 onChange={handleChange}
-                value={values.number}
+                value={formik.values.number}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(
+                  formik.touched.complement && formik.errors.complement
+                )}
+                helperText={
+                  formik.touched.complement && formik.errors.complement
+                }
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Complemento'
                 name='complement'
                 onChange={handleChange}
-                value={values.complement}
+                value={formik.values.complement}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(
+                  formik.touched.vacancyNumber && formik.errors.vacancyNumber
+                )}
+                helperText={
+                  formik.touched.vacancyNumber && formik.errors.vacancyNumber
+                }
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Quantidade de vagas'
                 name='vacancyNumber'
                 type='number'
                 onChange={handleChange}
-                value={values.vacancyNumber}
+                value={formik.values.vacancyNumber}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                error={Boolean(
+                  formik.touched.vacancyPrice && formik.errors.vacancyPrice
+                )}
+                helperText={
+                  formik.touched.vacancyPrice && formik.errors.vacancyPrice
+                }
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Preço das vagas'
                 name='vacancyPrice'
                 type='number'
                 onChange={handleChange}
-                value={values.vacancyPrice}
+                value={formik.values.vacancyPrice}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={12} xs={12}>
               <TextField
+                error={Boolean(
+                  formik.touched.description && formik.errors.description
+                )}
+                helperText={
+                  formik.touched.description && formik.errors.description
+                }
+                onBlur={formik.handleBlur}
                 fullWidth
                 label='Descrição personalizada'
                 name='description'
                 multiline
                 onChange={handleChange}
-                value={values.description}
+                value={formik.values.description}
                 variant='outlined'
               />
             </Grid>
@@ -402,8 +492,9 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
           <Button
             style={{ margin: 8 }}
             color='primary'
+            disabled={formik.isSubmitting}
+            type='submit'
             variant='contained'
-            onClick={handleSave}
           >
             Salvar
           </Button>

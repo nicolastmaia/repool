@@ -42,12 +42,20 @@ const propriedadeApi = {
     return response.data;
   },
 
-  postAsOwner: async (propriedade, userToken) => {
+  postAsOwner: async (propriedade, photo, userToken) => {
+    const formData = new FormData();
+    formData.append('img', photo);
+
+    for (const [key, value] of Object.entries(propriedade)) {
+      formData.append(key, value);
+    }
+
     const headers = {
       Authorization: userToken,
       'Content-Type': 'application/json',
     };
-    const response = await repoolApi.post(`${ownerEndpoint}`, propriedade, {
+
+    const response = await repoolApi.post(`${ownerEndpoint}`, formData, {
       headers,
     });
     return response.data;

@@ -40,7 +40,7 @@ export const PropriedadeProvider = ({ children }) => {
         );
         changeUserToken(newOwnerToken);
       } else {
-        await propriedadeApi.postAsOwner(propriedade, userToken);
+        await propriedadeApi.postAsOwner(propriedade, photo, userToken);
       }
       return 'success';
     } catch (error) {
