@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import PropTypes from 'prop-types';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   checkIfFavorite,
   checkIfInterest,
@@ -96,6 +96,15 @@ export const AnuncioProvider = ({ children }) => {
 
     setAnuncios(auxAnuncios);
   };
+
+  const clearAll = () => {
+    setActiveAnuncio({});
+    setAnuncios([]);
+  };
+
+  useEffect(() => {
+    clearAll();
+  }, [userToken]);
 
   return (
     <AnuncioContext.Provider
