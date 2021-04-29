@@ -1,30 +1,47 @@
 /* eslint-disable no-restricted-syntax */
 import { repoolApi } from './base';
 
-const subscriberEndpoint = '/subscriber/property';
-const ownerEndpoint = '/owner/property';
+const subscriberEndpoint = '/subscriber';
+const ownerEndpoint = '/owner';
 
 const propriedadeApi = {
   getAll: async () => {},
 
-  getAsOwner: async (token) => {
-    const response = await repoolApi.get(ownerEndpoint, {
+  getAsOwner: async (userToken) => {
+    const response = await repoolApi.get(`${ownerEndpoint}/property`, {
       headers: {
-        Authorization: token,
+        Authorization: userToken,
       },
     });
     const propriedades = response.data;
     return propriedades;
   },
 
-  getAsInquilino: async (token) => {
-    const response = await repoolApi.get(`${subscriberEndpoint}/inquilino`);
-    return response.data;
+  getAsInquilino: async (userToken) => {},
+
+  getOne: async (id, userToken) => {
+    const response = await repoolApi.get(`${ownerEndpoint}/${id}/property`, {
+      headers: {
+        Authorization: userToken,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    const propriedade = response.data;
+    return propriedade;
   },
 
-  getOne: async (id) => {
-    const response = await repoolApi.get(`${subscriberEndpoint}/${id}`);
-    return response.data;
+  getInterests: async (propertyId, userToken) => {
+    const response = await repoolApi.get(
+      `${ownerEndpoint}/property/${propertyId}/interests`,
+      {
+        headers: {
+          Authorization: userToken,
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    const propertyInterests = response.data;
+    return propertyInterests;
   },
 
   postAsSubscriber: async (propriedade, photo, userToken) => {
@@ -35,12 +52,16 @@ const propriedadeApi = {
       formData.append(key, value);
     }
 
-    const response = await repoolApi.post(subscriberEndpoint, formData, {
-      headers: {
-        Authorization: userToken,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await repoolApi.post(
+      `${subscriberEndpoint}/property`,
+      formData,
+      {
+        headers: {
+          Authorization: userToken,
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
     return response.data;
   },
 
@@ -57,9 +78,13 @@ const propriedadeApi = {
       'Content-Type': 'application/json',
     };
 
-    const response = await repoolApi.post(`${ownerEndpoint}`, formData, {
-      headers,
-    });
+    const response = await repoolApi.post(
+      `${ownerEndpoint}/property`,
+      formData,
+      {
+        headers,
+      }
+    );
     return response.data;
   },
 

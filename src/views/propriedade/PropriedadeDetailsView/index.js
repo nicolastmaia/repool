@@ -18,10 +18,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomSnackbar from 'src/components/CustomSnackbar';
 import AnuncioContext from 'src/contexts/AnuncioContext';
+import PropriedadeContext from 'src/contexts/PropriedadeContext';
+import UserInfoDialog from 'src/components/UserInfoDialog';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
 import ImageList from './ImageList';
 import PropriedadeDescription from './PropriedadeDescription';
+import InterestedUsers from './InterestedUsers';
 
 const useStyles = makeStyles((theme) => ({
   root: { paddingTop: '1em', paddingBottom: '1em' },
@@ -63,11 +66,15 @@ const useStyles = makeStyles((theme) => ({
 const PropriedadeDetails = ({ className, ...rest }) => {
   const classes = useStyles();
   const [value] = useState(2.1);
-  const { activeAnuncio, fetchActiveAnuncio } = useContext(AnuncioContext);
-  const { comodidades } = activeAnuncio;
+  const {
+    activePropriedade,
+    activePropInterests,
+    fetchActivePropriedade,
+  } = useContext(PropriedadeContext);
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
-
+  const [isUserInfoDialogOpen, setUserInfoDialogOpen] = useState(false);
+  const [dialogUserInfo, setDialogUserInfo] = useState(null);
   const navigate = useNavigate();
 
   const { pathname } = window.location;
@@ -82,13 +89,18 @@ const PropriedadeDetails = ({ className, ...rest }) => {
 
   const handleDeletePress = () => {};
 
+  const toggleDialog = (userData) => {
+    setDialogUserInfo(userData || null);
+    setUserInfoDialogOpen((prevState) => !prevState);
+  };
+
   useEffect(() => {
-    const activeAnuncioId = pathname.replace('/propriedades/', '');
-    const fetchOneAd = async () => {
-      const message = await fetchActiveAnuncio(activeAnuncioId);
+    const activePropriedadeId = pathname.replace('/propriedades/', '');
+    const fetchOneId = async () => {
+      const message = await fetchActivePropriedade(activePropriedadeId);
       setSnackbarMessage(message);
     };
-    fetchOneAd();
+    fetchOneId();
   }, [pathname]);
 
   return (
@@ -102,7 +114,7 @@ const PropriedadeDetails = ({ className, ...rest }) => {
           className={classes.textGutterBottom}
         >
           <Grid item>
-            <Typography variant='h1'>{activeAnuncio.name}</Typography>
+            <Typography variant='h1'>{activePropriedade.name}</Typography>
           </Grid>
           <Grid item>
             <Button
@@ -140,64 +152,78 @@ const PropriedadeDetails = ({ className, ...rest }) => {
         </Grid>
       </Container>
 
-      <ImageList images={activeAnuncio.img} />
+      <ImageList images={activePropriedade.img} />
 
-      <PropriedadeDescription anuncio={activeAnuncio} />
+      <PropriedadeDescription anuncio={activePropriedade} />
 
       <Divider />
 
       <Container className={classes.pageBottomContainer}>
         <Grid container direction='row' wrap='wrap' spacing={10}>
-          <Grid item xs={12} sm={6}>
-            <Grid
-              container
-              direction='column'
-              justify='space-evenly'
-              spacing={6}
-            >
-              <Grid item>
-                <Typography gutterBottom variant='h2'>
-                  Comodidades
-                </Typography>
-              </Grid>
-              {comodidades &&
-                comodidades.map((comodidade) => (
+          {activePropriedade.comodidades ? (
+            <Grid item xs={12} sm={6}>
+              <Grid
+                container
+                direction='column'
+                justify='space-evenly'
+                spacing={6}
+              >
+                <Grid item>
+                  <Typography gutterBottom variant='h2'>
+                    Comodidades
+                  </Typography>
+                </Grid>
+                {activePropriedade.comodidades.map((comodidade) => (
                   <ComodidadeItem nome={comodidade.nome} />
                 ))}
+              </Grid>
             </Grid>
-          </Grid>
+          ) : (
+            <></>
+          )}
 
-          <Grid item xs={12} sm={6}>
-            <Grid
-              container
-              direction='column'
-              justify='space-evenly'
-              spacing={6}
-            >
-              <Grid item>
-                <Grid container direction='row' wrap='nowrap' spacing={2}>
-                  <Grid item>
-                    <StarIcon
-                      color='action'
-                      fontSize='large'
-                      style={{ color: '#3F51B5' }}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography gutterBottom variant='h2'>
-                      {/* TODO nota e quantidade de comentarios */}
-                      2,30 (132 Comentários)
-                    </Typography>
+          {activePropriedade.comentarios > 0 ? (
+            <Grid item xs={12} sm={6}>
+              <Grid
+                container
+                direction='column'
+                justify='space-evenly'
+                spacing={6}
+              >
+                <Grid item>
+                  <Grid container direction='row' wrap='nowrap' spacing={2}>
+                    <Grid item>
+                      <StarIcon
+                        color='action'
+                        fontSize='large'
+                        style={{ color: '#3F51B5' }}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Typography gutterBottom variant='h2'>
+                        {/* TODO nota e quantidade de comentarios */}
+                        2,30 (132 Comentários)
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item>
-                <List className={classes.commentList}>
-                  {/* TODO lista de comentarios que vem da api */}
-                  <ComentarioItem />
-                </List>
+                <Grid item>
+                  <List className={classes.commentList}>
+                    {/* TODO lista de comentarios que vem da api */}
+                    <ComentarioItem />
+                  </List>
+                </Grid>
               </Grid>
             </Grid>
+          ) : (
+            <></>
+          )}
+
+          <Grid item xs={12} sm={6}>
+            <InterestedUsers
+              data={activePropInterests}
+              toggleDialog={toggleDialog}
+            />
           </Grid>
         </Grid>
       </Container>
@@ -205,6 +231,11 @@ const PropriedadeDetails = ({ className, ...rest }) => {
       <CustomSnackbar
         message={snackbarMessage}
         handleCloseSnackbar={handleCloseSnackbar}
+      />
+      <UserInfoDialog
+        toggleDialog={toggleDialog}
+        data={dialogUserInfo}
+        isOpen={isUserInfoDialogOpen}
       />
     </Container>
   );

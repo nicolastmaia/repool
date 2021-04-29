@@ -41,6 +41,8 @@ const PropriedadeList = () => {
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
+  const { pathname } = window.location;
+
   const handleCloseSnackbar = () => {
     setSnackbarMessage('');
   };
@@ -49,7 +51,7 @@ const PropriedadeList = () => {
     fetchPropriedadesProprias();
     // TODO adicionar essa rota depois que estiver funcionando
     // fetchPropriedadeComoInquilino();
-  }, []);
+  }, [pathname]);
 
   return (
     <Page className={classes.root} title='Propriedades'>
