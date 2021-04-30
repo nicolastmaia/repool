@@ -12,9 +12,11 @@ import {
   List,
   ListItem,
   ListItemAvatar,
+  ListItemIcon,
   ListItemText,
   makeStyles,
 } from '@material-ui/core';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
@@ -44,7 +46,7 @@ const InterestedUsers = ({ className, data, toggleDialog, ...rest }) => {
           data.map((interest, i) => (
             <ListItem
               button
-              onClick={() => toggleDialog(interest.User)}
+              onClick={() => toggleDialog(interest)}
               divider={i < data.length - 1}
               key={interest.User.id}
             >
@@ -59,6 +61,13 @@ const InterestedUsers = ({ className, data, toggleDialog, ...rest }) => {
                 primary={interest.User.name}
                 secondary={`Celular: ${interest.User.cel}`}
               />
+              {interest.pConfirmation ? (
+                <ListItemIcon>
+                  <ScheduleIcon />
+                </ListItemIcon>
+              ) : (
+                <></>
+              )}
             </ListItem>
           ))
         ) : (

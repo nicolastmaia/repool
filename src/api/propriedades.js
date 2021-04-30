@@ -8,7 +8,7 @@ const propriedadeApi = {
   getAll: async () => {},
 
   getAsOwner: async (userToken) => {
-    const response = await repoolApi.get(`${ownerEndpoint}/property`, {
+    const response = await repoolApi.get(`${ownerEndpoint}/properties`, {
       headers: {
         Authorization: userToken,
       },
@@ -32,7 +32,7 @@ const propriedadeApi = {
 
   getInterests: async (propertyId, userToken) => {
     const response = await repoolApi.get(
-      `${ownerEndpoint}/property/${propertyId}/interests`,
+      `${ownerEndpoint}/property/${propertyId}/interest`,
       {
         headers: {
           Authorization: userToken,
@@ -42,6 +42,20 @@ const propriedadeApi = {
     );
     const propertyInterests = response.data;
     return propertyInterests;
+  },
+
+  ownerToggleConfirm: async (pConfirmation, interestId, userToken) => {
+    const response = await repoolApi.patch(
+      `${ownerEndpoint}/${interestId}/interest`,
+      { pConfirmation },
+      {
+        headers: {
+          Authorization: userToken,
+        },
+      }
+    );
+    const interest = response.data;
+    return interest;
   },
 
   postAsSubscriber: async (propriedade, photo, userToken) => {

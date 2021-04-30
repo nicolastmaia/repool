@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import propriedadeApi from 'src/api/propriedades';
 import { extractComodidades } from 'src/utils/anuncioUtils';
+import { substituteInterest } from 'src/utils/propriedadeUtils';
 
 import AuthContext from './AuthContext';
 
@@ -13,6 +14,7 @@ const PropriedadeContext = createContext({
   fetchPropriedadesProprias: null,
   fetchPropriedadeComoInquilino: null,
   fetchInterestedUsers: null,
+  ownerToggleConfirm: null,
   fetchActivePropriedade: null,
   savePropriedade: null,
 });
@@ -55,6 +57,29 @@ export const PropriedadeProvider = ({ children }) => {
       return 'error';
     }
   };
+
+  const ownerToggleConfirm = async (interestId) => {
+    const activeInterest = activePropInterests.find(
+      (interest) => interest.id === interestId
+    );
+    try {
+      const interest = await propriedadeApi.ownerToggleConfirm(
+        !activeInterest.pConfirmation,
+        interestId,
+        userToken
+      );
+      const editedActivePropInterests = substituteInterest(
+        interest,
+        activePropInterests
+      );
+      setActivePropInterests(editedActivePropInterests);
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
+  };
+
+  const subscriberConfirmRent = async () => {};
 
   const fetchActivePropriedade = async (id) => {
     try {
@@ -123,6 +148,7 @@ export const PropriedadeProvider = ({ children }) => {
         fetchPropriedadesProprias,
         fetchPropriedadeComoInquilino,
         fetchInterestedUsers,
+        ownerToggleConfirm,
         fetchActivePropriedade,
         savePropriedade,
       }}
