@@ -15,20 +15,18 @@ const PropriedadeContext = createContext({
   fetchPropriedadeComoInquilino: null,
   fetchInterestedUsers: null,
   ownerToggleConfirm: null,
+  subscriberConfirmRent: null,
+  subscriberRemoveRent: null,
   fetchActivePropriedade: null,
   savePropriedade: null,
 });
 
 export const PropriedadeProvider = ({ children }) => {
   const [propriedadesProprias, setPropriedadesProprias] = useState([]);
-  const [propriedadeComoInquilino, setPropriedadeComoInquilino] = useState(
-    null
-  );
+  const [propriedadeComoInquilino, setPropriedadeComoInquilino] = useState(null);
   const [activePropriedade, setActivePropriedade] = useState({});
   const [activePropInterests, setActivePropInterests] = useState([]);
-  const { user, userToken, reloadUser, changeUserToken } = useContext(
-    AuthContext
-  );
+  const { user, userToken, reloadUser, changeUserToken } = useContext(AuthContext);
 
   const fetchPropriedadesProprias = async () => {
     try {
@@ -46,10 +44,7 @@ export const PropriedadeProvider = ({ children }) => {
 
   const fetchInterestedUsers = async (propertyId) => {
     try {
-      const { interests } = await propriedadeApi.getInterests(
-        propertyId,
-        userToken
-      );
+      const { interests } = await propriedadeApi.getInterests(propertyId, userToken);
       setActivePropInterests(interests);
       return 'success';
     } catch (error) {
@@ -59,19 +54,14 @@ export const PropriedadeProvider = ({ children }) => {
   };
 
   const ownerToggleConfirm = async (interestId) => {
-    const activeInterest = activePropInterests.find(
-      (interest) => interest.id === interestId
-    );
+    const activeInterest = activePropInterests.find((interest) => interest.id === interestId);
     try {
       const interest = await propriedadeApi.ownerToggleConfirm(
         !activeInterest.pConfirmation,
         interestId,
         userToken
       );
-      const editedActivePropInterests = substituteInterest(
-        interest,
-        activePropInterests
-      );
+      const editedActivePropInterests = substituteInterest(interest, activePropInterests);
       setActivePropInterests(editedActivePropInterests);
       return 'success';
     } catch (error) {
@@ -79,7 +69,25 @@ export const PropriedadeProvider = ({ children }) => {
     }
   };
 
-  const subscriberConfirmRent = async () => {};
+  const subscriberConfirmRent = async (interestId) => {
+    try {
+      await propriedadeApi.subscriberConfirmRent(interestId, userToken);
+      await reloadUser();
+      return 'confirm';
+    } catch (error) {
+      return 'error';
+    }
+  };
+
+  const subscriberRemoveRent = async (rentId) => {
+    try {
+      await propriedadeApi.subscriberRemoveRent(rentId, userToken);
+      await reloadUser();
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
+  };
 
   const fetchActivePropriedade = async (id) => {
     try {
@@ -105,10 +113,7 @@ export const PropriedadeProvider = ({ children }) => {
   const savePropriedade = async (propriedade, photo) => {
     try {
       if (user.role === 'USER') {
-        const [
-          newPropriedade,
-          newOwnerToken,
-        ] = await propriedadeApi.postAsSubscriber(
+        const [newPropriedade, newOwnerToken] = await propriedadeApi.postAsSubscriber(
           propriedade,
           photo,
           userToken
@@ -126,6 +131,7 @@ export const PropriedadeProvider = ({ children }) => {
 
   const clearAll = () => {
     setActivePropriedade({});
+    setActivePropInterests();
     setPropriedadeComoInquilino([]);
     setPropriedadesProprias([]);
   };
@@ -149,6 +155,8 @@ export const PropriedadeProvider = ({ children }) => {
         fetchPropriedadeComoInquilino,
         fetchInterestedUsers,
         ownerToggleConfirm,
+        subscriberConfirmRent,
+        subscriberRemoveRent,
         fetchActivePropriedade,
         savePropriedade,
       }}

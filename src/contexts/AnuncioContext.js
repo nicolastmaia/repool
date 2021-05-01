@@ -5,6 +5,7 @@ import {
   checkIfFavorite,
   checkIfInterest,
   checkIfMyProperty,
+  checkIfActiveRent,
   extractComodidades,
 } from 'src/utils/anuncioUtils';
 import anuncioApi from '../api/anuncios';
@@ -23,9 +24,7 @@ const AnuncioContext = createContext({
 export const AnuncioProvider = ({ children }) => {
   const [anuncios, setAnuncios] = useState([]);
   const [activeAnuncio, setActiveAnuncio] = useState({});
-  const { userToken, user, reloadUser, favorites, fetchFavorites } = useContext(
-    AuthContext
-  );
+  const { userToken, user, reloadUser, favorites, fetchFavorites } = useContext(AuthContext);
 
   const fetchAnuncios = async () => {
     try {
@@ -38,6 +37,7 @@ export const AnuncioProvider = ({ children }) => {
         auxAnuncios.push(editedAnuncio);
       }
       setAnuncios(auxAnuncios);
+      await reloadUser();
       return 'success';
     } catch (error) {
       return 'error';
@@ -49,6 +49,7 @@ export const AnuncioProvider = ({ children }) => {
       const tmpAnuncio = await anuncioApi.getOne(id);
       let editedAnuncio = extractComodidades(tmpAnuncio);
       editedAnuncio = checkIfInterest(editedAnuncio, user);
+      editedAnuncio = checkIfActiveRent(editedAnuncio, user);
       editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
       setActiveAnuncio(editedAnuncio);
       return 'success';
@@ -77,7 +78,7 @@ export const AnuncioProvider = ({ children }) => {
       } else {
         await anuncioApi.removeInterest(userToken, anuncioId);
         setActiveAnuncio((prevState) => {
-          return { ...prevState, isInterest: false };
+          return { ...prevState, isInterest: false, interest: null };
         });
       }
       reloadUser();

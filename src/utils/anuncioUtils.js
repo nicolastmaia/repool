@@ -1,12 +1,6 @@
 module.exports = {
   extractComodidades: (anuncio) => {
-    const {
-      hasPool,
-      hasGarage,
-      hasGourmet,
-      hasInternet,
-      isPetFriendly,
-    } = anuncio;
+    const { hasPool, hasGarage, hasGourmet, hasInternet, isPetFriendly } = anuncio;
 
     anuncio.comodidades = [];
 
@@ -20,23 +14,28 @@ module.exports = {
   },
 
   checkIfFavorite: (anuncio, favorites) => {
-    anuncio.isFavorite = !!favorites.find(
-      (element) => element.id === anuncio.id
-    );
+    anuncio.isFavorite = !!favorites.find((element) => element.id === anuncio.id);
     return anuncio;
   },
 
   checkIfInterest: (anuncio, user) => {
-    anuncio.isInterest = !!user.interests.find(
-      (element) => element.propertyId === anuncio.id
-    );
+    anuncio.interest = user.interests.find((element) => element.propertyId === anuncio.id);
+
+    anuncio.isInterest = !!anuncio.interest;
+    return anuncio;
+  },
+
+  checkIfActiveRent: (anuncio, user) => {
+    anuncio.rent = null;
+    if (user.rent.length > 0) {
+      const rent = user.rent.find((element) => element.propertyId === anuncio.id);
+      anuncio.rent = rent && rent.isActive ? rent : null;
+    }
     return anuncio;
   },
 
   checkIfMyProperty: (anuncio, myProperties) => {
-    anuncio.isMyProperty = !!myProperties.find(
-      (element) => element.id === anuncio.id
-    );
+    anuncio.isMyProperty = !!myProperties.find((element) => element.id === anuncio.id);
     return anuncio;
   },
 };

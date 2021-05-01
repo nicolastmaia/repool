@@ -31,15 +31,12 @@ const propriedadeApi = {
   },
 
   getInterests: async (propertyId, userToken) => {
-    const response = await repoolApi.get(
-      `${ownerEndpoint}/property/${propertyId}/interest`,
-      {
-        headers: {
-          Authorization: userToken,
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
+    const response = await repoolApi.get(`${ownerEndpoint}/property/${propertyId}/interest`, {
+      headers: {
+        Authorization: userToken,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     const propertyInterests = response.data;
     return propertyInterests;
   },
@@ -58,6 +55,29 @@ const propriedadeApi = {
     return interest;
   },
 
+  subscriberConfirmRent: async (interestId, userToken) => {
+    const response = await repoolApi.patch(
+      `${subscriberEndpoint}/${interestId}/interest`,
+      { uConfirmation: true },
+      {
+        headers: {
+          Authorization: userToken,
+        },
+      }
+    );
+    return response.data;
+  },
+
+  subscriberRemoveRent: async (rentId, userToken) => {
+    const response = await repoolApi.delete(`${subscriberEndpoint}/${rentId}/rent`, {
+      headers: {
+        Authorization: userToken,
+      },
+    });
+    const inactiveRent = response.data;
+    return inactiveRent;
+  },
+
   postAsSubscriber: async (propriedade, photo, userToken) => {
     const formData = new FormData();
     formData.append('img', photo);
@@ -66,16 +86,12 @@ const propriedadeApi = {
       formData.append(key, value);
     }
 
-    const response = await repoolApi.post(
-      `${subscriberEndpoint}/property`,
-      formData,
-      {
-        headers: {
-          Authorization: userToken,
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
+    const response = await repoolApi.post(`${subscriberEndpoint}/property`, formData, {
+      headers: {
+        Authorization: userToken,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
 
@@ -92,13 +108,9 @@ const propriedadeApi = {
       'Content-Type': 'application/json',
     };
 
-    const response = await repoolApi.post(
-      `${ownerEndpoint}/property`,
-      formData,
-      {
-        headers,
-      }
-    );
+    const response = await repoolApi.post(`${ownerEndpoint}/property`, formData, {
+      headers,
+    });
     return response.data;
   },
 

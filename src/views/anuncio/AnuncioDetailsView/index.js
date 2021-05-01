@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import HandIcon from '@material-ui/icons/PanTool';
@@ -21,6 +22,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import CustomSnackbar from 'src/components/CustomSnackbar';
 import AnuncioContext from 'src/contexts/AnuncioContext';
 import AuthContext from 'src/contexts/AuthContext';
+import PropriedadeContext from 'src/contexts/PropriedadeContext';
 import AnuncioDescription from './AnuncioDescription';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
@@ -66,13 +68,11 @@ const useStyles = makeStyles((theme) => ({
 const AnuncioDetails = ({ className, ...rest }) => {
   const classes = useStyles();
   const [value] = useState(2.1);
-  const {
-    activeAnuncio,
-    fetchActiveAnuncio,
-    toggleInterest,
-    toggleFavorite,
-  } = useContext(AnuncioContext);
-  const { favorites } = useContext(AuthContext);
+  const { activeAnuncio, fetchActiveAnuncio, toggleInterest, toggleFavorite } = useContext(
+    AnuncioContext
+  );
+  const { subscriberConfirmRent, subscriberRemoveRent } = useContext(PropriedadeContext);
+  const { favorites, user } = useContext(AuthContext);
   const { comodidades } = activeAnuncio;
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -91,6 +91,16 @@ const AnuncioDetails = ({ className, ...rest }) => {
     setSnackbarMessage(message);
   };
 
+  const handleConfirmRent = async () => {
+    const message = await subscriberConfirmRent(activeAnuncio.interest.id);
+    setSnackbarMessage(message);
+  };
+
+  const handleRemoveRent = async () => {
+    const message = await subscriberRemoveRent(activeAnuncio.rent.id);
+    setSnackbarMessage(message);
+  };
+
   useEffect(() => {
     const { pathname } = window.location;
 
@@ -100,7 +110,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
       setSnackbarMessage(message);
     };
     fetchOneAd();
-  }, [favorites]);
+  }, [favorites, user]);
 
   return (
     <Container className={classes.root}>
@@ -116,37 +126,66 @@ const AnuncioDetails = ({ className, ...rest }) => {
             <Typography variant='h1'>{activeAnuncio.name}</Typography>
           </Grid>
           <Grid item>
-            {activeAnuncio.isInterest ? (
-              <Button
-                className={classes.removeButton}
-                fullWidth
-                variant='contained'
-                startIcon={<DeleteIcon />}
-                onClick={handleInterestPress}
-              >
-                Remover Interesse
-              </Button>
+            {!activeAnuncio.rent ? (
+              <Grid container spacing={2}>
+                <Grid item>
+                  {activeAnuncio.isInterest ? (
+                    <Button
+                      className={classes.removeButton}
+                      fullWidth
+                      variant='contained'
+                      startIcon={<DeleteIcon />}
+                      onClick={handleInterestPress}
+                    >
+                      Remover Interesse
+                    </Button>
+                  ) : (
+                    <Button
+                      color='primary'
+                      className={classes.interestButton}
+                      fullWidth
+                      variant='contained'
+                      startIcon={<HandIcon />}
+                      onClick={handleInterestPress}
+                    >
+                      Demonstrar Interesse
+                    </Button>
+                  )}
+                </Grid>
+                {activeAnuncio.interest && activeAnuncio.interest.pConfirmation ? (
+                  <Grid item>
+                    <Button
+                      color='primary'
+                      className={classes.interestButton}
+                      fullWidth
+                      variant='contained'
+                      startIcon={<DoneAllIcon />}
+                      onClick={handleConfirmRent}
+                    >
+                      Confirmar aluguel
+                    </Button>
+                  </Grid>
+                ) : (
+                  ''
+                )}
+              </Grid>
             ) : (
-              <Button
-                color='primary'
-                className={classes.interestButton}
-                fullWidth
-                variant='contained'
-                startIcon={<HandIcon />}
-                onClick={handleInterestPress}
-              >
-                Demonstrar Interesse
-              </Button>
+              <Grid item>
+                <Button
+                  className={classes.removeButton}
+                  fullWidth
+                  variant='contained'
+                  startIcon={<DeleteIcon />}
+                  onClick={handleRemoveRent}
+                >
+                  Desfazer aluguel
+                </Button>
+              </Grid>
             )}
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          justify='space-between'
-          alignItems='baseline'
-          spacing={2}
-        >
+        <Grid container justify='space-between' alignItems='baseline' spacing={2}>
           <Grid item>
             <Rating name='read-only' value={value} precision={0.2} readOnly />
           </Grid>
@@ -179,39 +218,23 @@ const AnuncioDetails = ({ className, ...rest }) => {
       <Container className={classes.pageBottomContainer}>
         <Grid container direction='row' wrap='wrap' spacing={10}>
           <Grid item xs={12} sm={6}>
-            <Grid
-              container
-              direction='column'
-              justify='space-evenly'
-              spacing={6}
-            >
+            <Grid container direction='column' justify='space-evenly' spacing={6}>
               <Grid item>
                 <Typography gutterBottom variant='h2'>
                   Comodidades
                 </Typography>
               </Grid>
               {comodidades &&
-                comodidades.map((comodidade) => (
-                  <ComodidadeItem nome={comodidade.nome} />
-                ))}
+                comodidades.map((comodidade) => <ComodidadeItem nome={comodidade.nome} />)}
             </Grid>
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <Grid
-              container
-              direction='column'
-              justify='space-evenly'
-              spacing={6}
-            >
+            <Grid container direction='column' justify='space-evenly' spacing={6}>
               <Grid item>
                 <Grid container direction='row' wrap='nowrap' spacing={2}>
                   <Grid item>
-                    <StarIcon
-                      color='action'
-                      fontSize='large'
-                      style={{ color: '#3F51B5' }}
-                    />
+                    <StarIcon color='action' fontSize='large' style={{ color: '#3F51B5' }} />
                   </Grid>
                   <Grid item>
                     <Typography gutterBottom variant='h2'>
@@ -232,10 +255,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
         </Grid>
       </Container>
       <Divider />
-      <CustomSnackbar
-        message={snackbarMessage}
-        handleCloseSnackbar={handleCloseSnackbar}
-      />
+      <CustomSnackbar message={snackbarMessage} handleCloseSnackbar={handleCloseSnackbar} />
     </Container>
   );
 };
