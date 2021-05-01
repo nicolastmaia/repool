@@ -1,13 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import {
-  Button,
-  Container,
-  Divider,
-  Grid,
-  List,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Button, Container, Divider, Grid, List, makeStyles, Typography } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -50,27 +42,26 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '0',
     paddingBottom: '0',
   },
-  interestButton: {
+  editButton: {
     height: '3.5em',
   },
   removeButton: {
     height: '3.5em',
-    color: '#FFFFFF',
-    backgroundColor: red[400],
+    color: red[400],
+    borderColor: red[400],
     '&:hover': {
+      borderColor: red[700],
       backgroundColor: red[700],
+      color: '#FFFFFF',
     },
   },
 }));
 
 const PropriedadeDetails = ({ className, ...rest }) => {
   const classes = useStyles();
-  const [value] = useState(2.1);
-  const {
-    activePropriedade,
-    activePropInterests,
-    fetchActivePropriedade,
-  } = useContext(PropriedadeContext);
+  const { activePropriedade, activePropInterests, fetchActivePropriedade } = useContext(
+    PropriedadeContext
+  );
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [isUserInfoDialogOpen, setUserInfoDialogOpen] = useState(false);
@@ -117,37 +108,36 @@ const PropriedadeDetails = ({ className, ...rest }) => {
             <Typography variant='h1'>{activePropriedade.name}</Typography>
           </Grid>
           <Grid item>
-            <Button
-              className={classes.interestButton}
-              fullWidth
-              variant='contained'
-              startIcon={<EditIcon />}
-              onClick={handleEditPress}
-            >
-              Editar Propriedade
-            </Button>
+            <Grid container spacing={2}>
+              <Grid item>
+                <Button
+                  className={classes.editButton}
+                  fullWidth
+                  variant='contained'
+                  startIcon={<EditIcon />}
+                  onClick={handleEditPress}
+                >
+                  Editar Propriedade
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  className={classes.removeButton}
+                  fullWidth
+                  variant='outlined'
+                  startIcon={<DeleteIcon />}
+                  onClick={handleDeletePress}
+                >
+                  Remover Propriedade
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          justify='space-between'
-          alignItems='baseline'
-          spacing={2}
-        >
+        <Grid container justify='flex-start' alignItems='baseline' spacing={2}>
           <Grid item>
-            <Rating name='read-only' value={value} precision={0.2} readOnly />
-          </Grid>
-          <Grid item>
-            <Button
-              className={classes.removeButton}
-              fullWidth
-              variant='contained'
-              startIcon={<DeleteIcon />}
-              onClick={handleDeletePress}
-            >
-              Deletar Propriedade
-            </Button>
+            <Rating name='read-only' value={activePropriedade.avg.value} precision={0.2} readOnly />
           </Grid>
         </Grid>
       </Container>
@@ -162,12 +152,7 @@ const PropriedadeDetails = ({ className, ...rest }) => {
         <Grid container direction='row' wrap='wrap' spacing={10}>
           {activePropriedade.comodidades ? (
             <Grid item xs={12} sm={6}>
-              <Grid
-                container
-                direction='column'
-                justify='space-evenly'
-                spacing={6}
-              >
+              <Grid container direction='column' justify='space-evenly' spacing={6}>
                 <Grid item>
                   <Typography gutterBottom variant='h2'>
                     Comodidades
@@ -184,25 +169,16 @@ const PropriedadeDetails = ({ className, ...rest }) => {
 
           {activePropriedade.comentarios > 0 ? (
             <Grid item xs={12} sm={6}>
-              <Grid
-                container
-                direction='column'
-                justify='space-evenly'
-                spacing={6}
-              >
+              <Grid container direction='column' justify='space-evenly' spacing={6}>
                 <Grid item>
                   <Grid container direction='row' wrap='nowrap' spacing={2}>
                     <Grid item>
-                      <StarIcon
-                        color='action'
-                        fontSize='large'
-                        style={{ color: '#3F51B5' }}
-                      />
+                      <StarIcon color='action' fontSize='large' style={{ color: '#3F51B5' }} />
                     </Grid>
                     <Grid item>
                       <Typography gutterBottom variant='h2'>
                         {/* TODO nota e quantidade de comentarios */}
-                        2,30 (132 Comentários)
+                        {`${activePropriedade.avg.value || 'Sem nota'} (${0} comentários)`}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -220,18 +196,12 @@ const PropriedadeDetails = ({ className, ...rest }) => {
           )}
 
           <Grid item xs={12} sm={6}>
-            <InterestedUsers
-              data={activePropInterests}
-              toggleDialog={toggleDialog}
-            />
+            <InterestedUsers data={activePropInterests} toggleDialog={toggleDialog} />
           </Grid>
         </Grid>
       </Container>
       <Divider />
-      <CustomSnackbar
-        message={snackbarMessage}
-        handleCloseSnackbar={handleCloseSnackbar}
-      />
+      <CustomSnackbar message={snackbarMessage} handleCloseSnackbar={handleCloseSnackbar} />
       <UserInfoDialog
         toggleDialog={toggleDialog}
         data={dialogUserInfo}

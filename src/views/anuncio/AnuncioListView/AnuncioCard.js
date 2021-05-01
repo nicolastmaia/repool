@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
-  const [value, setValue] = useState(2);
   const { toggleFavorite } = useContext(AnuncioContext);
   const { comodidades, isFavorite, isMyProperty } = anuncio;
 
@@ -58,13 +57,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent classes={{ root: classes.cardContentRoot }}>
-        <Link
-          to={
-            anuncio.isMyProperty
-              ? `/propriedades/${anuncio.id}`
-              : `/anuncios/${anuncio.id}`
-          }
-        >
+        <Link to={anuncio.isMyProperty ? `/propriedades/${anuncio.id}` : `/anuncios/${anuncio.id}`}>
           <Box position='relative' mb={3}>
             <Avatar
               alt='Anuncio'
@@ -78,8 +71,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
                   <Avatar
                     variant='square'
                     style={{
-                      backgroundColor:
-                        comodidadesContent[comodidade.nome].lightColor,
+                      backgroundColor: comodidadesContent[comodidade.nome].lightColor,
                     }}
                     className={classes.comodidadeIcon}
                   >
@@ -95,12 +87,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
             </Box>
           </Box>
 
-          <Typography
-            align='center'
-            color='textPrimary'
-            gutterBottom
-            variant='h4'
-          >
+          <Typography align='center' color='textPrimary' gutterBottom variant='h4'>
             {anuncio.name}
           </Typography>
           <Typography align='center' color='textPrimary' variant='body1'>
@@ -111,19 +98,10 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
 
       <Divider />
       <Box p={0.5}>
-        <Grid container justify='space-between' spacing={2}>
-          <Grid className={classes.statsItem} item>
-            <Box component='fieldset' borderColor='transparent'>
-              <Rating name='read-only' value={value} precision={0.2} readOnly />
-            </Box>
-          </Grid>
+        <Grid container justify='flex-end' spacing={2}>
           {!isMyProperty ? (
             <IconButton onClick={handleFavoritePress}>
-              {isFavorite ? (
-                <FavoriteIcon color='action' />
-              ) : (
-                <FavoriteBorderIcon color='action' />
-              )}
+              {isFavorite ? <FavoriteIcon color='action' /> : <FavoriteBorderIcon color='action' />}
             </IconButton>
           ) : (
             <></>

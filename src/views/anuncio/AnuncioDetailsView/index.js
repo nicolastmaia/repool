@@ -187,7 +187,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
 
         <Grid container justify='space-between' alignItems='baseline' spacing={2}>
           <Grid item>
-            <Rating name='read-only' value={value} precision={0.2} readOnly />
+            <Rating name='read-only' value={activeAnuncio.avg.value} precision={0.2} readOnly />
           </Grid>
           <IconButton onClick={handleFavoritePress}>
             {activeAnuncio.isFavorite ? (
@@ -229,29 +229,33 @@ const AnuncioDetails = ({ className, ...rest }) => {
             </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Grid container direction='column' justify='space-evenly' spacing={6}>
-              <Grid item>
-                <Grid container direction='row' wrap='nowrap' spacing={2}>
-                  <Grid item>
-                    <StarIcon color='action' fontSize='large' style={{ color: '#3F51B5' }} />
-                  </Grid>
-                  <Grid item>
-                    <Typography gutterBottom variant='h2'>
-                      {/* TODO nota e quantidade de comentarios */}
-                      2,30 (132 Comentários)
-                    </Typography>
+          {activeAnuncio.comentarios > 0 ? (
+            <Grid item xs={12} sm={6}>
+              <Grid container direction='column' justify='space-evenly' spacing={6}>
+                <Grid item>
+                  <Grid container direction='row' wrap='nowrap' spacing={2}>
+                    <Grid item>
+                      <StarIcon color='action' fontSize='large' style={{ color: '#3F51B5' }} />
+                    </Grid>
+                    <Grid item>
+                      <Typography gutterBottom variant='h2'>
+                        {/* TODO nota e quantidade de comentarios */}
+                        {`${activeAnuncio.avg.value || 'Sem nota'} (${0} comentários)`}
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item>
-                <List className={classes.commentList}>
-                  {/* TODO lista de comentarios que vem da api */}
-                  <ComentarioItem />
-                </List>
+                <Grid item>
+                  <List className={classes.commentList}>
+                    {/* TODO lista de comentarios que vem da api */}
+                    {/* <ComentarioItem /> */}
+                  </List>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          ) : (
+            <></>
+          )}
         </Grid>
       </Container>
       <Divider />
