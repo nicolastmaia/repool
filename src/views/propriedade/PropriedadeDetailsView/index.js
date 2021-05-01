@@ -9,14 +9,14 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomSnackbar from 'src/components/CustomSnackbar';
-import AnuncioContext from 'src/contexts/AnuncioContext';
-import PropriedadeContext from 'src/contexts/PropriedadeContext';
 import UserInfoDialog from 'src/components/UserInfoDialog';
+import PropriedadeContext from 'src/contexts/PropriedadeContext';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
 import ImageList from './ImageList';
-import PropriedadeDescription from './PropriedadeDescription';
 import InterestedUsers from './InterestedUsers';
+import RentUsers from './RentUsers';
+import PropriedadeDescription from './PropriedadeDescription';
 
 const useStyles = makeStyles((theme) => ({
   root: { paddingTop: '1em', paddingBottom: '1em' },
@@ -59,9 +59,12 @@ const useStyles = makeStyles((theme) => ({
 
 const PropriedadeDetails = ({ className, ...rest }) => {
   const classes = useStyles();
-  const { activePropriedade, activePropInterests, fetchActivePropriedade } = useContext(
-    PropriedadeContext
-  );
+  const {
+    activePropriedade,
+    activePropInterests,
+    activePropRents,
+    fetchActivePropriedade,
+  } = useContext(PropriedadeContext);
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [isUserInfoDialogOpen, setUserInfoDialogOpen] = useState(false);
@@ -137,7 +140,12 @@ const PropriedadeDetails = ({ className, ...rest }) => {
 
         <Grid container justify='flex-start' alignItems='baseline' spacing={2}>
           <Grid item>
-            <Rating name='read-only' value={activePropriedade.avg.value} precision={0.2} readOnly />
+            <Rating
+              name='read-only'
+              value={activePropriedade.avg ? activePropriedade.avg.value : null}
+              precision={0.2}
+              readOnly
+            />
           </Grid>
         </Grid>
       </Container>
@@ -197,6 +205,10 @@ const PropriedadeDetails = ({ className, ...rest }) => {
 
           <Grid item xs={12} sm={6}>
             <InterestedUsers data={activePropInterests} toggleDialog={toggleDialog} />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <RentUsers data={activePropRents} toggleDialog={toggleDialog} />
           </Grid>
         </Grid>
       </Container>

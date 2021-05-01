@@ -9,11 +9,13 @@ import AuthContext from './AuthContext';
 const PropriedadeContext = createContext({
   activePropriedade: null,
   activePropInterests: null,
+  activePropRents: null,
   propriedadesProprias: null,
   activeRentAsInquilino: null,
   inactiveRentsAsInquilino: null,
   fetchPropriedadesProprias: null,
   fetchRentsAsInquilino: null,
+  fetchRentsAsOwner: null,
   fetchInterestedUsers: null,
   ownerToggleConfirm: null,
   subscriberConfirmRent: null,
@@ -28,13 +30,14 @@ export const PropriedadeProvider = ({ children }) => {
   const [inactiveRentsAsInquilino, setInactiveRentsAsInquilino] = useState([]);
   const [activePropriedade, setActivePropriedade] = useState({});
   const [activePropInterests, setActivePropInterests] = useState([]);
+  const [activePropRents, setActivePropRents] = useState([]);
 
   const { user, userToken, reloadUser, changeUserToken } = useContext(AuthContext);
 
   const fetchPropriedadesProprias = async () => {
     try {
       if (user.role !== 'USER') {
-        const response = await propriedadeApi.getAsOwner(userToken);
+        const response = await propriedadeApi.getPropertiesAsOwner(userToken);
         setPropriedadesProprias(response);
         return 'success';
       }
@@ -105,13 +108,23 @@ export const PropriedadeProvider = ({ children }) => {
 
   const fetchRentsAsInquilino = async () => {
     try {
-      const rents = await propriedadeApi.getAsInquilino(userToken);
+      const rents = await propriedadeApi.getRentsAsInquilino(userToken);
       const [activeRent, inactiveRent] = separateActiveAndInactive(rents);
       setActiveRentAsInquilino(activeRent);
       setInactiveRentsAsInquilino(inactiveRent);
       return 'success';
     } catch (error) {
       return 'error';
+    }
+  };
+
+  const fetchRentsAsOwner = async (propertyId) => {
+    try {
+      const rents = await propriedadeApi.getRentsAsOwner(propertyId, userToken);
+      setActivePropRents(rents);
+      return 'success';
+    } catch (error) {
+      return 'message';
     }
   };
 
@@ -143,7 +156,11 @@ export const PropriedadeProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchInterestedUsers(activePropriedade.id);
+    const fetchMoreData = async () => {
+      await fetchInterestedUsers(activePropriedade.id);
+      await fetchRentsAsOwner(activePropriedade.id);
+    };
+    fetchMoreData();
   }, [activePropriedade]);
 
   useEffect(() => {
@@ -155,11 +172,13 @@ export const PropriedadeProvider = ({ children }) => {
       value={{
         activePropriedade,
         activePropInterests,
+        activePropRents,
         propriedadesProprias,
         activeRentAsInquilino,
         inactiveRentsAsInquilino,
         fetchPropriedadesProprias,
         fetchRentsAsInquilino,
+        fetchRentsAsOwner,
         fetchInterestedUsers,
         ownerToggleConfirm,
         subscriberConfirmRent,

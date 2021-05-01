@@ -187,7 +187,12 @@ const AnuncioDetails = ({ className, ...rest }) => {
 
         <Grid container justify='space-between' alignItems='baseline' spacing={2}>
           <Grid item>
-            <Rating name='read-only' value={activeAnuncio.avg.value} precision={0.2} readOnly />
+            <Rating
+              name='read-only'
+              value={activeAnuncio.avg ? activeAnuncio.avg.value : null}
+              precision={0.2}
+              readOnly
+            />
           </Grid>
           <IconButton onClick={handleFavoritePress}>
             {activeAnuncio.isFavorite ? (

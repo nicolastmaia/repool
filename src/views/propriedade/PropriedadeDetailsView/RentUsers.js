@@ -25,36 +25,26 @@ const useStyles = makeStyles({
   },
 });
 
-const InterestedUsers = ({ className, data, toggleDialog, ...rest }) => {
+const RentUsers = ({ className, data, toggleDialog, ...rest }) => {
   const classes = useStyles();
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader subtitle={`${data.length} no total`} title='Usuários Interessados' />
+      <CardHeader subtitle={`${data.length} no total`} title='Usuários morando nessa propriedade' />
       <Divider />
       <List>
         {data.length > 0 ? (
-          data.map((interest, i) => (
+          data.map((rent, i) => (
             <ListItem
               button
-              onClick={() => toggleDialog(interest)}
+              onClick={() => toggleDialog(rent)}
               divider={i < data.length - 1}
-              key={interest.User.id}
+              key={rent.guest.id}
             >
               <ListItemAvatar>
-                <img alt='user' className={classes.image} src={interest.User.avatar} />
+                <img alt='guest' className={classes.image} src={rent.guest.avatar} />
               </ListItemAvatar>
-              <ListItemText
-                primary={interest.User.name}
-                secondary={`Celular: ${interest.User.cel}`}
-              />
-              {interest.pConfirmation ? (
-                <ListItemIcon>
-                  <ScheduleIcon />
-                </ListItemIcon>
-              ) : (
-                <></>
-              )}
+              <ListItemText primary={rent.guest.name} secondary={`Celular: ${rent.guest.cel}`} />
             </ListItem>
           ))
         ) : (
@@ -66,10 +56,10 @@ const InterestedUsers = ({ className, data, toggleDialog, ...rest }) => {
   );
 };
 
-InterestedUsers.propTypes = {
+RentUsers.propTypes = {
   data: PropTypes.array,
   className: PropTypes.string,
   toggleDialog: PropTypes.func,
 };
 
-export default InterestedUsers;
+export default RentUsers;

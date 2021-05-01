@@ -7,7 +7,7 @@ const ownerEndpoint = '/owner';
 const propriedadeApi = {
   getAll: async () => {},
 
-  getAsOwner: async (userToken) => {
+  getPropertiesAsOwner: async (userToken) => {
     const response = await repoolApi.get(`${ownerEndpoint}/properties`, {
       headers: {
         Authorization: userToken,
@@ -17,8 +17,17 @@ const propriedadeApi = {
     return propriedades;
   },
 
-  getAsInquilino: async (userToken) => {
+  getRentsAsInquilino: async (userToken) => {
     const response = await repoolApi.get(`${subscriberEndpoint}/rent`, {
+      headers: {
+        Authorization: userToken,
+      },
+    });
+    return response.data;
+  },
+
+  getRentsAsOwner: async (propertyId, userToken) => {
+    const response = await repoolApi.get(`${ownerEndpoint}/property/${propertyId}/rents/active`, {
       headers: {
         Authorization: userToken,
       },
@@ -38,7 +47,7 @@ const propriedadeApi = {
   },
 
   getInterests: async (propertyId, userToken) => {
-    const response = await repoolApi.get(`${ownerEndpoint}/property/${propertyId}/interest`, {
+    const response = await repoolApi.get(`${ownerEndpoint}/property/${propertyId}/interests`, {
       headers: {
         Authorization: userToken,
         'Content-Type': 'multipart/form-data',
