@@ -37,7 +37,6 @@ export const AnuncioProvider = ({ children }) => {
         auxAnuncios.push(editedAnuncio);
       }
       setAnuncios(auxAnuncios);
-      await reloadUser();
       return 'success';
     } catch (error) {
       return 'error';
@@ -106,6 +105,10 @@ export const AnuncioProvider = ({ children }) => {
   useEffect(() => {
     clearAll();
   }, [userToken]);
+
+  useEffect(() => {
+    reloadUser();
+  }, [anuncios]);
 
   return (
     <AnuncioContext.Provider
