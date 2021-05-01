@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  Box,
-  Container,
-  Divider,
-  Grid,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Box, Container, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
@@ -35,8 +28,8 @@ const PropriedadeList = () => {
   const {
     propriedadesProprias,
     fetchPropriedadesProprias,
-    propriedadeComoInquilino,
-    fetchPropriedadeComoInquilino,
+    activeRentAsInquilino,
+    fetchRentsAsInquilino,
   } = useContext(PropriedadeContext);
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -48,9 +41,11 @@ const PropriedadeList = () => {
   };
 
   useEffect(() => {
-    fetchPropriedadesProprias();
-    // TODO adicionar essa rota depois que estiver funcionando
-    // fetchPropriedadeComoInquilino();
+    const fetchProps = async () => {
+      await fetchPropriedadesProprias();
+      await fetchRentsAsInquilino();
+    };
+    fetchProps();
   }, [pathname]);
 
   return (
@@ -71,10 +66,7 @@ const PropriedadeList = () => {
             {propriedadesProprias &&
               propriedadesProprias.map((propriedade) => (
                 <Grid item key={propriedade.id} lg={3} md={4} sm={6} xs={12}>
-                  <PropriedadeCard
-                    className={classes.propriedadeCard}
-                    propriedade={propriedade}
-                  />
+                  <PropriedadeCard className={classes.propriedadeCard} propriedade={propriedade} />
                 </Grid>
               ))}
           </Grid>
@@ -89,25 +81,22 @@ const PropriedadeList = () => {
           <Grid container spacing={3}>
             {/* TODO mudar as linhas abaixo quando tiver uma rota de
             propriedadesProprias onde moro */}
-            <Grid item>
-              {propriedadeComoInquilino ? (
+            <Grid item lg={3} md={4} sm={6} xs={12}>
+              {activeRentAsInquilino ? (
                 <PropriedadeCard
                   className={classes.propriedadeCard}
-                  propriedade={propriedadeComoInquilino}
+                  propriedade={activeRentAsInquilino.property}
+                  rate={activeRentAsInquilino.value}
                 />
               ) : (
                 <Typography className={classes.minhasPropriedades} variant='h3'>
-                  Você ainda não mora em nenhuma propriedade cadastrada em nosso
-                  sistema.
+                  Você ainda não mora em nenhuma propriedade cadastrada em nosso sistema.
                 </Typography>
               )}
             </Grid>
           </Grid>
         </Box>
-        <CustomSnackbar
-          message={snackbarMessage}
-          handleCloseSnackbar={handleCloseSnackbar}
-        />
+        <CustomSnackbar message={snackbarMessage} handleCloseSnackbar={handleCloseSnackbar} />
       </Container>
     </Page>
   );

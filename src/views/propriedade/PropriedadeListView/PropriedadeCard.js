@@ -12,8 +12,9 @@ import {
 import { Rating } from '@material-ui/lab';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AuthContext from 'src/contexts/AuthContext';
 import comodidadesContent from '../../../constants/comodidades';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,20 +41,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PropriedadeCard = ({
-  openConfirmDialog,
-  className,
-  propriedade,
-  ...rest
-}) => {
+const PropriedadeCard = ({ openConfirmDialog, className, propriedade, rate, ...rest }) => {
   const classes = useStyles();
-  const [value, setValue] = useState(2);
+  const { user } = useContext(AuthContext);
   const { comodidades } = propriedade;
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent classes={{ root: classes.cardContentRoot }}>
-        <Link to={`/propriedades/${propriedade.id}`}>
+        <Link
+          to={
+            propriedade.ownerId === user.id
+              ? `/propriedades/${propriedade.id}`
+              : `/anuncios/${propriedade.id}`
+          }
+        >
           <Box position='relative' mb={3}>
             <Avatar
               alt='Propriedade'
@@ -67,8 +69,7 @@ const PropriedadeCard = ({
                   <Avatar
                     variant='square'
                     style={{
-                      backgroundColor:
-                        comodidadesContent[comodidade.nome].lightColor,
+                      backgroundColor: comodidadesContent[comodidade.nome].lightColor,
                     }}
                     className={classes.comodidadeIcon}
                   >
@@ -84,12 +85,7 @@ const PropriedadeCard = ({
             </Box>
           </Box>
 
-          <Typography
-            align='center'
-            color='textPrimary'
-            gutterBottom
-            variant='h4'
-          >
+          <Typography align='center' color='textPrimary' gutterBottom variant='h4'>
             {`${propriedade.name}`}
           </Typography>
           <Typography align='center' color='textPrimary' variant='body1'>
@@ -103,7 +99,7 @@ const PropriedadeCard = ({
         <Grid container justify='space-between' spacing={2}>
           <Grid className={classes.statsItem} item>
             <Box component='fieldset' borderColor='transparent'>
-              <Rating name='read-only' value={value} precision={0.2} readOnly />
+              <Rating name='read-only' value={rate} precision={0.2} readOnly />
             </Box>
           </Grid>
         </Grid>
@@ -116,6 +112,7 @@ PropriedadeCard.propTypes = {
   openConfirmDialog: PropTypes.func,
   className: PropTypes.string,
   propriedade: PropTypes.object.isRequired,
+  rate: PropTypes.number,
 };
 
 export default PropriedadeCard;

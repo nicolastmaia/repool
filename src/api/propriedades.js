@@ -17,7 +17,14 @@ const propriedadeApi = {
     return propriedades;
   },
 
-  getAsInquilino: async (userToken) => {},
+  getAsInquilino: async (userToken) => {
+    const response = await repoolApi.get(`${subscriberEndpoint}/rent`, {
+      headers: {
+        Authorization: userToken,
+      },
+    });
+    return response.data;
+  },
 
   getOne: async (id, userToken) => {
     const response = await repoolApi.get(`${ownerEndpoint}/${id}/property`, {

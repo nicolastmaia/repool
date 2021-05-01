@@ -64,7 +64,7 @@ const AnuncioList = () => {
           <Grid container spacing={3}>
             {anuncios &&
               anuncios.map((anuncio) => (
-                <Grid item key={anuncio.id} lg={4} md={6} xs={12}>
+                <Grid item key={anuncio.id} lg={3} md={4} sm={6} xs={12}>
                   <AnuncioCard
                     openConfirmDialog={openConfirmDialog}
                     className={classes.anuncioCard}
@@ -83,10 +83,7 @@ const AnuncioList = () => {
           isConfirmDialogOpen={isConfirmDialogOpen}
           closeConfirmDialog={closeConfirmDialog}
         />
-        <CustomSnackbar
-          message={snackbarMessage}
-          handleCloseSnackbar={handleCloseSnackbar}
-        />
+        <CustomSnackbar message={snackbarMessage} handleCloseSnackbar={handleCloseSnackbar} />
       </Container>
     </Page>
   );
