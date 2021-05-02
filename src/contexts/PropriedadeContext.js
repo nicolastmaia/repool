@@ -20,6 +20,7 @@ const PropriedadeContext = createContext({
   ownerToggleConfirm: null,
   subscriberConfirmRent: null,
   subscriberRemoveRent: null,
+  ownerRemoveRent: null,
   fetchActivePropriedade: null,
   savePropriedade: null,
 });
@@ -89,6 +90,18 @@ export const PropriedadeProvider = ({ children }) => {
     try {
       await propriedadeApi.subscriberRemoveRent(rentId, userToken);
       await reloadUser();
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
+  };
+
+  const ownerRemoveRent = async (rentId) => {
+    try {
+      const inactiveRent = await propriedadeApi.ownerRemoveRent(rentId, userToken);
+      setActivePropRents((prevState) => {
+        return prevState.filter((rent) => rent.id === inactiveRent.id);
+      });
       return 'success';
     } catch (error) {
       return 'error';
@@ -183,6 +196,7 @@ export const PropriedadeProvider = ({ children }) => {
         ownerToggleConfirm,
         subscriberConfirmRent,
         subscriberRemoveRent,
+        ownerRemoveRent,
         fetchActivePropriedade,
         savePropriedade,
       }}

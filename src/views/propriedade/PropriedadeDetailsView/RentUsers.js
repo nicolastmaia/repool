@@ -30,7 +30,7 @@ const RentUsers = ({ className, data, toggleDialog, ...rest }) => {
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader subtitle={`${data.length} no total`} title='Usuários morando nessa propriedade' />
+      <CardHeader title={`${data.length} Usuários morando nessa propriedade`} />
       <Divider />
       <List>
         {data.length > 0 ? (

@@ -9,8 +9,9 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomSnackbar from 'src/components/CustomSnackbar';
-import UserInfoDialog from 'src/components/UserInfoDialog';
+import UserInterestDialog from 'src/components/UserInterestDialog';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
+import UserRentDialog from 'src/components/UserRentDialog';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
 import ImageList from './ImageList';
@@ -67,8 +68,9 @@ const PropriedadeDetails = ({ className, ...rest }) => {
   } = useContext(PropriedadeContext);
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [isUserInfoDialogOpen, setUserInfoDialogOpen] = useState(false);
-  const [dialogUserInfo, setDialogUserInfo] = useState(null);
+  const [isUserInterestDialogOpen, setUserInterestDialogOpen] = useState(false);
+  const [isUserRentDialogOpen, setUserRentDialogOpen] = useState(false);
+  const [dialogInfo, setDialogInfo] = useState(null);
   const navigate = useNavigate();
 
   const { pathname } = window.location;
@@ -83,9 +85,14 @@ const PropriedadeDetails = ({ className, ...rest }) => {
 
   const handleDeletePress = () => {};
 
-  const toggleDialog = (userData) => {
-    setDialogUserInfo(userData || null);
-    setUserInfoDialogOpen((prevState) => !prevState);
+  const toggleInterestDialog = (userData) => {
+    setDialogInfo(userData || null);
+    setUserInterestDialogOpen((prevState) => !prevState);
+  };
+
+  const toggleRentDialog = (userData) => {
+    setDialogInfo(userData || null);
+    setUserRentDialogOpen((prevState) => !prevState);
   };
 
   useEffect(() => {
@@ -152,7 +159,7 @@ const PropriedadeDetails = ({ className, ...rest }) => {
 
       <ImageList images={activePropriedade.img} />
 
-      <PropriedadeDescription anuncio={activePropriedade} />
+      <PropriedadeDescription propriedade={activePropriedade} activeRents={activePropRents} />
 
       <Divider />
 
@@ -204,20 +211,25 @@ const PropriedadeDetails = ({ className, ...rest }) => {
           )}
 
           <Grid item xs={12} sm={6}>
-            <InterestedUsers data={activePropInterests} toggleDialog={toggleDialog} />
+            <InterestedUsers data={activePropInterests} toggleDialog={toggleInterestDialog} />
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <RentUsers data={activePropRents} toggleDialog={toggleDialog} />
+            <RentUsers data={activePropRents} toggleDialog={toggleRentDialog} />
           </Grid>
         </Grid>
       </Container>
       <Divider />
       <CustomSnackbar message={snackbarMessage} handleCloseSnackbar={handleCloseSnackbar} />
-      <UserInfoDialog
-        toggleDialog={toggleDialog}
-        data={dialogUserInfo}
-        isOpen={isUserInfoDialogOpen}
+      <UserInterestDialog
+        toggleDialog={toggleInterestDialog}
+        data={dialogInfo}
+        isOpen={isUserInterestDialogOpen}
+      />
+      <UserRentDialog
+        toggleDialog={toggleRentDialog}
+        data={dialogInfo}
+        isOpen={isUserRentDialogOpen}
       />
     </Container>
   );

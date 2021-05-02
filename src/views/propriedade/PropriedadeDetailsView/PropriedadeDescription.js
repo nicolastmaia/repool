@@ -1,8 +1,5 @@
 import { Container, Divider, makeStyles, Typography } from '@material-ui/core';
-import {
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-} from '@material-ui/icons';
+import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
@@ -20,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PropriedadeDescription = ({ anuncio }) => {
+const PropriedadeDescription = ({ propriedade, activeRents }) => {
   const classes = useStyles();
   const [expand, setExpand] = useState(false);
 
@@ -39,25 +36,24 @@ const PropriedadeDescription = ({ anuncio }) => {
           expanded={expand}
           width={500}
         >
-          {anuncio.description}
+          {propriedade.description}
         </ShowMoreText>
       </Typography>
 
       <Divider />
       <Container className={classes.vacacyInfo}>
         <Typography className={classes.textGutterBottom} variant='h3'>
-          Há {anuncio.vacancyNumber} vagas nessa propriedade
+          {`Esta propriedade possui ${activeRents.length} de ${propriedade.vacancyNumber} vagas ocupadas.`}
         </Typography>
-        <Typography variant='h4'>
-          Valor de uma vaga: R${anuncio.vacancyPrice}
-        </Typography>
+        <Typography variant='h4'>Valor de uma vaga: R${propriedade.vacancyPrice}</Typography>
       </Container>
     </Container>
   );
 };
 
 PropriedadeDescription.propTypes = {
-  anuncio: PropTypes.object,
+  propriedade: PropTypes.object,
+  activeRents: PropTypes.array,
 };
 
 export default PropriedadeDescription;

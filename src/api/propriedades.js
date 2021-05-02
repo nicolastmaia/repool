@@ -94,6 +94,14 @@ const propriedadeApi = {
     return inactiveRent;
   },
 
+  ownerRemoveRent: async (rentId, userToken) => {
+    const response = await repoolApi.delete(`${ownerEndpoint}/${rentId}/rent`, {
+      headers: { Authorization: userToken },
+    });
+    const inactiveRent = response.data;
+    return inactiveRent;
+  },
+
   postAsSubscriber: async (propriedade, photo, userToken) => {
     const formData = new FormData();
     formData.append('img', photo);
