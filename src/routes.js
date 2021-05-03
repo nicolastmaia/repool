@@ -20,6 +20,26 @@ const simpleLoggedInRoutes = [
     path: '/',
     element: <DashboardSimpleLayout />,
     children: [
+      { path: '/', element: <Navigate to='/anuncios' /> },
+      { path: 'account', element: <AccountView /> },
+      { path: '/anuncios', element: <AnuncioListView /> },
+      { path: 'anuncios/:id', element: <AnuncioDetails /> },
+      { path: 'propriedades', element: <PropriedadeListView /> },
+      { path: 'propriedades/new', element: <CadPropriedadeView /> },
+      { path: 'propriedades/:id', element: <PropriedadeDetails /> },
+      { path: 'favoritos', element: <AnuncioListView /> },
+      { path: 'favoritos/:id', element: <AnuncioDetails /> },
+      { path: 'settings', element: <SettingsView /> },
+      { path: '*', element: <Navigate to='/404' /> },
+    ],
+  },
+];
+
+const ownerLoggedInRoutes = [
+  {
+    path: '/',
+    element: <DashboardSimpleLayout />,
+    children: [
       { path: 'account', element: <AccountView /> },
       { path: '/', element: <DashboardView /> },
       { path: 'anuncios', element: <AnuncioListView /> },
@@ -62,10 +82,13 @@ const loggedOutRoutes = [
   },
 ];
 
-const routes = (userToken, isAdm) => {
+const routes = (userToken, userRole) => {
   if (userToken) {
-    if (isAdm) {
+    if (userRole === 'ADMIN') {
       return admLoggedInRoutes;
+    }
+    if (userRole === 'OWNER') {
+      return ownerLoggedInRoutes;
     }
     return simpleLoggedInRoutes;
   }

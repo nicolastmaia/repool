@@ -21,7 +21,7 @@ import {
 import AuthContext from 'src/contexts/AuthContext';
 import NavItem from './NavItem';
 
-const items = [
+const ownerItems = [
   {
     href: '/',
     icon: BarChartIcon,
@@ -49,6 +49,55 @@ const items = [
   },
 ];
 
+const userItems = [
+  {
+    href: '/anuncios',
+    icon: AnuncioIcon,
+    title: 'Anúncios',
+  },
+  {
+    href: '/favoritos',
+    icon: FavoritoIcon,
+    title: 'Meus Favoritos',
+  },
+  {
+    href: '/propriedades',
+    icon: PropriedadeIcon,
+    title: 'Minhas Propriedades',
+  },
+  {
+    href: '/account',
+    icon: UserIcon,
+    title: 'Perfil',
+  },
+];
+
+const admItems = [
+  {
+    href: '/',
+    icon: BarChartIcon,
+    title: 'Dashboard',
+  },
+  {
+    href: '/anuncios',
+    icon: AnuncioIcon,
+    title: 'Anúncios',
+  },
+  {
+    href: '/account',
+    icon: UserIcon,
+    title: 'Perfil',
+  },
+];
+
+const loggedOutItems = [
+  {
+    href: '/anuncios',
+    icon: AnuncioIcon,
+    title: 'Anúncios',
+  },
+];
+
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
     width: 256,
@@ -72,13 +121,26 @@ const useStyles = makeStyles(() => ({
 const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
-  const { user } = useContext(AuthContext);
+  const { user, userToken } = useContext(AuthContext);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
   }, [location.pathname]);
+
+  const renderNavItems = () => {
+    if (userToken) {
+      if (user.role === 'ADMIN') {
+        return admItems;
+      }
+      if (user.role === 'OWNER') {
+        return ownerItems;
+      }
+      return userItems;
+    }
+    return loggedOutItems;
+  };
 
   const content = (
     <Box height='100%' display='flex' flexDirection='column'>
@@ -100,7 +162,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       <Divider />
       <Box p={2}>
         <List>
-          {items.map((item) => (
+          {renderNavItems().map((item) => (
             <NavItem href={item.href} key={item.title} title={item.title} icon={item.icon} />
           ))}
         </List>

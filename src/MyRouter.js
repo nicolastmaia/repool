@@ -4,9 +4,9 @@ import AuthContext from './contexts/AuthContext';
 import routes from './routes';
 
 const MyRouter = () => {
-  const { userToken, isAdm } = useContext(AuthContext);
+  const { userToken, user } = useContext(AuthContext);
 
-  const routing = useRoutes(routes(userToken, isAdm));
+  const routing = useRoutes(routes(userToken, user.role));
 
   return <>{routing}</>;
 };
