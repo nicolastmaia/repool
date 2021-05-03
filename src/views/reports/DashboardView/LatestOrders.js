@@ -40,6 +40,7 @@ const LatestOrders = ({ className, propriedades, occupiedVacs, ...rest }) => {
               <TableRow>
                 <TableCell align='left'>Nome</TableCell>
                 <TableCell align='right'>Avaliação geral</TableCell>
+                <TableCell align='right'>Visualizaçoes</TableCell>
                 <TableCell align='right'>Total de vagas</TableCell>
                 <TableCell align='right'>Vagas alugadas</TableCell>
                 <TableCell align='right'>R$/vaga</TableCell>
@@ -58,6 +59,7 @@ const LatestOrders = ({ className, propriedades, occupiedVacs, ...rest }) => {
                       <StarIcon fontSize='small' color='action' />
                     </Grid>
                   </TableCell>
+                  <TableCell align='right'>{propriedade.viewed}</TableCell>
                   <TableCell align='right'>{propriedade.vacancyNumber}</TableCell>
                   <TableCell align='right'>
                     {occupiedVacs ? occupiedVacs[propriedade.id] : 0}

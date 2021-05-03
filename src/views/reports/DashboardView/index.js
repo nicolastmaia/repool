@@ -2,8 +2,10 @@ import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import Page from 'src/components/Page';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
+import Budget from './Budget';
 import LatestOrders from './LatestOrders';
 import RentUsers from './RentUsers';
+import TotalCustomers from './TotalCustomers';
 import TotalProfit from './TotalProfit';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,22 +28,26 @@ const Dashboard = () => {
   const [occupiedVacs, setOccupiedVacs] = useState(0);
   const [lucroTotalAtual, setLucroTotalAtual] = useState(0);
   const [lucroTotalPossivel, setLucroTotalPossivel] = useState(0);
+  const [totalViews, setTotalViews] = useState(0);
 
   const { pathname } = window.location;
 
   useEffect(() => {
     let tmpLucroTotalAtual = 0;
     let tmpLucroTotalPossivel = 0;
+    let tmpTotalViews = 0;
     const tmpOccupiedVacs = {};
     propriedadesProprias.forEach((propriedade) => {
       const count = propriedade.rent.filter((item) => item.isActive).length;
       tmpOccupiedVacs[propriedade.id] = count;
       tmpLucroTotalAtual += propriedade.vacancyPrice * count;
       tmpLucroTotalPossivel += propriedade.vacancyPrice * propriedade.vacancyNumber;
+      tmpTotalViews += propriedade.viewed;
     });
     setLucroTotalPossivel(tmpLucroTotalPossivel);
     setLucroTotalAtual(tmpLucroTotalAtual);
     setOccupiedVacs(tmpOccupiedVacs);
+    setTotalViews(tmpTotalViews);
   }, [propriedadesProprias]);
 
   useEffect(() => {
@@ -63,11 +69,19 @@ const Dashboard = () => {
             <LatestOrders propriedades={propriedadesProprias} occupiedVacs={occupiedVacs} />
           </Grid>
 
-          <Grid item lg={12} sm={12} xl={12} xs={12}>
+          <Grid item lg={6} sm={12} xl={6} xs={12}>
             <TotalProfit
               lucroTotalAtual={lucroTotalAtual}
               lucroTotalPossivel={lucroTotalPossivel}
             />
+          </Grid>
+
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+            <TotalCustomers totalViews={totalViews} />
+          </Grid>
+
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+            <Budget lucroTotalAtual={lucroTotalAtual} />
           </Grid>
 
           <Grid item lg={12}>
