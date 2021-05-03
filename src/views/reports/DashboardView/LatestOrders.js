@@ -1,82 +1,70 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import moment from 'moment';
-import { v4 as uuid } from 'uuid';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
 import {
   Box,
-  Button,
   Card,
   CardHeader,
-  Chip,
   Divider,
+  Grid,
+  makeStyles,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  TableSortLabel,
-  Tooltip,
-  makeStyles
+  Typography,
 } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-
-const data = [
-  {
-    id: uuid(),
-    ref: 'CDD1049',
-    amount: 30.5,
-    customer: {
-      name: 'Ekaterina Tankova'
-    },
-    createdAt: 1555016400000,
-    status: 'pending'
-  }
-];
+import StarIcon from '@material-ui/icons/StarBorder';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import formatNumberToBr from 'src/utils/formatNumberToBr';
 
 const useStyles = makeStyles(() => ({
   root: {},
   actions: {
-    justifyContent: 'flex-end'
-  }
+    justifyContent: 'flex-end',
+  },
 }));
 
-const LatestOrders = ({ className, ...rest }) => {
+const LatestOrders = ({ className, propriedades, occupiedVacs, ...rest }) => {
   const classes = useStyles();
-  const [orders] = useState(data);
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader title="Minhhas propriedades" />
+      <CardHeader title='Minhas propriedades' />
       <Divider />
       <PerfectScrollbar>
         <Box minWidth={800}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Order Ref</TableCell>
-                <TableCell>Customer</TableCell>
-                <TableCell sortDirection="desc">
-                  <Tooltip enterDelay={300} title="Sort">
-                    <TableSortLabel active direction="desc">
-                      Date
-                    </TableSortLabel>
-                  </Tooltip>
-                </TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell align='left'>Nome</TableCell>
+                <TableCell align='right'>Avaliação geral</TableCell>
+                <TableCell align='right'>Total de vagas</TableCell>
+                <TableCell align='right'>Vagas alugadas</TableCell>
+                <TableCell align='right'>R$/vaga</TableCell>
+                <TableCell align='right'>R$ total recebido atualmente</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map(order => (
-                <TableRow hover key={order.id}>
-                  <TableCell>{order.ref}</TableCell>
-                  <TableCell>{order.customer.name}</TableCell>
-                  <TableCell>
-                    {moment(order.createdAt).format('DD/MM/YYYY')}
+              {propriedades.map((propriedade) => (
+                <TableRow hover key={propriedade.id}>
+                  <TableCell align='left'>{propriedade.name}</TableCell>
+                  <TableCell align='right'>
+                    <Grid container justify='flex-end'>
+                      <Grid item>
+                        <Typography>{propriedade.avg ? propriedade.avg.value : 0}</Typography>
+                      </Grid>
+                      <StarIcon fontSize='small' color='action' />
+                    </Grid>
                   </TableCell>
-                  <TableCell>
-                    <Chip color="primary" label={order.status} size="small" />
+                  <TableCell align='right'>{propriedade.vacancyNumber}</TableCell>
+                  <TableCell align='right'>
+                    {occupiedVacs ? occupiedVacs[propriedade.id] : 0}
+                  </TableCell>
+                  <TableCell align='right'>{formatNumberToBr(propriedade.vacancyPrice)}</TableCell>
+                  <TableCell align='right'>
+                    {formatNumberToBr(propriedade.vacancyPrice * occupiedVacs[propriedade.id])}
                   </TableCell>
                 </TableRow>
               ))}
@@ -84,22 +72,14 @@ const LatestOrders = ({ className, ...rest }) => {
           </Table>
         </Box>
       </PerfectScrollbar>
-      <Box display="flex" justifyContent="flex-end" p={2}>
-        <Button
-          color="primary"
-          endIcon={<ArrowRightIcon />}
-          size="small"
-          variant="text"
-        >
-          View all
-        </Button>
-      </Box>
     </Card>
   );
 };
 
 LatestOrders.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  propriedades: PropTypes.array,
+  occupiedVacs: PropTypes.number,
 };
 
 export default LatestOrders;

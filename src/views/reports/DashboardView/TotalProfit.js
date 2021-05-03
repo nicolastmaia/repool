@@ -1,55 +1,52 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import {
   Avatar,
+  Box,
   Card,
   CardContent,
+  colors,
   Grid,
-  Typography,
+  LinearProgress,
   makeStyles,
-  colors
+  Typography,
 } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import formatNumberToBr from 'src/utils/formatNumberToBr';
 
 const useStyles = makeStyles(() => ({
   root: {
-    height: '100%'
+    height: '100%',
   },
   avatar: {
     backgroundColor: colors.indigo[600],
     height: 56,
-    width: 56
-  }
+    width: 56,
+  },
 }));
 
-const TotalProfit = ({ className, ...rest }) => {
+const TotalProfit = ({ className, lucroTotalAtual, lucroTotalPossivel, ...rest }) => {
   const classes = useStyles();
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
-        <Grid
-          container
-          justify="space-between"
-          spacing={3}
-        >
+        <Grid container justify='space-between' spacing={3}>
           <Grid item>
-            <Typography
-              color="textSecondary"
-              gutterBottom
-              variant="h6"
-            >
-              TOTAL PROFIT
+            <Typography color='textSecondary' gutterBottom variant='h6'>
+              Lucro Total Atual
             </Typography>
-            <Typography
-              color="textPrimary"
-              variant="h3"
-            >
-              $23,200
+            <Typography color='textPrimary' variant='h3'>
+              {formatNumberToBr(lucroTotalAtual)}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography color='textSecondary' gutterBottom variant='h6'>
+              Lucro Total Possível
+            </Typography>
+            <Typography color='textPrimary' variant='h3'>
+              {formatNumberToBr(lucroTotalPossivel)}
             </Typography>
           </Grid>
           <Grid item>
@@ -58,13 +55,24 @@ const TotalProfit = ({ className, ...rest }) => {
             </Avatar>
           </Grid>
         </Grid>
+        <Box mt={3}>
+          <LinearProgress
+            value={(lucroTotalAtual * 100) / lucroTotalPossivel}
+            variant='determinate'
+          />
+          <Typography variant='caption'>
+            {((lucroTotalAtual * 100) / lucroTotalPossivel).toFixed(1)} %
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );
 };
 
 TotalProfit.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  lucroTotalAtual: PropTypes.number,
+  lucroTotalPossivel: PropTypes.number,
 };
 
 export default TotalProfit;

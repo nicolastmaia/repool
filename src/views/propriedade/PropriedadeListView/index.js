@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
 import { Box, Container, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
+import React, { useContext, useEffect, useState } from 'react';
+import CustomSnackbar from 'src/components/CustomSnackbar';
 import Page from 'src/components/Page';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
-import { Divide } from 'react-feather';
-import CustomSnackbar from 'src/components/CustomSnackbar';
-import Toolbar from './Toolbar';
 import PropriedadeCard from './PropriedadeCard';
+import Toolbar from './Toolbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {

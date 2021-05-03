@@ -3,7 +3,6 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import propriedadeApi from 'src/api/propriedades';
 import { extractComodidades } from 'src/utils/anuncioUtils';
 import { separateActiveAndInactive, substituteInterest } from 'src/utils/propriedadeUtils';
-
 import AuthContext from './AuthContext';
 
 const PropriedadeContext = createContext({
@@ -13,6 +12,7 @@ const PropriedadeContext = createContext({
   propriedadesProprias: null,
   activeRentAsInquilino: null,
   inactiveRentsAsInquilino: null,
+  allRents: null,
   fetchPropriedadesProprias: null,
   fetchRentsAsInquilino: null,
   fetchRentsAsOwner: null,
@@ -21,6 +21,7 @@ const PropriedadeContext = createContext({
   subscriberConfirmRent: null,
   subscriberRemoveRent: null,
   ownerRemoveRent: null,
+  fetchAllRents: null,
   fetchActivePropriedade: null,
   savePropriedade: null,
 });
@@ -32,6 +33,7 @@ export const PropriedadeProvider = ({ children }) => {
   const [activePropriedade, setActivePropriedade] = useState({});
   const [activePropInterests, setActivePropInterests] = useState([]);
   const [activePropRents, setActivePropRents] = useState([]);
+  const [allRents, setAllRents] = useState([]);
 
   const { user, userToken, reloadUser, changeUserToken } = useContext(AuthContext);
 
@@ -102,6 +104,16 @@ export const PropriedadeProvider = ({ children }) => {
       setActivePropRents((prevState) => {
         return prevState.filter((rent) => rent.id === inactiveRent.id);
       });
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
+  };
+
+  const fetchAllRents = async () => {
+    try {
+      const rents = await propriedadeApi.getAllRents(userToken);
+      setAllRents(rents);
       return 'success';
     } catch (error) {
       return 'error';
@@ -189,6 +201,7 @@ export const PropriedadeProvider = ({ children }) => {
         propriedadesProprias,
         activeRentAsInquilino,
         inactiveRentsAsInquilino,
+        allRents,
         fetchPropriedadesProprias,
         fetchRentsAsInquilino,
         fetchRentsAsOwner,
@@ -197,6 +210,7 @@ export const PropriedadeProvider = ({ children }) => {
         subscriberConfirmRent,
         subscriberRemoveRent,
         ownerRemoveRent,
+        fetchAllRents,
         fetchActivePropriedade,
         savePropriedade,
       }}

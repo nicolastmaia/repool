@@ -7,6 +7,15 @@ const ownerEndpoint = '/owner';
 const propriedadeApi = {
   getAll: async () => {},
 
+  getAllRents: async (userToken) => {
+    const response = await repoolApi.get(`${ownerEndpoint}/rents`, {
+      headers: {
+        Authorization: userToken,
+      },
+    });
+    const rents = response.data;
+    return rents;
+  },
   getPropertiesAsOwner: async (userToken) => {
     const response = await repoolApi.get(`${ownerEndpoint}/properties`, {
       headers: {

@@ -101,12 +101,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       <Box p={2}>
         <List>
           {items.map((item) => (
-            <NavItem
-              href={item.href}
-              key={item.title}
-              title={item.title}
-              icon={item.icon}
-            />
+            <NavItem href={item.href} key={item.title} title={item.title} icon={item.icon} />
           ))}
         </List>
       </Box>
@@ -128,12 +123,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         </Drawer>
       </Hidden>
       <Hidden mdDown>
-        <Drawer
-          anchor='left'
-          classes={{ paper: classes.desktopDrawer }}
-          open
-          variant='persistent'
-        >
+        <Drawer anchor='left' classes={{ paper: classes.desktopDrawer }} open variant='persistent'>
           {content}
         </Drawer>
       </Hidden>
