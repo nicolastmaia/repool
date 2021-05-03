@@ -67,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AnuncioDetails = ({ className, ...rest }) => {
   const classes = useStyles();
-  const [value] = useState(2.1);
   const { activeAnuncio, fetchActiveAnuncio, toggleInterest, toggleFavorite } = useContext(
     AnuncioContext
   );
@@ -125,64 +124,68 @@ const AnuncioDetails = ({ className, ...rest }) => {
           <Grid item>
             <Typography variant='h1'>{activeAnuncio.name}</Typography>
           </Grid>
-          <Grid item>
-            {!activeAnuncio.rent ? (
-              <Grid container spacing={2}>
-                <Grid item>
-                  {activeAnuncio.isInterest ? (
-                    <Button
-                      className={classes.removeButton}
-                      fullWidth
-                      variant='contained'
-                      startIcon={<DeleteIcon />}
-                      onClick={handleInterestPress}
-                    >
-                      Remover Interesse
-                    </Button>
+          {user.role !== 'ADMIN' ? (
+            <Grid item>
+              {!activeAnuncio.rent ? (
+                <Grid container spacing={2}>
+                  <Grid item>
+                    {activeAnuncio.isInterest ? (
+                      <Button
+                        className={classes.removeButton}
+                        fullWidth
+                        variant='contained'
+                        startIcon={<DeleteIcon />}
+                        onClick={handleInterestPress}
+                      >
+                        Remover Interesse
+                      </Button>
+                    ) : (
+                      <Button
+                        color='primary'
+                        className={classes.interestButton}
+                        fullWidth
+                        variant='contained'
+                        startIcon={<HandIcon />}
+                        onClick={handleInterestPress}
+                      >
+                        Demonstrar Interesse
+                      </Button>
+                    )}
+                  </Grid>
+                  {activeAnuncio.interest && activeAnuncio.interest.pConfirmation ? (
+                    <Grid item>
+                      <Button
+                        color='primary'
+                        className={classes.interestButton}
+                        fullWidth
+                        variant='contained'
+                        startIcon={<DoneAllIcon />}
+                        onClick={handleConfirmRent}
+                      >
+                        Confirmar aluguel
+                      </Button>
+                    </Grid>
                   ) : (
-                    <Button
-                      color='primary'
-                      className={classes.interestButton}
-                      fullWidth
-                      variant='contained'
-                      startIcon={<HandIcon />}
-                      onClick={handleInterestPress}
-                    >
-                      Demonstrar Interesse
-                    </Button>
+                    ''
                   )}
                 </Grid>
-                {activeAnuncio.interest && activeAnuncio.interest.pConfirmation ? (
-                  <Grid item>
-                    <Button
-                      color='primary'
-                      className={classes.interestButton}
-                      fullWidth
-                      variant='contained'
-                      startIcon={<DoneAllIcon />}
-                      onClick={handleConfirmRent}
-                    >
-                      Confirmar aluguel
-                    </Button>
-                  </Grid>
-                ) : (
-                  ''
-                )}
-              </Grid>
-            ) : (
-              <Grid item>
-                <Button
-                  className={classes.removeButton}
-                  fullWidth
-                  variant='contained'
-                  startIcon={<DeleteIcon />}
-                  onClick={handleRemoveRent}
-                >
-                  Desfazer aluguel
-                </Button>
-              </Grid>
-            )}
-          </Grid>
+              ) : (
+                <Grid item>
+                  <Button
+                    className={classes.removeButton}
+                    fullWidth
+                    variant='contained'
+                    startIcon={<DeleteIcon />}
+                    onClick={handleRemoveRent}
+                  >
+                    Desfazer aluguel
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+          ) : (
+            <></>
+          )}
         </Grid>
 
         <Grid container justify='space-between' alignItems='baseline' spacing={2}>

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = () => {
+const OwnerDashboard = () => {
   const classes = useStyles();
   const { fetchPropriedadesProprias, propriedadesProprias, allRents, fetchAllRents } = useContext(
     PropriedadeContext
@@ -62,7 +62,7 @@ const Dashboard = () => {
   }, [pathname]);
 
   return (
-    <Page className={classes.root} title='Dashboard'>
+    <Page className={classes.root} title='OwnerDashboard'>
       <Container maxWidth={false}>
         <Grid container spacing={3}>
           <Grid item lg={12} md={12} xl={12} xs={12}>
@@ -106,4 +106,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default OwnerDashboard;

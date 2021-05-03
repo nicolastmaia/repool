@@ -1,15 +1,15 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import DashboardAdmLayout from 'src/layouts/DashboardAdm';
-import DashboardSimpleLayout from 'src/layouts/DashboardSimple';
-import MainLayout from 'src/layouts/MainLayout';
+import LoggedInLayout from 'src/layouts/LoggedInLayout';
+import LoggedOutLayout from 'src/layouts/LoggedOutLayout';
 import AccountView from 'src/views/account/AccountView';
 import AnuncioListView from 'src/views/anuncio/AnuncioListView';
 import LoginView from 'src/views/auth/LoginView';
 import RegisterView from 'src/views/auth/RegisterView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import PropriedadeListView from 'src/views/propriedade/PropriedadeListView';
-import DashboardView from 'src/views/reports/DashboardView';
+import OwnerDashboardView from 'src/views/reports/OwnerDashboardView';
+import AdmDashboardView from 'src/views/reports/AdmDashboardView';
 import SettingsView from 'src/views/settings/SettingsView';
 import AnuncioDetails from './views/anuncio/AnuncioDetailsView';
 import CadPropriedadeView from './views/propriedade/CadPropriedadeView';
@@ -18,7 +18,7 @@ import PropriedadeDetails from './views/propriedade/PropriedadeDetailsView';
 const simpleLoggedInRoutes = [
   {
     path: '/',
-    element: <DashboardSimpleLayout />,
+    element: <LoggedInLayout />,
     children: [
       { path: '/', element: <Navigate to='/anuncios' /> },
       { path: 'account', element: <AccountView /> },
@@ -38,10 +38,10 @@ const simpleLoggedInRoutes = [
 const ownerLoggedInRoutes = [
   {
     path: '/',
-    element: <DashboardSimpleLayout />,
+    element: <LoggedInLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
-      { path: '/', element: <DashboardView /> },
+      { path: '/', element: <OwnerDashboardView /> },
       { path: 'anuncios', element: <AnuncioListView /> },
       { path: 'anuncios/:id', element: <AnuncioDetails /> },
       { path: 'propriedades', element: <PropriedadeListView /> },
@@ -58,11 +58,13 @@ const ownerLoggedInRoutes = [
 const admLoggedInRoutes = [
   {
     path: '/',
-    element: <DashboardAdmLayout />,
+    element: <LoggedInLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
-      { path: '/', element: <DashboardView /> },
+      { path: '/', element: <AdmDashboardView /> },
       { path: 'anuncios', element: <AnuncioListView /> },
+      { path: 'anuncios/:id', element: <AnuncioDetails /> },
+      { path: 'favoritos', element: <AnuncioListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to='/404' /> },
     ],
@@ -72,7 +74,7 @@ const admLoggedInRoutes = [
 const loggedOutRoutes = [
   {
     path: '/',
-    element: <MainLayout />,
+    element: <LoggedOutLayout />,
     children: [
       { path: '/', element: <LoginView /> },
       { path: 'register', element: <RegisterView /> },
