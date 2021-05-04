@@ -24,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
 const AnuncioList = () => {
   const classes = useStyles();
   const { anuncios, fetchAnuncios, loadFavorites } = useContext(AnuncioContext);
-
   const { favorites } = useContext(AuthContext);
+  const [offset, setOffset] = useState(1);
+  const [pageNumber, setPageNumber] = useState(2);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -42,19 +43,24 @@ const AnuncioList = () => {
     setSnackbarMessage('');
   };
 
+  const handlePageChange = (event, value) => {
+    setOffset((value - 1) * 20);
+    setPageNumber(value + 1);
+  };
+
   useEffect(() => {
     const fetchAllAnuncios = async () => {
       pathname = pathname.slice(1);
       let message;
       if (pathname === 'anuncios') {
-        message = await fetchAnuncios();
+        message = await fetchAnuncios(offset);
       } else if (pathname === 'favoritos') {
         message = loadFavorites();
       }
       setSnackbarMessage(message);
     };
     fetchAllAnuncios();
-  }, [pathname, favorites]);
+  }, [pathname, favorites, offset]);
 
   return (
     <Page className={classes.root} title='Anuncios'>
@@ -75,9 +81,7 @@ const AnuncioList = () => {
           </Grid>
         </Box>
         <Box mt={3} display='flex' justifyContent='center'>
-          <Pagination color='primary' count={1} size='small' />
-          {/* TODO quantidade de páginas de anúncios aqui em cima.
-          precisa variar com a quantidade de itens que teremos em cada página */}
+          <Pagination color='primary' count={pageNumber} size='small' onChange={handlePageChange} />
         </Box>
         <ConfirmDialog
           isConfirmDialogOpen={isConfirmDialogOpen}

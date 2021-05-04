@@ -26,9 +26,9 @@ export const AnuncioProvider = ({ children }) => {
   const [activeAnuncio, setActiveAnuncio] = useState({});
   const { userToken, user, reloadUser, favorites, fetchFavorites } = useContext(AuthContext);
 
-  const fetchAnuncios = async () => {
+  const fetchAnuncios = async (offset) => {
     try {
-      const returnedAnuncios = await anuncioApi.getAll();
+      const returnedAnuncios = await anuncioApi.getAll(offset);
       const auxAnuncios = [];
       returnedAnuncios.forEach((anuncio) => {
         let editedAnuncio = extractComodidades(anuncio);

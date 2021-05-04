@@ -4,28 +4,27 @@ const userResourceEndpoint = '/user';
 const subscriberResourceEndpoint = '/subscriber';
 
 const anuncioApi = {
-  getAll: async () => {
-    const response = await repoolApi.get(`${userResourceEndpoint}/ad`);
+  getAll: async (offset) => {
+    const response = await repoolApi.get(`${userResourceEndpoint}/ad`, {
+      params: {
+        skip: offset,
+      },
+    });
     const anuncios = response.data;
     return anuncios;
   },
 
   getOne: async (id) => {
-    const response = await repoolApi.get(
-      `${userResourceEndpoint}/${id}/property`
-    );
+    const response = await repoolApi.get(`${userResourceEndpoint}/${id}/property`);
     return response.data;
   },
 
   getFavorites: async (token) => {
-    const response = await repoolApi.get(
-      `${subscriberResourceEndpoint}/favorites`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    const response = await repoolApi.get(`${subscriberResourceEndpoint}/favorites`, {
+      headers: {
+        Authorization: token,
+      },
+    });
     const anunciosFavoritos = response.data.favorited;
     return anunciosFavoritos;
   },
@@ -43,14 +42,11 @@ const anuncioApi = {
   },
 
   removeInterest: async (token, anuncioId) => {
-    await repoolApi.delete(
-      `${subscriberResourceEndpoint}/property/${anuncioId}/interest`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    await repoolApi.delete(`${subscriberResourceEndpoint}/property/${anuncioId}/interest`, {
+      headers: {
+        Authorization: token,
+      },
+    });
   },
 
   toggleFavorite: async (token, anuncioId) => {
