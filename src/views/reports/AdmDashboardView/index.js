@@ -43,11 +43,11 @@ const AdmDashboard = () => {
     <Page className={classes.root} title='AdmDashboard'>
       <Container maxWidth={false}>
         <Grid container spacing={3}>
-          <Grid item lg={4} sm={6} xl={3} xs={12}>
+          <Grid item lg={4} md={4} sm={12} xl={3} xs={12}>
             <UsersBySex usersBySex={usersBySex} />
           </Grid>
 
-          <Grid item lg={8} sm={12} xl={3} xs={12}>
+          <Grid item lg={8} md={8} sm={12} xl={9} xs={12}>
             <PropsChart
               propsByState={propsByState}
               activePropsByState={activePropsByState}
