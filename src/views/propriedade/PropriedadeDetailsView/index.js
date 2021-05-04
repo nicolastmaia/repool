@@ -210,12 +210,16 @@ const PropriedadeDetails = ({ className, ...rest }) => {
             <></>
           )}
 
-          <Grid item xs={12} sm={6}>
-            <InterestedUsers data={activePropInterests} toggleDialog={toggleInterestDialog} />
-          </Grid>
+          <Grid item lg={12} md={12} sm={12}>
+            <Grid container direction='row' spacing={6}>
+              <Grid item lg={6} md={6} sm={6} xs={12}>
+                <InterestedUsers data={activePropInterests} toggleDialog={toggleInterestDialog} />
+              </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <RentUsers data={activePropRents} toggleDialog={toggleRentDialog} />
+              <Grid item lg={6} md={6} sm={6} xs={12}>
+                <RentUsers data={activePropRents} toggleDialog={toggleRentDialog} />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Container>
