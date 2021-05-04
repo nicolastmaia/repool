@@ -30,12 +30,12 @@ export const AnuncioProvider = ({ children }) => {
     try {
       const returnedAnuncios = await anuncioApi.getAll();
       const auxAnuncios = [];
-      for (const anuncio of returnedAnuncios) {
+      returnedAnuncios.forEach((anuncio) => {
         let editedAnuncio = extractComodidades(anuncio);
         editedAnuncio = checkIfMyProperty(editedAnuncio, user.property);
         editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
         auxAnuncios.push(editedAnuncio);
-      }
+      });
       setAnuncios(auxAnuncios);
       return 'success';
     } catch (error) {
@@ -89,10 +89,11 @@ export const AnuncioProvider = ({ children }) => {
 
   const loadFavorites = () => {
     const auxAnuncios = [];
-    for (const anuncio of favorites) {
-      const editedAnuncio = checkIfFavorite(anuncio, favorites);
+    favorites.forEach((anuncio) => {
+      let editedAnuncio = extractComodidades(anuncio);
+      editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
       auxAnuncios.push(editedAnuncio);
-    }
+    });
 
     setAnuncios(auxAnuncios);
   };

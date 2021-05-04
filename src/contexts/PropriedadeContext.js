@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import PropTypes from 'prop-types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import propriedadeApi from 'src/api/propriedades';
@@ -40,8 +41,13 @@ export const PropriedadeProvider = ({ children }) => {
   const fetchPropriedadesProprias = async () => {
     try {
       if (user.role !== 'USER') {
-        const response = await propriedadeApi.getPropertiesAsOwner(userToken);
-        setPropriedadesProprias(response);
+        const returnedPropriedades = await propriedadeApi.getPropertiesAsOwner(userToken);
+        const auxPropriedades = [];
+        returnedPropriedades.forEach((propriedade) => {
+          const editedPropriedades = extractComodidades(propriedade);
+          auxPropriedades.push(editedPropriedades);
+        });
+        setPropriedadesProprias(auxPropriedades);
         return 'success';
       }
       setPropriedadesProprias([]);
