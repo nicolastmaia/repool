@@ -42,10 +42,10 @@ const Budget = ({ className, lucroTotalAtual, ...rest }) => {
         <Grid container justify='space-between' spacing={3}>
           <Grid item lg={8}>
             <Typography color='textSecondary' gutterBottom variant='h6'>
-              Taxa da plataforma
+              Lucro previsto em 6 meses
             </Typography>
             <Typography color='textPrimary' variant='h3'>
-              {formatNumberToBr(lucroTotalAtual * 0.01)}
+              {formatNumberToBr(lucroTotalAtual * 6)}
             </Typography>
           </Grid>
           <Grid item lg={4}>

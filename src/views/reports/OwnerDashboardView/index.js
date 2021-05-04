@@ -77,11 +77,11 @@ const OwnerDashboard = () => {
           </Grid>
 
           <Grid item lg={3} sm={6} xl={3} xs={12}>
-            <TotalCustomers totalViews={totalViews} />
+            <Budget lucroTotalAtual={lucroTotalAtual} />
           </Grid>
 
           <Grid item lg={3} sm={6} xl={3} xs={12}>
-            <Budget lucroTotalAtual={lucroTotalAtual} />
+            <TotalCustomers totalViews={totalViews} />
           </Grid>
 
           <Grid item lg={12}>

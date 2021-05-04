@@ -35,7 +35,7 @@ const TotalProfit = ({ className, lucroTotalAtual, lucroTotalPossivel, ...rest }
         <Grid container justify='space-between' spacing={3}>
           <Grid item>
             <Typography color='textSecondary' gutterBottom variant='h6'>
-              Lucro Total Atual
+              Lucro Mensal Atual
             </Typography>
             <Typography color='textPrimary' variant='h3'>
               {formatNumberToBr(lucroTotalAtual)}
@@ -43,7 +43,7 @@ const TotalProfit = ({ className, lucroTotalAtual, lucroTotalPossivel, ...rest }
           </Grid>
           <Grid item>
             <Typography color='textSecondary' gutterBottom variant='h6'>
-              Lucro Total Possível
+              Lucro Mensal Possível
             </Typography>
             <Typography color='textPrimary' variant='h3'>
               {formatNumberToBr(lucroTotalPossivel)}
