@@ -3,6 +3,7 @@ import { repoolApi } from './base';
 
 const subscriberEndpoint = '/subscriber';
 const ownerEndpoint = '/owner';
+const userEndpoint = '/user';
 
 const propriedadeApi = {
   getAll: async () => {},
@@ -16,6 +17,13 @@ const propriedadeApi = {
     const rents = response.data;
     return rents;
   },
+
+  getEvaluation: async (propertyId) => {
+    const response = await repoolApi.get(`${userEndpoint}/${propertyId}/evaluate`);
+    const evaluations = response.data;
+    return evaluations;
+  },
+
   getPropertiesAsOwner: async (userToken) => {
     const response = await repoolApi.get(`${ownerEndpoint}/properties`, {
       headers: {

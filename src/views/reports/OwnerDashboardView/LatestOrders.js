@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const LatestOrders = ({ className, propriedades, occupiedVacs, ...rest }) => {
+const LatestOrders = ({ className, propriedades, occupiedVacs, propMeans, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -54,7 +54,9 @@ const LatestOrders = ({ className, propriedades, occupiedVacs, ...rest }) => {
                   <TableCell align='right'>
                     <Grid container justify='flex-end'>
                       <Grid item>
-                        <Typography>{propriedade.avg ? propriedade.avg.value : 0}</Typography>
+                        <Typography>
+                          {propMeans ? propMeans[propriedade.id].avg.value : 0}
+                        </Typography>
                       </Grid>
                       <StarIcon fontSize='small' color='action' />
                     </Grid>
@@ -82,6 +84,7 @@ LatestOrders.propTypes = {
   className: PropTypes.string,
   propriedades: PropTypes.array,
   occupiedVacs: PropTypes.number,
+  propMeans: PropTypes.object,
 };
 
 export default LatestOrders;

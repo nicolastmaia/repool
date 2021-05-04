@@ -14,6 +14,7 @@ import AuthContext from './AuthContext';
 const AnuncioContext = createContext({
   anuncios: null,
   activeAnuncio: null,
+  countTotalAds: null,
   fetchAnuncios: null,
   fetchActiveAnuncio: null,
   toggleInterest: null,
@@ -25,10 +26,12 @@ export const AnuncioProvider = ({ children }) => {
   const [anuncios, setAnuncios] = useState([]);
   const [activeAnuncio, setActiveAnuncio] = useState({});
   const { userToken, user, reloadUser, favorites, fetchFavorites } = useContext(AuthContext);
+  const [countTotalAds, setCountTotalAds] = useState(0);
 
   const fetchAnuncios = async (offset) => {
     try {
       const returnedAnuncios = await anuncioApi.getAll(offset);
+      const auxTotalAds = await anuncioApi.getNumberOfAds();
       const auxAnuncios = [];
       returnedAnuncios.forEach((anuncio) => {
         let editedAnuncio = extractComodidades(anuncio);
@@ -37,6 +40,7 @@ export const AnuncioProvider = ({ children }) => {
         auxAnuncios.push(editedAnuncio);
       });
       setAnuncios(auxAnuncios);
+      setCountTotalAds(auxTotalAds);
       return 'success';
     } catch (error) {
       return 'error';
@@ -116,6 +120,7 @@ export const AnuncioProvider = ({ children }) => {
       value={{
         anuncios,
         activeAnuncio,
+        countTotalAds,
         fetchAnuncios,
         fetchActiveAnuncio,
         toggleInterest,

@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 import PropTypes from 'prop-types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
@@ -14,6 +15,7 @@ const PropriedadeContext = createContext({
   activeRentAsInquilino: null,
   inactiveRentsAsInquilino: null,
   allRents: null,
+  propMeans: null,
   fetchPropriedadesProprias: null,
   fetchRentsAsInquilino: null,
   fetchRentsAsOwner: null,
@@ -35,6 +37,7 @@ export const PropriedadeProvider = ({ children }) => {
   const [activePropInterests, setActivePropInterests] = useState([]);
   const [activePropRents, setActivePropRents] = useState([]);
   const [allRents, setAllRents] = useState([]);
+  const [propMeans, setPropMeans] = useState(null);
 
   const { user, userToken, reloadUser, changeUserToken } = useContext(AuthContext);
 
@@ -52,6 +55,20 @@ export const PropriedadeProvider = ({ children }) => {
       }
       setPropriedadesProprias([]);
       return '';
+    } catch (error) {
+      return 'error';
+    }
+  };
+
+  const fetchPropMeans = async () => {
+    try {
+      const auxMeans = {};
+      for (const propriedade of propriedadesProprias) {
+        const propMean = await propriedadeApi.getEvaluation(propriedade.id);
+        auxMeans[propriedade.id] = propMean;
+      }
+      setPropMeans(auxMeans);
+      return 'success';
     } catch (error) {
       return 'error';
     }
@@ -195,6 +212,10 @@ export const PropriedadeProvider = ({ children }) => {
   }, [activePropriedade]);
 
   useEffect(() => {
+    fetchPropMeans();
+  }, [propriedadesProprias]);
+
+  useEffect(() => {
     clearAll();
   }, [userToken]);
 
@@ -208,6 +229,7 @@ export const PropriedadeProvider = ({ children }) => {
         activeRentAsInquilino,
         inactiveRentsAsInquilino,
         allRents,
+        propMeans,
         fetchPropriedadesProprias,
         fetchRentsAsInquilino,
         fetchRentsAsOwner,

@@ -23,10 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 const AnuncioList = () => {
   const classes = useStyles();
-  const { anuncios, fetchAnuncios, loadFavorites } = useContext(AnuncioContext);
+  const { anuncios, countTotalAds, fetchAnuncios, loadFavorites } = useContext(AnuncioContext);
   const { favorites } = useContext(AuthContext);
   const [offset, setOffset] = useState(1);
-  const [pageNumber, setPageNumber] = useState(2);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -45,7 +44,6 @@ const AnuncioList = () => {
 
   const handlePageChange = (event, value) => {
     setOffset((value - 1) * 20);
-    setPageNumber(value + 1);
   };
 
   useEffect(() => {
@@ -81,7 +79,12 @@ const AnuncioList = () => {
           </Grid>
         </Box>
         <Box mt={3} display='flex' justifyContent='center'>
-          <Pagination color='primary' count={pageNumber} size='small' onChange={handlePageChange} />
+          <Pagination
+            color='primary'
+            count={(countTotalAds / 20).toFixed(0)}
+            size='small'
+            onChange={handlePageChange}
+          />
         </Box>
         <ConfirmDialog
           isConfirmDialogOpen={isConfirmDialogOpen}

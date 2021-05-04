@@ -22,9 +22,13 @@ const useStyles = makeStyles((theme) => ({
 
 const OwnerDashboard = () => {
   const classes = useStyles();
-  const { fetchPropriedadesProprias, propriedadesProprias, allRents, fetchAllRents } = useContext(
-    PropriedadeContext
-  );
+  const {
+    fetchPropriedadesProprias,
+    propriedadesProprias,
+    propMeans,
+    allRents,
+    fetchAllRents,
+  } = useContext(PropriedadeContext);
   const [occupiedVacs, setOccupiedVacs] = useState(0);
   const [lucroTotalAtual, setLucroTotalAtual] = useState(0);
   const [lucroTotalPossivel, setLucroTotalPossivel] = useState(0);
@@ -66,7 +70,11 @@ const OwnerDashboard = () => {
       <Container maxWidth={false}>
         <Grid container spacing={3}>
           <Grid item lg={12} md={12} xl={12} xs={12}>
-            <LatestOrders propriedades={propriedadesProprias} occupiedVacs={occupiedVacs} />
+            <LatestOrders
+              propriedades={propriedadesProprias}
+              occupiedVacs={occupiedVacs}
+              propMeans={propMeans}
+            />
           </Grid>
 
           <Grid item lg={6} sm={12} xl={6} xs={12}>
