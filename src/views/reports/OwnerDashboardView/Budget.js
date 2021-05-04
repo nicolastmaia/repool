@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
-import formatNumberToBr from 'src/utils/formatNumberToBr';
+import { formatPriceToBr } from 'src/utils/numberUtils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +45,7 @@ const Budget = ({ className, lucroTotalAtual, ...rest }) => {
               Lucro previsto em 6 meses
             </Typography>
             <Typography color='textPrimary' variant='h3'>
-              {formatNumberToBr(lucroTotalAtual * 6)}
+              {formatPriceToBr(lucroTotalAtual * 6)}
             </Typography>
           </Grid>
           <Grid item lg={4}>

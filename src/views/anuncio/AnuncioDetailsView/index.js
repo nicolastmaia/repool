@@ -232,8 +232,15 @@ const AnuncioDetails = ({ className, ...rest }) => {
                   Comodidades
                 </Typography>
               </Grid>
-              {comodidades &&
-                comodidades.map((comodidade) => <ComodidadeItem nome={comodidade.nome} />)}
+              {comodidades && comodidades.length > 0 ? (
+                comodidades.map((comodidade) => <ComodidadeItem nome={comodidade.nome} />)
+              ) : (
+                <Grid item>
+                  <Typography variant='h4'>
+                    Nenhuma comodidade cadastrada nesta propriedade
+                  </Typography>
+                </Grid>
+              )}
             </Grid>
           </Grid>
 

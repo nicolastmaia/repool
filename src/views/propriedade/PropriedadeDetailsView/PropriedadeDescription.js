@@ -3,6 +3,7 @@ import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mat
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
+import { formatPriceToBr } from 'src/utils/numberUtils';
 
 const useStyles = makeStyles((theme) => ({
   descriptionContainer: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const PropriedadeDescription = ({ propriedade, activeRents }) => {
   const classes = useStyles();
   const [expand, setExpand] = useState(false);
+  const { vacancyPrice } = propriedade;
 
   const toggleExpand = () => {
     setExpand((prevState) => !prevState);
@@ -45,7 +47,9 @@ const PropriedadeDescription = ({ propriedade, activeRents }) => {
         <Typography className={classes.textGutterBottom} variant='h3'>
           {`Esta propriedade possui ${activeRents.length} de ${propriedade.vacancyNumber} vagas ocupadas.`}
         </Typography>
-        <Typography variant='h4'>Valor de uma vaga: R${propriedade.vacancyPrice}</Typography>
+        <Typography variant='h4'>
+          Valor de uma vaga: {formatPriceToBr(vacancyPrice || 0)}
+        </Typography>
       </Container>
     </Container>
   );

@@ -71,6 +71,8 @@ const PropriedadeDetails = ({ className, ...rest }) => {
   const [isUserInterestDialogOpen, setUserInterestDialogOpen] = useState(false);
   const [isUserRentDialogOpen, setUserRentDialogOpen] = useState(false);
   const [dialogInfo, setDialogInfo] = useState(null);
+  const { comodidades } = activePropriedade;
+
   const navigate = useNavigate();
 
   const { pathname } = window.location;
@@ -165,22 +167,24 @@ const PropriedadeDetails = ({ className, ...rest }) => {
 
       <Container className={classes.pageBottomContainer}>
         <Grid container direction='row' wrap='wrap' spacing={10}>
-          {activePropriedade.comodidades ? (
-            <Grid item xs={12} sm={6}>
-              <Grid container direction='column' justify='space-evenly' spacing={6}>
+          <Grid item xs={12} sm={6}>
+            <Grid container direction='column' justify='space-evenly' spacing={6}>
+              <Grid item>
+                <Typography gutterBottom variant='h2'>
+                  Comodidades
+                </Typography>
+              </Grid>
+              {comodidades && comodidades.length > 0 ? (
+                comodidades.map((comodidade) => <ComodidadeItem nome={comodidade.nome} />)
+              ) : (
                 <Grid item>
-                  <Typography gutterBottom variant='h2'>
-                    Comodidades
+                  <Typography variant='h4'>
+                    Nenhuma comodidade cadastrada nesta propriedade
                   </Typography>
                 </Grid>
-                {activePropriedade.comodidades.map((comodidade) => (
-                  <ComodidadeItem nome={comodidade.nome} />
-                ))}
-              </Grid>
+              )}
             </Grid>
-          ) : (
-            <></>
-          )}
+          </Grid>
 
           {activePropriedade.comentarios > 0 ? (
             <Grid item xs={12} sm={6}>

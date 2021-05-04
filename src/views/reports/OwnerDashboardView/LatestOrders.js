@@ -17,7 +17,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import formatNumberToBr from 'src/utils/formatNumberToBr';
+import { formatPriceToBr } from 'src/utils/numberUtils';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -64,9 +64,9 @@ const LatestOrders = ({ className, propriedades, occupiedVacs, ...rest }) => {
                   <TableCell align='right'>
                     {occupiedVacs ? occupiedVacs[propriedade.id] : 0}
                   </TableCell>
-                  <TableCell align='right'>{formatNumberToBr(propriedade.vacancyPrice)}</TableCell>
+                  <TableCell align='right'>{formatPriceToBr(propriedade.vacancyPrice)}</TableCell>
                   <TableCell align='right'>
-                    {formatNumberToBr(propriedade.vacancyPrice * occupiedVacs[propriedade.id])}
+                    {formatPriceToBr(propriedade.vacancyPrice * occupiedVacs[propriedade.id])}
                   </TableCell>
                 </TableRow>
               ))}

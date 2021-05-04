@@ -2,12 +2,14 @@ import {
   Card,
   CardHeader,
   Divider,
+  Grid,
   List,
   ListItem,
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
   makeStyles,
+  Typography,
 } from '@material-ui/core';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import clsx from 'clsx';
@@ -48,7 +50,9 @@ const RentUsers = ({ className, data, toggleDialog, ...rest }) => {
             </ListItem>
           ))
         ) : (
-          <></>
+          <Grid container justify='center'>
+            <Typography variant='body2'>Nenhum inquilino nesta propriedade</Typography>
+          </Grid>
         )}
       </List>
       <Divider />

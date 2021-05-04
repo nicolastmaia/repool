@@ -3,10 +3,8 @@ import React, { useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
 import PropTypes from 'prop-types';
 
-import {
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-} from '@material-ui/icons';
+import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons';
+import { formatPriceToBr } from 'src/utils/numberUtils';
 
 const useStyles = makeStyles((theme) => ({
   descriptionContainer: {
@@ -24,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const AnuncioDescription = ({ anuncio }) => {
   const classes = useStyles();
   const [expand, setExpand] = useState(false);
+  const { vacancyPrice } = anuncio;
 
   const toggleExpand = () => {
     setExpand((prevState) => !prevState);
@@ -50,7 +49,7 @@ const AnuncioDescription = ({ anuncio }) => {
           Há {anuncio.vacancyNumber} vagas nessa propriedade
         </Typography>
         <Typography variant='h4'>
-          Valor de uma vaga: R${anuncio.vacancyPrice}
+          Valor de uma vaga: {formatPriceToBr(vacancyPrice || 0)}
         </Typography>
       </Container>
     </Container>

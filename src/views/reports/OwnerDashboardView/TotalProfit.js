@@ -13,7 +13,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
-import formatNumberToBr from 'src/utils/formatNumberToBr';
+import { formatPriceToBr } from 'src/utils/numberUtils';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -38,7 +38,7 @@ const TotalProfit = ({ className, lucroTotalAtual, lucroTotalPossivel, ...rest }
               Lucro Mensal Atual
             </Typography>
             <Typography color='textPrimary' variant='h3'>
-              {formatNumberToBr(lucroTotalAtual)}
+              {formatPriceToBr(lucroTotalAtual)}
             </Typography>
           </Grid>
           <Grid item>
@@ -46,7 +46,7 @@ const TotalProfit = ({ className, lucroTotalAtual, lucroTotalPossivel, ...rest }
               Lucro Mensal Possível
             </Typography>
             <Typography color='textPrimary' variant='h3'>
-              {formatNumberToBr(lucroTotalPossivel)}
+              {formatPriceToBr(lucroTotalPossivel)}
             </Typography>
           </Grid>
           <Grid item>
