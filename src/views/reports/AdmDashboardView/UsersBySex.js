@@ -1,21 +1,22 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { Doughnut } from 'react-chartjs-2';
+/* eslint-disable indent */
 import {
   Box,
   Card,
   CardContent,
   CardHeader,
-  Divider,
-  Typography,
   colors,
+  Divider,
   makeStyles,
+  Typography,
   useTheme,
 } from '@material-ui/core';
 import LaptopMacIcon from '@material-ui/icons/LaptopMac';
 import PhoneIcon from '@material-ui/icons/Phone';
 import TabletIcon from '@material-ui/icons/Tablet';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Doughnut } from 'react-chartjs-2';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -23,21 +24,21 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const TrafficByDevice = ({ className, ...rest }) => {
+const UsersBySex = ({ className, usersBySex, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
   const data = {
     datasets: [
       {
-        data: [65, 15, 22],
+        data: usersBySex ? [usersBySex.men, usersBySex.women, usersBySex.unknow] : [0, 0, 0],
         backgroundColor: [colors.indigo[500], colors.red[600], colors.orange[600]],
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white,
       },
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile'],
+    labels: ['Masculino', 'Feminino', 'Outros'],
   };
 
   const options = {
@@ -64,20 +65,20 @@ const TrafficByDevice = ({ className, ...rest }) => {
 
   const devices = [
     {
-      title: 'Desktop',
-      value: 63,
+      title: 'Masculino',
+      value: usersBySex ? ((usersBySex.men * 100) / usersBySex.all).toFixed(1) : 0,
       icon: LaptopMacIcon,
       color: colors.indigo[500],
     },
     {
-      title: 'Tablet',
-      value: 15,
+      title: 'Feminino',
+      value: usersBySex ? ((usersBySex.women * 100) / usersBySex.all).toFixed(1) : 0,
       icon: TabletIcon,
       color: colors.red[600],
     },
     {
-      title: 'Mobile',
-      value: 23,
+      title: 'Outros',
+      value: usersBySex ? ((usersBySex.unknow * 100) / usersBySex.all).toFixed(1) : 0,
       icon: PhoneIcon,
       color: colors.orange[600],
     },
@@ -85,16 +86,15 @@ const TrafficByDevice = ({ className, ...rest }) => {
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader title='Traffic by Device' />
+      <CardHeader title='Usuários criados por gênero no último mês' />
       <Divider />
       <CardContent>
         <Box height={300} position='relative'>
           <Doughnut data={data} options={options} />
         </Box>
         <Box display='flex' justifyContent='center' mt={2}>
-          {devices.map(({ color, icon: Icon, title, value }) => (
+          {devices.map(({ color, title, value }) => (
             <Box key={title} p={1} textAlign='center'>
-              <Icon color='action' />
               <Typography color='textPrimary' variant='body1'>
                 {title}
               </Typography>
@@ -109,8 +109,9 @@ const TrafficByDevice = ({ className, ...rest }) => {
   );
 };
 
-TrafficByDevice.propTypes = {
+UsersBySex.propTypes = {
   className: PropTypes.string,
+  usersBySex: PropTypes.object,
 };
 
-export default TrafficByDevice;
+export default UsersBySex;
