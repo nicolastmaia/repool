@@ -2,15 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  AppBar,
-  Badge,
-  Box,
-  Hidden,
-  IconButton,
-  Toolbar,
-  makeStyles,
-} from '@material-ui/core';
+import { AppBar, Badge, Box, Hidden, IconButton, Toolbar, makeStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
@@ -38,25 +30,14 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
         </RouterLink>
         <Box flexGrow={1} />
         <Hidden mdDown>
-          <IconButton color='inherit'>
-            <Badge
-              badgeContent={notifications.length}
-              color='primary'
-              variant='dot'
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton
-            component={RouterLink}
-            to='/'
-            onClick={logout}
-            color='inherit'
-          >
+          <IconButton component={RouterLink} to='/' onClick={logout} color='inherit'>
             <InputIcon />
           </IconButton>
         </Hidden>
         <Hidden lgUp>
+          <IconButton component={RouterLink} to='/' onClick={logout} color='inherit'>
+            <InputIcon />
+          </IconButton>
           <IconButton color='inherit' onClick={onMobileNavOpen}>
             <MenuIcon />
           </IconButton>
