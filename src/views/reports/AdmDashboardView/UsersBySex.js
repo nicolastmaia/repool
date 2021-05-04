@@ -33,7 +33,7 @@ const UsersBySex = ({ className, usersBySex, ...rest }) => {
     datasets: [
       {
         data: quantidades
-          ? [quantidades.MALE || 0, quantidades.FEMALE || 0, quantidades.UNKNOW || 0]
+          ? [quantidades.MALE || 0, quantidades.FEMALE || 0, quantidades.NOTKNOW || 0]
           : [0, 0, 0],
         backgroundColor: [colors.indigo[500], colors.red[600], colors.orange[600]],
         borderWidth: 8,
@@ -86,8 +86,8 @@ const UsersBySex = ({ className, usersBySex, ...rest }) => {
     {
       title: 'Outros',
       value:
-        quantidades && quantidades.UNKNOW
-          ? ((quantidades.UNKNOW * 100) / usersBySex.all).toFixed(1)
+        quantidades && quantidades.NOTKNOW
+          ? ((quantidades.NOTKNOW * 100) / usersBySex.all).toFixed(1)
           : 0,
       color: colors.orange[600],
     },
