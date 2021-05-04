@@ -54,11 +54,6 @@ const PropriedadeList = () => {
         <Typography className={classes.minhasPropriedades} variant='h1'>
           Minhas Propriedades
         </Typography>
-        <Box mt={3} display='flex' justifyContent='center'>
-          <Pagination color='primary' count={1} size='small' />
-          {/* TODO quantidade de páginas de anúncios aqui em cima.
-          precisa variar com a quantidade de itens que teremos em cada página */}
-        </Box>
 
         <Box mt={3} mb={3}>
           <Grid container spacing={3}>
