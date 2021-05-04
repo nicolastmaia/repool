@@ -4,7 +4,7 @@ const adminEndpoint = '/admin';
 
 const adminApi = {
   getQtdUsersBySex: async (userToken) => {
-    const response = await repoolApi.get(`${adminEndpoint}/sex-mounth`, {
+    const response = await repoolApi.get(`${adminEndpoint}/sex-month`, {
       headers: {
         Authorization: userToken,
       },
@@ -14,7 +14,7 @@ const adminApi = {
   },
 
   getQtdPropsByState: async (userToken) => {
-    const response = await repoolApi.get(`${adminEndpoint}/properties-mounth`, {
+    const response = await repoolApi.get(`${adminEndpoint}/properties-month`, {
       headers: {
         Authorization: userToken,
       },
@@ -24,7 +24,7 @@ const adminApi = {
   },
 
   getQtdActivePropsByState: async (userToken) => {
-    const response = await repoolApi.get(`${adminEndpoint}/ad-mounth`, {
+    const response = await repoolApi.get(`${adminEndpoint}/ad-month`, {
       headers: {
         Authorization: userToken,
       },

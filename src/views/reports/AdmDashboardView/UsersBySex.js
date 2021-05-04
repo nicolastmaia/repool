@@ -15,7 +15,7 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import TabletIcon from '@material-ui/icons/Tablet';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
 const useStyles = makeStyles(() => ({
@@ -27,11 +27,14 @@ const useStyles = makeStyles(() => ({
 const UsersBySex = ({ className, usersBySex, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const [quantidades, setQuantidades] = useState(null);
 
   const data = {
     datasets: [
       {
-        data: usersBySex ? [usersBySex.men, usersBySex.women, usersBySex.unknow] : [0, 0, 0],
+        data: quantidades
+          ? [quantidades.MALE || 0, quantidades.FEMALE || 0, quantidades.UNKNOW || 0]
+          : [0, 0, 0],
         backgroundColor: [colors.indigo[500], colors.red[600], colors.orange[600]],
         borderWidth: 8,
         borderColor: colors.common.white,
@@ -63,26 +66,43 @@ const UsersBySex = ({ className, usersBySex, ...rest }) => {
     },
   };
 
-  const devices = [
+  const people = [
     {
       title: 'Masculino',
-      value: usersBySex ? ((usersBySex.men * 100) / usersBySex.all).toFixed(1) : 0,
-      icon: LaptopMacIcon,
+      value:
+        quantidades && quantidades.MALE
+          ? ((quantidades.MALE * 100) / usersBySex.all).toFixed(1)
+          : 0,
       color: colors.indigo[500],
     },
     {
       title: 'Feminino',
-      value: usersBySex ? ((usersBySex.women * 100) / usersBySex.all).toFixed(1) : 0,
-      icon: TabletIcon,
+      value:
+        quantidades && quantidades.FEMALE
+          ? ((quantidades.FEMALE * 100) / usersBySex.all).toFixed(1)
+          : 0,
       color: colors.red[600],
     },
     {
       title: 'Outros',
-      value: usersBySex ? ((usersBySex.unknow * 100) / usersBySex.all).toFixed(1) : 0,
-      icon: PhoneIcon,
+      value:
+        quantidades && quantidades.UNKNOW
+          ? ((quantidades.UNKNOW * 100) / usersBySex.all).toFixed(1)
+          : 0,
       color: colors.orange[600],
     },
   ];
+
+  useEffect(() => {
+    if (usersBySex !== null) {
+      const { usersBySexCreatedThirtyDaysAgo: qtds } = usersBySex;
+      const qtdAux = {};
+      qtds.forEach((item) => {
+        qtdAux[item.sex] = item.count.sex;
+      });
+      setQuantidades(qtdAux);
+    }
+  }, [usersBySex]);
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
@@ -93,7 +113,7 @@ const UsersBySex = ({ className, usersBySex, ...rest }) => {
           <Doughnut data={data} options={options} />
         </Box>
         <Box display='flex' justifyContent='center' mt={2}>
-          {devices.map(({ color, title, value }) => (
+          {people.map(({ color, title, value }) => (
             <Box key={title} p={1} textAlign='center'>
               <Typography color='textPrimary' variant='body1'>
                 {title}
