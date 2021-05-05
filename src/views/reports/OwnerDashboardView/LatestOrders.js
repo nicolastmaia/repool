@@ -56,7 +56,9 @@ const LatestOrders = ({ className, propriedades, occupiedVacs, propMeans, ...res
                       <Grid container justify='flex-end'>
                         <Grid item>
                           <Typography>
-                            {propMeans ? propMeans[propriedade.id].avg.value : 0}
+                            {propMeans && propMeans[propriedade.id].avg.value
+                              ? propMeans[propriedade.id].avg.value
+                              : 0}
                           </Typography>
                         </Grid>
                         <StarIcon fontSize='small' color='action' />

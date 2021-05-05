@@ -23,9 +23,9 @@ const ProfileDetails = ({ className, ...rest }) => {
   const { user } = useContext(AuthContext);
 
   const [values, setValues] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
+    name: user.name,
     email: user.email,
+    bio: user.bio,
     cel: user.cel,
     tel: user.tel,
   });
@@ -38,12 +38,7 @@ const ProfileDetails = ({ className, ...rest }) => {
   };
 
   return (
-    <form
-      autoComplete='off'
-      noValidate
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <form autoComplete='off' noValidate className={clsx(classes.root, className)} {...rest}>
       <Card>
         <CardHeader subheader='The information can be edited' title='Profile' />
         <Divider />
@@ -52,33 +47,21 @@ const ProfileDetails = ({ className, ...rest }) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText='Please specify the first name'
-                label='First name'
-                name='firstName'
+                label='Nome Completo'
+                name='name'
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={values.name}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                fullWidth
-                label='Last name'
-                name='lastName'
-                onChange={handleChange}
-                required
-                value={values.lastName}
-                variant='outlined'
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
+                disabled
                 fullWidth
                 label='Email Address'
                 name='email'
                 onChange={handleChange}
-                required
                 value={values.email}
                 variant='outlined'
               />
@@ -86,8 +69,19 @@ const ProfileDetails = ({ className, ...rest }) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
+                label='Biografia'
+                name='biografia'
+                onChange={handleChange}
+                value={values.bio}
+                variant='outlined'
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <TextField
+                fullWidth
                 label='Phone Number'
-                name='phone'
+                name='Celular'
+                required
                 onChange={handleChange}
                 value={values.cel}
                 variant='outlined'
@@ -97,7 +91,7 @@ const ProfileDetails = ({ className, ...rest }) => {
               <Grid item md={6} xs={12}>
                 <TextField
                   fullWidth
-                  label='Phone Number'
+                  label='Telefone Residencial'
                   name='phone'
                   onChange={handleChange}
                   value={values.cel}

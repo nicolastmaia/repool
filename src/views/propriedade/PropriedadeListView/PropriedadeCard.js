@@ -93,17 +93,6 @@ const PropriedadeCard = ({ openConfirmDialog, className, propriedade, rate, ...r
           </Typography>
         </Link>
       </CardContent>
-
-      <Divider />
-      <Box p={0.5}>
-        <Grid container justify='space-between' spacing={2}>
-          <Grid className={classes.statsItem} item>
-            <Box component='fieldset' borderColor='transparent'>
-              <Rating name='read-only' value={rate} precision={0.2} readOnly />
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
     </Card>
   );
 };

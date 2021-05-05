@@ -61,11 +61,7 @@ const PropriedadeList = () => {
             {propriedadesProprias &&
               propriedadesProprias.map((propriedade) => (
                 <Grid item key={propriedade.id} lg={3} md={4} sm={6} xs={12}>
-                  <PropriedadeCard
-                    className={classes.propriedadeCard}
-                    propriedade={propriedade}
-                    rate={propMeans ? propMeans[propriedade.id].avg.value : 0}
-                  />
+                  <PropriedadeCard className={classes.propriedadeCard} propriedade={propriedade} />
                 </Grid>
               ))}
           </Grid>

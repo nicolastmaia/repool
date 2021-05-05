@@ -190,6 +190,7 @@ export const PropriedadeProvider = ({ children }) => {
       } else {
         await propriedadeApi.postAsOwner(propriedade, photo, userToken);
       }
+      await fetchPropriedadesProprias();
       reloadUser();
       return 'success';
     } catch (error) {

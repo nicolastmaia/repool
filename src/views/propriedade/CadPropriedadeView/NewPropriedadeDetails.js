@@ -99,7 +99,6 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
   const handleSave = async (propriedade, setSubmittingLoader) => {
     let tmpPropriedade = appendComodidades(propriedade);
     tmpPropriedade = appendAd(tmpPropriedade);
-    console.log(tmpPropriedade);
 
     const message = await savePropriedade(tmpPropriedade, avatarFile);
     setSnackbarMessage(message);
@@ -155,23 +154,13 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().max(255).required('Nome da propriedade é obrigatório'),
-      category: Yup.string()
-        .max(255)
-        .required('Categoria da propriedade é obrigatória'),
+      category: Yup.string().max(255).required('Categoria da propriedade é obrigatória'),
       cep: Yup.string().max(255).required('CEP da propriedade é obrigatório'),
-      street: Yup.string()
-        .max(255)
-        .required('Rua da propriedade é obrigatória'),
-      neighborhood: Yup.string()
-        .max(255)
-        .required('Bairro da propriedade é obrigatório'),
-      city: Yup.string()
-        .max(255)
-        .required('Cidade da propriedade é obrigatório'),
+      street: Yup.string().max(255).required('Rua da propriedade é obrigatória'),
+      neighborhood: Yup.string().max(255).required('Bairro da propriedade é obrigatório'),
+      city: Yup.string().max(255).required('Cidade da propriedade é obrigatório'),
       uf: Yup.string().max(255).required('Estado da propriedade é obrigatório'),
-      country: Yup.string()
-        .max(255)
-        .required('País da propriedade é obrigatório'),
+      country: Yup.string().max(255).required('País da propriedade é obrigatório'),
       vacancyNumber: Yup.number(),
       vacancyPrice: Yup.number(),
     }),
@@ -227,9 +216,7 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                error={Boolean(
-                  formik.touched.category && formik.errors.category
-                )}
+                error={Boolean(formik.touched.category && formik.errors.category)}
                 helperText={formik.touched.category && formik.errors.category}
                 onBlur={formik.handleBlur}
                 fullWidth
@@ -324,12 +311,8 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                error={Boolean(
-                  formik.touched.neighborhood && formik.errors.neighborhood
-                )}
-                helperText={
-                  formik.touched.neighborhood && formik.errors.neighborhood
-                }
+                error={Boolean(formik.touched.neighborhood && formik.errors.neighborhood)}
+                helperText={formik.touched.neighborhood && formik.errors.neighborhood}
                 onBlur={formik.handleBlur}
                 fullWidth
                 label='Bairro'
@@ -369,12 +352,8 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                error={Boolean(
-                  formik.touched.complement && formik.errors.complement
-                )}
-                helperText={
-                  formik.touched.complement && formik.errors.complement
-                }
+                error={Boolean(formik.touched.complement && formik.errors.complement)}
+                helperText={formik.touched.complement && formik.errors.complement}
                 onBlur={formik.handleBlur}
                 fullWidth
                 label='Complemento'
@@ -386,12 +365,8 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                error={Boolean(
-                  formik.touched.vacancyNumber && formik.errors.vacancyNumber
-                )}
-                helperText={
-                  formik.touched.vacancyNumber && formik.errors.vacancyNumber
-                }
+                error={Boolean(formik.touched.vacancyNumber && formik.errors.vacancyNumber)}
+                helperText={formik.touched.vacancyNumber && formik.errors.vacancyNumber}
                 onBlur={formik.handleBlur}
                 fullWidth
                 label='Quantidade de vagas'
@@ -404,12 +379,8 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                error={Boolean(
-                  formik.touched.vacancyPrice && formik.errors.vacancyPrice
-                )}
-                helperText={
-                  formik.touched.vacancyPrice && formik.errors.vacancyPrice
-                }
+                error={Boolean(formik.touched.vacancyPrice && formik.errors.vacancyPrice)}
+                helperText={formik.touched.vacancyPrice && formik.errors.vacancyPrice}
                 onBlur={formik.handleBlur}
                 fullWidth
                 label='Preço das vagas'
@@ -422,12 +393,8 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
             </Grid>
             <Grid item md={12} xs={12}>
               <TextField
-                error={Boolean(
-                  formik.touched.description && formik.errors.description
-                )}
-                helperText={
-                  formik.touched.description && formik.errors.description
-                }
+                error={Boolean(formik.touched.description && formik.errors.description)}
+                helperText={formik.touched.description && formik.errors.description}
                 onBlur={formik.handleBlur}
                 fullWidth
                 label='Descrição personalizada'
@@ -451,10 +418,7 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
                   >
                     {comodidades &&
                       comodidades.map((comodidade) => (
-                        <ToggleButton
-                          value={comodidade.attribute}
-                          aria-label='bold'
-                        >
+                        <ToggleButton value={comodidade.attribute} aria-label='bold'>
                           <Avatar
                             variant='square'
                             style={{
@@ -505,10 +469,7 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
           <Button style={{ margin: 8 }} variant='contained'>
             Cancelar
           </Button>
-          <CustomSnackbar
-            message={snackbarMessage}
-            handleCloseSnackbar={handleCloseSnackbar}
-          />
+          <CustomSnackbar message={snackbarMessage} handleCloseSnackbar={handleCloseSnackbar} />
         </Box>
       </Card>
     </form>
