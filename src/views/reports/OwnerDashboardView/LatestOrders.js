@@ -48,30 +48,31 @@ const LatestOrders = ({ className, propriedades, occupiedVacs, propMeans, ...res
               </TableRow>
             </TableHead>
             <TableBody>
-              {propriedades.map((propriedade) => (
-                <TableRow hover key={propriedade.id}>
-                  <TableCell align='left'>{propriedade.name}</TableCell>
-                  <TableCell align='right'>
-                    <Grid container justify='flex-end'>
-                      <Grid item>
-                        <Typography>
-                          {propMeans ? propMeans[propriedade.id].avg.value : 0}
-                        </Typography>
+              {propriedades.length > 0 &&
+                propriedades.map((propriedade) => (
+                  <TableRow hover key={propriedade.id}>
+                    <TableCell align='left'>{propriedade.name}</TableCell>
+                    <TableCell align='right'>
+                      <Grid container justify='flex-end'>
+                        <Grid item>
+                          <Typography>
+                            {propMeans ? propMeans[propriedade.id].avg.value : 0}
+                          </Typography>
+                        </Grid>
+                        <StarIcon fontSize='small' color='action' />
                       </Grid>
-                      <StarIcon fontSize='small' color='action' />
-                    </Grid>
-                  </TableCell>
-                  <TableCell align='right'>{propriedade.viewed}</TableCell>
-                  <TableCell align='right'>{propriedade.vacancyNumber}</TableCell>
-                  <TableCell align='right'>
-                    {occupiedVacs ? occupiedVacs[propriedade.id] : 0}
-                  </TableCell>
-                  <TableCell align='right'>{formatPriceToBr(propriedade.vacancyPrice)}</TableCell>
-                  <TableCell align='right'>
-                    {formatPriceToBr(propriedade.vacancyPrice * occupiedVacs[propriedade.id])}
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                    <TableCell align='right'>{propriedade.viewed}</TableCell>
+                    <TableCell align='right'>{propriedade.vacancyNumber}</TableCell>
+                    <TableCell align='right'>
+                      {occupiedVacs ? occupiedVacs[propriedade.id] : 0}
+                    </TableCell>
+                    <TableCell align='right'>{formatPriceToBr(propriedade.vacancyPrice)}</TableCell>
+                    <TableCell align='right'>
+                      {formatPriceToBr(propriedade.vacancyPrice * occupiedVacs[propriedade.id])}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </Box>

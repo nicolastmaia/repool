@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import propriedadeApi from 'src/api/propriedades';
 import { extractComodidades } from 'src/utils/anuncioUtils';
+import { isEmpty } from 'src/utils/objUtils';
 import { separateActiveAndInactive, substituteInterest } from 'src/utils/propriedadeUtils';
 import AuthContext from './AuthContext';
 
@@ -63,11 +64,12 @@ export const PropriedadeProvider = ({ children }) => {
   const fetchPropMeans = async () => {
     try {
       const auxMeans = {};
-      for (const propriedade of propriedadesProprias) {
+      const promises = propriedadesProprias.map(async (propriedade) => {
         const propMean = await propriedadeApi.getEvaluation(propriedade.id);
         auxMeans[propriedade.id] = propMean;
-      }
-      setPropMeans(auxMeans);
+      });
+      await Promise.all(promises);
+      setPropMeans(isEmpty(auxMeans) ? auxMeans : null);
       return 'success';
     } catch (error) {
       return 'error';
