@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AnuncioContext from 'src/contexts/AnuncioContext';
+import AuthContext from 'src/contexts/AuthContext';
 import { formatPriceToBr } from 'src/utils/numberUtils';
 import comodidadesContent from '../../../constants/comodidades';
 
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   const classes = useStyles();
   const { toggleFavorite } = useContext(AnuncioContext);
+  const { userToken } = useContext(AuthContext);
   const { comodidades, isFavorite, isMyProperty } = anuncio;
 
   const handleFavoritePress = async () => {
@@ -109,7 +111,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
           <Grid item>
             <Typography variant='subtitle1'>{formatPriceToBr(anuncio.vacancyPrice)}</Typography>
           </Grid>
-          {!isMyProperty ? (
+          {userToken && !isMyProperty ? (
             <IconButton onClick={handleFavoritePress}>
               {isFavorite ? <FavoriteIcon color='action' /> : <FavoriteBorderIcon color='action' />}
             </IconButton>

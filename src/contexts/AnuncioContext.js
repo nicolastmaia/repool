@@ -38,8 +38,8 @@ export const AnuncioProvider = ({ children }) => {
       const auxAnuncios = [];
       returnedAnuncios.forEach((anuncio) => {
         let editedAnuncio = extractComodidades(anuncio);
-        editedAnuncio = checkIfMyProperty(editedAnuncio, user.property);
-        editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
+        editedAnuncio = userToken ? checkIfMyProperty(editedAnuncio, user.property) : editedAnuncio;
+        editedAnuncio = userToken ? checkIfFavorite(editedAnuncio, favorites) : editedAnuncio;
         auxAnuncios.push(editedAnuncio);
       });
       setAnuncios(auxAnuncios);
@@ -99,9 +99,11 @@ export const AnuncioProvider = ({ children }) => {
     try {
       const tmpAnuncio = await anuncioApi.getOne(id);
       let editedAnuncio = extractComodidades(tmpAnuncio);
-      editedAnuncio = checkIfInterest(editedAnuncio, user);
-      editedAnuncio = checkIfActiveRent(editedAnuncio, user);
-      editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
+      if (userToken) {
+        editedAnuncio = checkIfInterest(editedAnuncio, user);
+        editedAnuncio = checkIfActiveRent(editedAnuncio, user);
+        editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
+      }
       setActiveAnuncio(editedAnuncio);
       return 'success';
     } catch (error) {

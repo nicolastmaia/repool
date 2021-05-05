@@ -71,7 +71,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
     AnuncioContext
   );
   const { subscriberConfirmRent, subscriberRemoveRent } = useContext(PropriedadeContext);
-  const { favorites, user } = useContext(AuthContext);
+  const { favorites, user, userToken } = useContext(AuthContext);
   const { comodidades } = activeAnuncio;
 
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -124,7 +124,8 @@ const AnuncioDetails = ({ className, ...rest }) => {
           <Grid item>
             <Typography variant='h1'>{activeAnuncio.name}</Typography>
           </Grid>
-          {user.role !== 'ADMIN' ? (
+
+          {userToken && user.role !== 'ADMIN' ? (
             <Grid item>
               {!activeAnuncio.rent ? (
                 <Grid container spacing={2}>
@@ -198,20 +199,24 @@ const AnuncioDetails = ({ className, ...rest }) => {
             />
           </Grid>
           <IconButton onClick={handleFavoritePress}>
-            {activeAnuncio.isFavorite ? (
-              <>
-                <FavoriteIcon color='action' />
-                <Typography className={classes.favoriteText} variant='h4'>
-                  Desfavoritar
-                </Typography>
-              </>
+            {userToken ? (
+              activeAnuncio.isFavorite ? (
+                <>
+                  <FavoriteIcon color='action' />
+                  <Typography className={classes.favoriteText} variant='h4'>
+                    Desfavoritar
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <FavoriteBorderIcon color='action' />
+                  <Typography className={classes.favoriteText} variant='h4'>
+                    Favoritar
+                  </Typography>
+                </>
+              )
             ) : (
-              <>
-                <FavoriteBorderIcon color='action' />
-                <Typography className={classes.favoriteText} variant='h4'>
-                  Favoritar
-                </Typography>
-              </>
+              <></>
             )}
           </IconButton>
         </Grid>
