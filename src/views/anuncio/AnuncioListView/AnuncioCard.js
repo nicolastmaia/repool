@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AnuncioContext from 'src/contexts/AnuncioContext';
+import { formatPriceToBr } from 'src/utils/numberUtils';
 import comodidadesContent from '../../../constants/comodidades';
 
 const useStyles = makeStyles((theme) => ({
@@ -98,7 +99,16 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
 
       <Divider />
       <Box p={0.5}>
-        <Grid container justify='flex-end' spacing={2}>
+        <Grid
+          container
+          style={{ paddingLeft: '1em ', paddingRight: '0.5em ' }}
+          justify='space-between'
+          alignItems='center'
+          spacing={2}
+        >
+          <Grid item>
+            <Typography variant='subtitle1'>{formatPriceToBr(anuncio.vacancyPrice)}</Typography>
+          </Grid>
           {!isMyProperty ? (
             <IconButton onClick={handleFavoritePress}>
               {isFavorite ? <FavoriteIcon color='action' /> : <FavoriteBorderIcon color='action' />}
