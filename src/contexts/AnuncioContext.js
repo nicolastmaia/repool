@@ -57,8 +57,8 @@ export const AnuncioProvider = ({ children }) => {
       const auxAnuncios = [];
       returnedAnuncios.forEach((anuncio) => {
         let editedAnuncio = extractComodidades(anuncio);
-        editedAnuncio = checkIfMyProperty(editedAnuncio, user.property);
-        editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
+        editedAnuncio = userToken ? checkIfMyProperty(editedAnuncio, user.property) : editedAnuncio;
+        editedAnuncio = userToken ? checkIfFavorite(editedAnuncio, favorites) : editedAnuncio;
         auxAnuncios.push(editedAnuncio);
       });
       setAnuncios(auxAnuncios);
@@ -83,8 +83,8 @@ export const AnuncioProvider = ({ children }) => {
       const auxAnuncios = [];
       returnedAnuncios.forEach((anuncio) => {
         let editedAnuncio = extractComodidades(anuncio);
-        editedAnuncio = checkIfMyProperty(editedAnuncio, user.property);
-        editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
+        editedAnuncio = userToken ? checkIfMyProperty(editedAnuncio, user.property) : editedAnuncio;
+        editedAnuncio = userToken ? checkIfFavorite(editedAnuncio, favorites) : editedAnuncio;
         auxAnuncios.push(editedAnuncio);
       });
       setAnuncios(auxAnuncios);

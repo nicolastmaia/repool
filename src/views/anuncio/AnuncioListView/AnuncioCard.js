@@ -103,7 +103,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
       <Box p={0.5}>
         <Grid
           container
-          style={{ paddingLeft: '1em ', paddingRight: '0.5em ' }}
+          style={{ paddingLeft: '0.5em' }}
           justify='space-between'
           alignItems='center'
           spacing={2}

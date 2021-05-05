@@ -29,7 +29,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const checks = ['hasPool', 'hasGarage', 'hasGourmet', 'hasInternet', 'isPetFriendly'];
+const checks = [
+  { name: 'hasPool', label: 'Possui piscina' },
+  { name: 'hasGarage', label: 'Possui garagem' },
+  { name: 'hasGourmet', label: 'Possui área gourmet' },
+  { name: 'hasInternet', label: 'Possui acesso a internet' },
+  { name: 'isPetFriendly', label: 'Aceita animais' },
+];
 
 const Toolbar = ({ className, offset, ...rest }) => {
   const classes = useStyles();
@@ -128,12 +134,12 @@ const Toolbar = ({ className, offset, ...rest }) => {
                       <FormControlLabel
                         control={
                           <Checkbox
-                            name={item}
-                            checked={checked[item]}
+                            name={item.name}
+                            checked={checked[item.name]}
                             onChange={handleCheckChange}
                           />
                         }
-                        label={item}
+                        label={item.label}
                       />
                     ))}
                   </Grid>
@@ -143,6 +149,7 @@ const Toolbar = ({ className, offset, ...rest }) => {
                         <TextField
                           size='small'
                           type='number'
+                          label='Preço Mínimo'
                           placeholder='Preço mínimo'
                           variant='outlined'
                           value={minimumPrice}
@@ -153,6 +160,7 @@ const Toolbar = ({ className, offset, ...rest }) => {
                         <TextField
                           size='small'
                           type='number'
+                          label='Preço Máximo'
                           placeholder='Preço máximo'
                           variant='outlined'
                           value={maximumPrice}
