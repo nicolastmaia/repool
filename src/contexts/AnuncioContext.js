@@ -8,6 +8,7 @@ import {
   checkIfActiveRent,
   extractComodidades,
 } from 'src/utils/anuncioUtils';
+import { fillObjectIfNotNull } from 'src/utils/objUtils';
 import anuncioApi from '../api/anuncios';
 import AuthContext from './AuthContext';
 
@@ -17,6 +18,7 @@ const AnuncioContext = createContext({
   countTotalAds: null,
   fetchAnuncios: null,
   searchAnunciosByText: null,
+  searchAnunciosWithFilter: null,
   fetchActiveAnuncio: null,
   toggleInterest: null,
   toggleFavorite: null,
@@ -51,6 +53,32 @@ export const AnuncioProvider = ({ children }) => {
   const searchAnunciosByText = async (text, offset) => {
     try {
       const returnedAnuncios = await anuncioApi.getByText(text, offset);
+      const auxTotalAds = await anuncioApi.getNumberOfAds();
+      const auxAnuncios = [];
+      returnedAnuncios.forEach((anuncio) => {
+        let editedAnuncio = extractComodidades(anuncio);
+        editedAnuncio = checkIfMyProperty(editedAnuncio, user.property);
+        editedAnuncio = checkIfFavorite(editedAnuncio, favorites);
+        auxAnuncios.push(editedAnuncio);
+      });
+      setAnuncios(auxAnuncios);
+      setCountTotalAds(auxTotalAds);
+      return 'success';
+    } catch (error) {
+      return 'error';
+    }
+  };
+
+  const searchAnunciosWithFilter = async (text, checked, minimumPrice, maximumPrice, offset) => {
+    try {
+      const filterObject = fillObjectIfNotNull({
+        search: text,
+        ...checked,
+        minimumPrice,
+        maximumPrice,
+        skip: offset,
+      });
+      const returnedAnuncios = await anuncioApi.getWithFilter(filterObject);
       const auxTotalAds = await anuncioApi.getNumberOfAds();
       const auxAnuncios = [];
       returnedAnuncios.forEach((anuncio) => {
@@ -143,6 +171,7 @@ export const AnuncioProvider = ({ children }) => {
         countTotalAds,
         fetchAnuncios,
         searchAnunciosByText,
+        searchAnunciosWithFilter,
         fetchActiveAnuncio,
         toggleInterest,
         toggleFavorite,

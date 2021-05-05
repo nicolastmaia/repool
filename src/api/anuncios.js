@@ -25,6 +25,14 @@ const anuncioApi = {
     return anuncios;
   },
 
+  getWithFilter: async (filter) => {
+    const response = await repoolApi.get(`${userResourceEndpoint}/ad`, {
+      params: filter,
+    });
+    const anuncios = response.data;
+    return anuncios;
+  },
+
   getNumberOfAds: async () => {
     const response = await repoolApi.get(`${userResourceEndpoint}/ad/count`);
     const count = response.data.all;

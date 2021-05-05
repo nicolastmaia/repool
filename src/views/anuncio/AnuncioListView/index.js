@@ -25,7 +25,8 @@ const AnuncioList = () => {
   const classes = useStyles();
   const { anuncios, countTotalAds, fetchAnuncios, loadFavorites } = useContext(AnuncioContext);
   const { favorites } = useContext(AuthContext);
-  const [offset, setOffset] = useState(1);
+  const [offset, setOffset] = useState(0);
+
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
