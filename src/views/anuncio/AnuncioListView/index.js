@@ -29,7 +29,7 @@ const AnuncioList = () => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  let { pathname } = window.location;
+  const { pathname } = window.location;
 
   const closeConfirmDialog = () => {
     setIsConfirmDialogOpen(false);
@@ -48,11 +48,9 @@ const AnuncioList = () => {
 
   useEffect(() => {
     const fetchAllAnuncios = async () => {
-      pathname = pathname.slice(1);
       let message;
-      if (pathname === 'anuncios') {
-        message = await fetchAnuncios(offset);
-      } else if (pathname === 'favoritos') {
+      message = await fetchAnuncios(offset);
+      if (pathname === '/favoritos') {
         message = loadFavorites();
       }
       setSnackbarMessage(message);
@@ -63,7 +61,7 @@ const AnuncioList = () => {
   return (
     <Page className={classes.root} title='Anuncios'>
       <Container maxWidth={false}>
-        <Toolbar />
+        {pathname !== '/favoritos' ? <Toolbar offset={offset} /> : <></>}
         <Box mt={3}>
           <Grid container spacing={3}>
             {anuncios &&
@@ -78,14 +76,18 @@ const AnuncioList = () => {
               ))}
           </Grid>
         </Box>
-        <Box mt={3} display='flex' justifyContent='center'>
-          <Pagination
-            color='primary'
-            count={(countTotalAds / 20).toFixed(0)}
-            size='small'
-            onChange={handlePageChange}
-          />
-        </Box>
+        {pathname !== '/favoritos' ? (
+          <Box mt={3} display='flex' justifyContent='center'>
+            <Pagination
+              color='primary'
+              count={(countTotalAds / 20).toFixed(0)}
+              size='small'
+              onChange={handlePageChange}
+            />
+          </Box>
+        ) : (
+          <></>
+        )}
         <ConfirmDialog
           isConfirmDialogOpen={isConfirmDialogOpen}
           closeConfirmDialog={closeConfirmDialog}
