@@ -28,6 +28,17 @@ const AnuncioDescription = ({ anuncio }) => {
     setExpand((prevState) => !prevState);
   };
 
+  const renderVacancyNumber = () => {
+    const { vacancyNumber } = anuncio;
+    if (vacancyNumber === 1) {
+      return `Há ${vacancyNumber} vaga nessa propriedade`;
+    }
+    if (vacancyNumber > 1) {
+      return `Há ${vacancyNumber} vagas nessa propriedade`;
+    }
+    return 'Não há nenhuma vaga nessa propriedade';
+  };
+
   return (
     <Container className={classes.descriptionContainer}>
       <Typography style={{ paddingBottom: '3em' }} variant='h4'>
@@ -46,7 +57,7 @@ const AnuncioDescription = ({ anuncio }) => {
       <Divider />
       <Container className={classes.vacacyInfo}>
         <Typography className={classes.textGutterBottom} variant='h3'>
-          Há {anuncio.vacancyNumber} vagas nessa propriedade
+          {renderVacancyNumber()}
         </Typography>
         <Typography variant='h4'>
           Valor de uma vaga: {formatPriceToBr(vacancyPrice || 0)}
