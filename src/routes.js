@@ -1,15 +1,14 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import LoggedInLayout from 'src/layouts/LoggedInLayout';
-import LoggedOutLayout from 'src/layouts/LoggedOutLayout';
+import GeneralLayout from 'src/layouts/GeneralLayout';
 import AccountView from 'src/views/account/AccountView';
 import AnuncioListView from 'src/views/anuncio/AnuncioListView';
 import LoginView from 'src/views/auth/LoginView';
 import RegisterView from 'src/views/auth/RegisterView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import PropriedadeListView from 'src/views/propriedade/PropriedadeListView';
-import OwnerDashboardView from 'src/views/reports/OwnerDashboardView';
 import AdmDashboardView from 'src/views/reports/AdmDashboardView';
+import OwnerDashboardView from 'src/views/reports/OwnerDashboardView';
 import SettingsView from 'src/views/settings/SettingsView';
 import AnuncioDetails from './views/anuncio/AnuncioDetailsView';
 import CadPropriedadeView from './views/propriedade/CadPropriedadeView';
@@ -18,7 +17,7 @@ import PropriedadeDetails from './views/propriedade/PropriedadeDetailsView';
 const simpleLoggedInRoutes = [
   {
     path: '/',
-    element: <LoggedInLayout />,
+    element: <GeneralLayout />,
     children: [
       { path: '/', element: <Navigate to='/anuncios' /> },
       { path: 'account', element: <AccountView /> },
@@ -38,7 +37,7 @@ const simpleLoggedInRoutes = [
 const ownerLoggedInRoutes = [
   {
     path: '/',
-    element: <LoggedInLayout />,
+    element: <GeneralLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
       { path: '/', element: <OwnerDashboardView /> },
@@ -58,7 +57,7 @@ const ownerLoggedInRoutes = [
 const admLoggedInRoutes = [
   {
     path: '/',
-    element: <LoggedInLayout />,
+    element: <GeneralLayout />,
     children: [
       { path: 'account', element: <AccountView /> },
       { path: '/', element: <AdmDashboardView /> },
@@ -74,7 +73,7 @@ const admLoggedInRoutes = [
 const loggedOutRoutes = [
   {
     path: '/',
-    element: <LoggedInLayout />,
+    element: <GeneralLayout />,
     children: [
       { path: '/', element: <LoginView /> },
       { path: '/anuncios', element: <AnuncioListView /> },
