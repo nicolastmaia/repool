@@ -74,16 +74,9 @@ const RegisterView = () => {
               policy: false,
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string()
-                .email('Email inválido')
-                .max(255)
-                .required('Email é obrigatório'),
-              firstName: Yup.string()
-                .max(255)
-                .required('First name is required'),
-              lastName: Yup.string()
-                .max(255)
-                .required('Sobrenome é obrigatório'),
+              email: Yup.string().email('Email inválido').max(255).required('Email é obrigatório'),
+              firstName: Yup.string().max(255).required('First name is required'),
+              lastName: Yup.string().max(255).required('Sobrenome é obrigatório'),
               cel: Yup.string().required('Número de celular é obrigatório'),
               tel: Yup.string(),
               sex: Yup.string().required('Gênero é obrigatório'),
@@ -93,10 +86,7 @@ const RegisterView = () => {
                 'Deve aceitar os termos de contrato para prosseguir'
               ),
             })}
-            onSubmit={(
-              { email, firstName, lastName, cel, tel, sex, password },
-              actions
-            ) => {
+            onSubmit={({ email, firstName, lastName, cel, tel, sex, password }, actions) => {
               const user = {
                 name: `${firstName} ${lastName}`,
                 email,
@@ -122,11 +112,7 @@ const RegisterView = () => {
                   <Typography color='textPrimary' variant='h2'>
                     Criar Nova Conta
                   </Typography>
-                  <Typography
-                    color='textSecondary'
-                    gutterBottom
-                    variant='body2'
-                  >
+                  <Typography color='textSecondary' gutterBottom variant='body2'>
                     Use seu email para criar uma nova conta
                   </Typography>
                 </Box>
@@ -204,7 +190,7 @@ const RegisterView = () => {
                   value={values.password}
                   variant='outlined'
                 />
-                <Form>
+                <Form style={{ marginTop: '1em' }}>
                   <FormLabel component='legend'>Gênero</FormLabel>
                   <RadioGroup
                     style={{ marginLeft: '0.2em' }}
@@ -260,13 +246,12 @@ const RegisterView = () => {
                     <FormHelperText error>{errors.sex}</FormHelperText>
                   )}
                 </Form>
+                <Typography variant='subtitle1' color='textSecondary' style={{ marginTop: '1em' }}>
+                  Avatar
+                </Typography>
                 <AvatarPicker handleFileChange={handleFileChange} />
-                <Box alignItems='center' display='flex' ml={-1}>
-                  <Checkbox
-                    checked={values.policy}
-                    name='policy'
-                    onChange={handleChange}
-                  />
+                <Box alignItems='center' mt='1em' display='flex'>
+                  <Checkbox checked={values.policy} name='policy' onChange={handleChange} />
                   <Typography color='textSecondary' variant='body1'>
                     Li e aceito os{' '}
                     <Link

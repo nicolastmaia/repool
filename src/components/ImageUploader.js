@@ -241,11 +241,7 @@ class ImageUploader extends React.Component {
     return (
       <Paper className={classes.searchRoot} elevation={1}>
         <InputBase className={classes.searchInput} placeholder='Image URL' />
-        <IconButton
-          className={classes.button}
-          aria-label='Search'
-          onClick={this.handleImageSearch}
-        >
+        <IconButton className={classes.button} aria-label='Search' onClick={this.handleImageSearch}>
           <SearchIcon />
         </IconButton>
         <Divider className={classes.searchDivider} />
@@ -298,12 +294,9 @@ class ImageUploader extends React.Component {
     return (
       <>
         <CardActionArea onClick={this.imageResetHandler}>
-          <img
-            width='100%'
-            className={classes.media}
-            src={this.state.selectedFile}
-            alt=''
-          />
+          <Grid container justify='center' alignItems='center'>
+            <img width='50%' src={this.state.selectedFile} alt='' />
+          </Grid>
         </CardActionArea>
       </>
     );
@@ -318,10 +311,8 @@ class ImageUploader extends React.Component {
           <Card className={this.props.cardName}>
             {(this.state.mainState == 'initial' && this.renderInitialState()) ||
               (this.state.mainState == 'search' && this.renderSearchState()) ||
-              (this.state.mainState == 'gallery' &&
-                this.renderGalleryState()) ||
-              (this.state.mainState == 'uploaded' &&
-                this.renderUploadedState())}
+              (this.state.mainState == 'gallery' && this.renderGalleryState()) ||
+              (this.state.mainState == 'uploaded' && this.renderUploadedState())}
           </Card>
         </div>
       </>
