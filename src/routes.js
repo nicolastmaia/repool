@@ -76,8 +76,8 @@ const loggedOutRoutes = [
     element: <GeneralLayout />,
     children: [
       { path: '/', element: <LoginView /> },
-      { path: '/anuncios', element: <AnuncioListView /> },
-      { path: '/anuncios/:id', element: <AnuncioDetails /> },
+      { path: 'anuncios', element: <AnuncioListView /> },
+      { path: 'anuncios/:id', element: <AnuncioDetails /> },
       { path: 'register', element: <RegisterView /> },
       { path: '404', element: <NotFoundView /> },
       { path: '*', element: <Navigate to='/404' /> },

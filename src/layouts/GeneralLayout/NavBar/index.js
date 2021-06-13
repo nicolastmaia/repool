@@ -98,7 +98,7 @@ const admItems = [
 const loggedOutItems = [
   {
     href: '/',
-    icon: AnuncioIcon,
+    icon: UserIcon,
     title: 'Login',
   },
   {
