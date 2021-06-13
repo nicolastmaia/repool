@@ -271,7 +271,7 @@ const RegisterView = () => {
                 <Box my={2}>
                   <Button
                     color='primary'
-                    disabled={isSubmitting}
+                    disabled={!values.policy || isSubmitting}
                     fullWidth
                     size='large'
                     type='submit'
