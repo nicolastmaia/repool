@@ -40,7 +40,7 @@ const AdmDashboard = () => {
   }, [pathname]);
 
   return (
-    <Page className={classes.root} title='AdmDashboard'>
+    <Page className={classes.root} title='Dashboard'>
       <Container maxWidth={false}>
         <Grid container spacing={3}>
           <Grid item lg={4} md={4} sm={12} xl={3} xs={12}>

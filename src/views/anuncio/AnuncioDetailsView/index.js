@@ -20,6 +20,7 @@ import { Rating } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import CustomSnackbar from 'src/components/CustomSnackbar';
+import Page from 'src/components/Page';
 import AnuncioContext from 'src/contexts/AnuncioContext';
 import AuthContext from 'src/contexts/AuthContext';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
@@ -29,7 +30,12 @@ import ComodidadeItem from './ComodidadeItem';
 import ImageList from './ImageList';
 
 const useStyles = makeStyles((theme) => ({
-  root: { paddingTop: '1em', paddingBottom: '1em' },
+  root: {
+    backgroundColor: theme.palette.background.dark,
+    minHeight: '100%',
+    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(3),
+  },
   titleContainer: {
     paddingTop: '2em',
     paddingBottom: '2em',
@@ -112,7 +118,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
   }, [favorites, user]);
 
   return (
-    <Container className={classes.root}>
+    <Page className={classes.root} title='Anúncio'>
       <Container className={classes.titleContainer}>
         <Grid
           justify='space-between'
@@ -280,7 +286,7 @@ const AnuncioDetails = ({ className, ...rest }) => {
       </Container>
       <Divider />
       <CustomSnackbar message={snackbarMessage} handleCloseSnackbar={handleCloseSnackbar} />
-    </Container>
+    </Page>
   );
 };
 

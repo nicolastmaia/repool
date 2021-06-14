@@ -12,6 +12,7 @@ import CustomSnackbar from 'src/components/CustomSnackbar';
 import UserInterestDialog from 'src/components/UserInterestDialog';
 import PropriedadeContext from 'src/contexts/PropriedadeContext';
 import UserRentDialog from 'src/components/UserRentDialog';
+import Page from 'src/components/Page';
 import ComentarioItem from './ComentarioItem';
 import ComodidadeItem from './ComodidadeItem';
 import ImageList from './ImageList';
@@ -20,7 +21,12 @@ import RentUsers from './RentUsers';
 import PropriedadeDescription from './PropriedadeDescription';
 
 const useStyles = makeStyles((theme) => ({
-  root: { paddingTop: '1em', paddingBottom: '1em' },
+  root: {
+    backgroundColor: theme.palette.background.dark,
+    minHeight: '100%',
+    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(3),
+  },
   titleContainer: {
     paddingTop: '2em',
     paddingBottom: '2em',
@@ -107,7 +113,7 @@ const PropriedadeDetails = ({ className, ...rest }) => {
   }, [pathname]);
 
   return (
-    <Container className={classes.root}>
+    <Page className={classes.root} title='Propriedade'>
       <Container className={classes.titleContainer}>
         <Grid
           justify='space-between'
@@ -239,7 +245,7 @@ const PropriedadeDetails = ({ className, ...rest }) => {
         data={dialogInfo}
         isOpen={isUserRentDialogOpen}
       />
-    </Container>
+    </Page>
   );
 };
 

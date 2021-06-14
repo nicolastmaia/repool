@@ -45,7 +45,7 @@ const ownerItems = [
   {
     href: '/account',
     icon: UserIcon,
-    title: 'Perfil',
+    title: 'Meus Dados',
   },
 ];
 
@@ -68,7 +68,7 @@ const userItems = [
   {
     href: '/account',
     icon: UserIcon,
-    title: 'Perfil',
+    title: 'Meus Dados',
   },
 ];
 
@@ -91,7 +91,7 @@ const admItems = [
   {
     href: '/account',
     icon: UserIcon,
-    title: 'Perfil',
+    title: 'Meus Dados',
   },
 ];
 

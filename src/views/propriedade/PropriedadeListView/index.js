@@ -49,7 +49,7 @@ const PropriedadeList = () => {
   }, [pathname]);
 
   return (
-    <Page className={classes.root} title='Propriedades'>
+    <Page className={classes.root} title='Minhas Propriedades'>
       <Container maxWidth={false}>
         <Toolbar />
         <Typography className={classes.minhasPropriedades} variant='h1'>

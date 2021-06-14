@@ -60,7 +60,10 @@ const AnuncioList = () => {
   }, [pathname, favorites, offset]);
 
   return (
-    <Page className={classes.root} title='Anuncios'>
+    <Page
+      className={classes.root}
+      title={pathname === '/favoritos' ? 'Meus Favoritos' : 'Anúncios'}
+    >
       <Container maxWidth={false}>
         {pathname !== '/favoritos' ? <Toolbar offset={offset} /> : <></>}
         <Box mt={3}>

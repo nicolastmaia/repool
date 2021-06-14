@@ -32,11 +32,7 @@ const Profile = ({ className, ...rest }) => {
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
         <Box alignItems='center' display='flex' flexDirection='column'>
-          <Avatar
-            variant='rounded'
-            className={classes.avatar}
-            src={user.avatar}
-          />
+          <Avatar variant='rounded' className={classes.avatar} src={user.avatar} />
           <Typography color='textPrimary' gutterBottom variant='h3'>
             {user.name}
           </Typography>
@@ -51,7 +47,7 @@ const Profile = ({ className, ...rest }) => {
       <Divider />
       <CardActions>
         <Button color='primary' fullWidth variant='text'>
-          Upload picture
+          Alterar Imagem
         </Button>
       </CardActions>
     </Card>

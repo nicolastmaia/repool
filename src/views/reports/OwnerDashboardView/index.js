@@ -66,7 +66,7 @@ const OwnerDashboard = () => {
   }, [pathname]);
 
   return (
-    <Page className={classes.root} title='OwnerDashboard'>
+    <Page className={classes.root} title='Dashboard'>
       <Container maxWidth={false}>
         <Grid container spacing={3}>
           <Grid item lg={12} md={12} xl={12} xs={12}>

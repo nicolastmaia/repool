@@ -40,7 +40,7 @@ const ProfileDetails = ({ className, ...rest }) => {
   return (
     <form autoComplete='off' noValidate className={clsx(classes.root, className)} {...rest}>
       <Card>
-        <CardHeader subheader='The information can be edited' title='Profile' />
+        <CardHeader subheader='As informações abaixo podem ser editadas' title='Seus dados' />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
@@ -59,7 +59,7 @@ const ProfileDetails = ({ className, ...rest }) => {
               <TextField
                 disabled
                 fullWidth
-                label='Email Address'
+                label='Email'
                 name='email'
                 onChange={handleChange}
                 value={values.email}
@@ -79,7 +79,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label='Phone Number'
+                label='Celular'
                 name='Celular'
                 required
                 onChange={handleChange}
