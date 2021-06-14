@@ -1,34 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Box, Button, Grid, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import {
-  Box,
-  Card,
-  CardContent,
-  TextField,
-  InputAdornment,
-  SvgIcon,
-  makeStyles,
-  Button,
-  Grid,
-} from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  cadButton: { height: '3em' },
 }));
 
-const Toolbar = ({ className, ...rest }) => {
+const Toolbar = ({ className }) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
   return (
-    <div className={clsx(classes.root, className)} {...rest}>
-      <Box mt={3}>
+    <div className={clsx(classes.root, className)}>
+      <Box mt={1}>
         <Grid container justify='flex-end'>
-          <Grid item>
-            <Button onClick={() => navigate('new')} color='primary' variant='contained'>
+          <Grid item lg={3} md={3} sm={5} xs={12}>
+            <Button
+              className={classes.cadButton}
+              fullWidth
+              onClick={() => navigate('new')}
+              color='primary'
+              variant='contained'
+            >
               Cadastrar Propriedade
             </Button>
           </Grid>
