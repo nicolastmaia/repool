@@ -27,6 +27,18 @@ const PropriedadeDescription = ({ propriedade, activeRents }) => {
     setExpand((prevState) => !prevState);
   };
 
+  const renderVacancyNumber = () => {
+    const { vacancyNumber } = propriedade;
+    const { length: occupied } = activeRents;
+    if (vacancyNumber === 1) {
+      return `Esta propriedade possui ${occupied} de ${vacancyNumber} vaga ocupadas.`;
+    }
+    if (vacancyNumber > 1) {
+      return `Esta propriedade possui ${occupied} de ${vacancyNumber} vagas ocupadas.`;
+    }
+    return 'Você não cadastrou nenhuma vaga nessa propriedade';
+  };
+
   return (
     <Container className={classes.descriptionContainer}>
       <Typography style={{ paddingBottom: '3em' }} variant='h4'>
@@ -45,7 +57,7 @@ const PropriedadeDescription = ({ propriedade, activeRents }) => {
       <Divider />
       <Container className={classes.vacacyInfo}>
         <Typography className={classes.textGutterBottom} variant='h3'>
-          {`Esta propriedade possui ${activeRents.length} de ${propriedade.vacancyNumber} vagas ocupadas.`}
+          {renderVacancyNumber()}
         </Typography>
         <Typography variant='h4'>
           Valor de uma vaga: {formatPriceToBr(vacancyPrice || 0)}
