@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   cardContentRoot: {
     padding: 5,
@@ -58,7 +59,7 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
   };
 
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card className={clsx(classes.root, className)}>
       <CardContent classes={{ root: classes.cardContentRoot }}>
         <Link to={anuncio.isMyProperty ? `/propriedades/${anuncio.id}` : `/anuncios/${anuncio.id}`}>
           <Box position='relative' mb={3}>
@@ -99,8 +100,10 @@ const AnuncioCard = ({ openConfirmDialog, className, anuncio, ...rest }) => {
         </Link>
       </CardContent>
 
-      <Divider />
       <Box p={0.5}>
+        <Box mb='0.5em'>
+          <Divider />
+        </Box>
         <Grid
           container
           style={{ paddingLeft: '0.5em' }}
