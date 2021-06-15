@@ -38,13 +38,18 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (newUser, avatarFile) => {
     try {
-      const [authUser, jwtToken] = await userApi.signup(newUser, avatarFile);
+      const [authUser, jwtToken] = await userApi.signup(newUser);
+
+      const avatarUploadResponse = avatarFile
+        ? await userApi.uploadAvatar(avatarFile, jwtToken)
+        : '';
+
       const completeUser = await userApi.getUserByToken(jwtToken);
       navigate('/');
       setUser(completeUser);
       setUserToken(jwtToken);
       setFavorites(completeUser.favorited);
-      return 'success';
+      return avatarUploadResponse || 'success';
     } catch (error) {
       return 'error';
     }

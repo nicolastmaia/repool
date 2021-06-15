@@ -19,15 +19,18 @@ function CustomSnackbar({ message, handleCloseSnackbar }) {
         </>
       );
     }
+    if (message === 'warning') {
+      return (
+        <>
+          <AlertTitle>Aviso</AlertTitle> Ação parcialmente realizada.
+        </>
+      );
+    }
     return <></>;
   };
 
   return (
-    <Snackbar
-      open={message}
-      autoHideDuration={6000}
-      onClose={handleCloseSnackbar}
-    >
+    <Snackbar open={message} autoHideDuration={6000} onClose={handleCloseSnackbar}>
       <Alert severity={message}>{renderAlert()}</Alert>
     </Snackbar>
   );
