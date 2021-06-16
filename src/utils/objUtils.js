@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
-const isEmpty = (obj) => !!Object.keys(obj).length;
+export const isEmpty = (obj) => !!Object.keys(obj).length;
 
-const fillObjectIfNotNull = (obj) => {
+export const fillObjectIfNotNull = (obj) => {
   const filledObj = {};
 
   for (const [key, value] of Object.entries(obj)) {
@@ -12,5 +12,3 @@ const fillObjectIfNotNull = (obj) => {
 
   return filledObj;
 };
-
-module.exports = { isEmpty, fillObjectIfNotNull };
