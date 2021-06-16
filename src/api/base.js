@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const repoolApi = axios.create({
-  baseURL: 'http://192.168.0.109:5050',
+  baseURL: `${process.env.REACT_APP_SERVER_URL}`,
 });
 
 export const ibgeApi = axios.create({
