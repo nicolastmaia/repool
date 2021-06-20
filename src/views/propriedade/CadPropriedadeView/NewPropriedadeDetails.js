@@ -155,6 +155,7 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
     validationSchema: Yup.object().shape({
       name: Yup.string().max(255).required('Nome da propriedade é obrigatório'),
       category: Yup.string().max(255).required('Categoria da propriedade é obrigatória'),
+      description: Yup.string().max(255).required('Descrição da propriedade é obrigatória'),
       cep: Yup.string().max(255).required('CEP da propriedade é obrigatório'),
       street: Yup.string().max(255).required('Rua da propriedade é obrigatória'),
       neighborhood: Yup.string().max(255).required('Bairro da propriedade é obrigatório'),
@@ -397,6 +398,7 @@ const NewPropriedadeDetails = ({ className, ...rest }) => {
                 helperText={formik.touched.description && formik.errors.description}
                 onBlur={formik.handleBlur}
                 fullWidth
+                required
                 label='Descrição personalizada'
                 name='description'
                 multiline

@@ -181,7 +181,7 @@ export const PropriedadeProvider = ({ children }) => {
   const savePropriedade = async (propriedade, photo) => {
     try {
       if (user.role === 'USER') {
-        const [newPropriedade, newOwnerToken] = await propriedadeApi.postAsSubscriber(
+        const [newPropriedade, ownerData, newOwnerToken] = await propriedadeApi.postAsSubscriber(
           propriedade,
           photo,
           userToken
@@ -191,7 +191,6 @@ export const PropriedadeProvider = ({ children }) => {
         await propriedadeApi.postAsOwner(propriedade, photo, userToken);
       }
       await fetchPropriedadesProprias();
-      reloadUser();
       return 'success';
     } catch (error) {
       return 'error';

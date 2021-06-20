@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userApi from 'src/api/users';
 
@@ -74,6 +74,10 @@ export const AuthProvider = ({ children }) => {
     const favorited = await userApi.getFavorites(userToken);
     setFavorites(favorited);
   };
+
+  useEffect(() => {
+    reloadUser();
+  }, [userToken]);
 
   return (
     <AuthContext.Provider
