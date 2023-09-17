@@ -1,4 +1,4 @@
-# repool-front
+# Repool Front
 University Republics Rent Service
 
 This projects was created for a discipline at college. It's a react native app to aid university students in finding a place to live close to college.
