@@ -1,17 +1,24 @@
 # repool-front
-Serviço de aluguel de repúblicas universitárias.
+University Republics Rent Service
 
-O projeto visa o desenvolvimento de uma solução de software que sirva de auxílio para pessoas interessadas (provavelmente alunos universitários) encontrarem e alugarem moradias temporárias próximas às universidades.
-Este projeto foi desenvolvido para uma disciplina de universidade. Neste repositório se encontra apenas o frontend do projeto, o backend foi desenvolvido por [@ViniGom3](https://github.com/ViniGom3) e pode ser encontrado neste [link forkado do repo original](https://github.com/nicolastm15/repool-server)
+This projects was created for a discipline at college. It's a react native app to aid university students in finding a place to live close to college.
+This repository is only for the frontend, the backend was developed by [ViniGom3](https://github.com/ViniGom3) and can be found on this [link forked from the original repo](https://github.com/nicolastmaia/repool-server)
 
-## 🚀 Executando o projeto
+## What you will need
 
-- Tenha o node e o npm instalados na sua máquina. Ambos podem ser instalados seguindos os passos direto [neste site](https://nodejs.org/en/)
+- npm (version used: 8.5.0)
+- node (version used: 16.14.2)
 
-- Lembre-se de seguir os passos do README do repool-server para iniciar o servidor e banco de dados. Sem eles o front (essa pasta) não serve  de muita coisa.
+Link to download and install above items: https://nodejs.org/es/
 
-- Instale as dependências do projeto rodando o comando `npm install` na pasta raíz.
+## 🚀 How to run it
+Follow the guide in repool-server's README to boot up the server and database. Without them, this frontend repo doesn't work.
+After installing node and booting up the server, you will need to run the following commands in the project directory:
 
-- Inicie o servidor com o comando `npm run start`.
+### `npm i`
+This will install all the app dependencies listed in the package.json file.
 
-- Abra o browser e abra o endereço `localhost:3000` para visualizar o app rodando.
+### `npm start`
+
+This will run the app in development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
