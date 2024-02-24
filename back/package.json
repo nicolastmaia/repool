@@ -1,0 +1,51 @@
+{
+  "name": "repool-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "rimraf dist && tsc && node ./dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && tsc",
+    "compile": "tsc -w",
+    "dev": "npm run build && nodemon --watch ./dist --nolazy dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViniGom3/repool-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ViniGom3/repool-server/issues"
+  },
+  "homepage": "https://github.com/ViniGom3/repool-server#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/multer": "^1.4.5",
+    "@types/node": "^15.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "eslint": "^7.25.0",
+    "eslint-config-standard-with-typescript": "^20.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "git-commit-msg-linter": "^3.1.0",
+    "nodemon": "^2.0.7",
+    "prisma": "^2.22.0",
+    "sucrase": "^3.18.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^2.22.0",
+    "argon2": "^0.27.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "faker-br": "^0.4.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "multer-cloud-storage": "^2.7.1"
+  }
+}

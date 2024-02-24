@@ -1,0 +1,63 @@
+@base-url = http://localhost:5050
+@property-id = 1
+
+// USERS (everyone)
+
+### Test-api
+GET {{base-url}}/test HTTP/1.1
+Content-Type: application/json
+
+### Get all users
+GET {{base-url}}/user/users HTTP/1.1
+Content-Type: application/json
+
+### Get property by property id
+GET {{base-url}}/user/{{property-id}}/property HTTP/1.1
+Content-Type: application/json
+
+### Get properties when their property is set isAdvertisement as true. Search can filtered by word-match (name and description), price (minimum and maximum), and amendities (has pool, is pet friendly, has gourmet area and if has internet.
+@search-expression = verde
+@hasGarage=true
+@hasGourmet=false
+@hasInternet=true
+@hasPool=true
+@minimumPrice=100
+@maximumPrice=1000
+GET {{base-url}}/user/ad
+              ?search={{search-expression}}
+              &hasGarage={{hasGarage}}
+              &hasInternet={{hasInternet}}
+              &hasGourmet={{hasGourmet}}
+              &hasPool={{hasPool}}
+              &minimumPrice={{minimumPrice}}
+              &maximumPrice={{maximumPrice}}
+Content-Type: application/json
+
+### Create User
+POST {{base-url}}/user/signup HTTP/1.1
+Content-Type: application/json
+{
+    "name": "Lucas Vinicius",
+    "email": "vinicius.gom3@gmail.com",
+    "password": "12345678",
+    "tel": "2122222222",
+    "cel": "21333333333",
+    "bio": "Eu sou eu"
+}
+
+### Login User
+POST {{base-url}}/user/signin HTTP/1.1
+Content-Type: application/json
+{
+    "email": "admin@repool.com.br",
+    "password": "PASSWORD-TO-ADMIN-ACCOUNT"
+}
+
+### Get numbers of properties isAdvertisement
+GET {{base-url}}/user/ad/count
+Content-Type: application/json
+
+
+### Get infos from property by property-id
+GET {{base-url}}/user/{{property-id}}/property HTTP/1.1
+Content-Type: application/json

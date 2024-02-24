@@ -1,0 +1,107 @@
+@base-url = http://localhost:5050
+@user-id = 1
+@property-id = 1
+@rent-id = 1
+@interest-id = 1
+
+// SUBSCRIBER (logged users )
+
+### Get limited user infos by user-id
+GET {{base-url}}/subscriber/{{user-id}}/user HTTP/1.1
+Content-Type: application/json
+
+### Get all user infos by user-id
+GET {{base-url}}/subscriber/full-user HTTP/1.1
+Content-Type: application/json
+
+### Update user data
+PATCH {{base-url}}/subscriber/user HTTP/1.1
+Content-Type: application/json
+{
+    "name": "Vinicius",
+    "sex": "MALE"
+}
+
+### Update user img
+PATCH {{base-url}}/subscriber/user HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="1.png"
+Content-Type: image/png
+
+< ./1.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Delete user
+DELETE {{base-url}}/subscriber/user HTTP/1.1
+
+### Get all favorites from user
+GET {{base-url}}/subscriber/favorites HTTP/1.1
+Content-Type: application/json
+
+### Create favorite property if it not exists
+PATCH {{base-url}}/subscriber/{{property-id}}/favorites HTTP/1.1
+Content-Type: application/json
+
+### Get all user evaluation
+GET {{base-url}}/subscriber/evaluation HTTP/1.1
+Content-Type: application/json
+
+### Get all rents and average from evaluation
+GET {{base-url}}/subscriber/{{property-id}}/rent HTTP/1.1
+Content-Type: application/json
+
+### Get all rents and average from evaluation where user is guest
+GET {{base-url}}/subscriber/rent HTTP/1.1
+Content-Type: application/json
+
+### Create interest if it's not already exists
+POST {{base-url}}/subscriber/{{property-id}}/interest HTTP/1.1
+Content-Type: application/json
+
+### Create interest if it's already exists delete it
+PATCH {{base-url}}/subscriber/{{property-id}}/interest HTTP/1.1
+Content-Type: application/json
+
+### Change existing interest to set uConfirmation (user confirmation)
+@uConfirmation=true
+PATCH {{base-url}}/subscriber/{{interest-id}}/interest HTTP/1.1
+Content-Type: application/json
+{
+    "uConfirmation": {{uConfirmation}}
+}
+
+### Delete interest by property-id
+DELETE {{base-url}}/subscriber/{{property-id}}/interest HTTP/1.1
+Content-Type: application/json
+
+### Delete interest by interest-id
+PATCH {{base-url}}/subscriber/{{interest-id}}/interest HTTP/1.1
+Content-Type: application/json
+
+### Delete interest by interest-id
+PATCH {{base-url}}/subscriber/{{interest-id}}/interest HTTP/1.1
+Content-Type: application/json
+
+### Change rent to add or update value (1-5) and comment evaluate
+@value=5
+@comment="Algum comentário"
+PATCH {{base-url}}/subscriber/rent/evaluate HTTP/1.1
+Content-Type: application/json
+{
+    "value": {{value}},
+    "comment": {{comment}}
+}
+
+### Create property and change user role to "OWNER" if is not ADMIN
+PATCH {{base-url}}/subscriber/property HTTP/1.1
+Content-Type: application/json
+{
+    "value": {{value}},
+    "comment": {{comment}}
+}
+
+### Create property and change user role to "OWNER" if is not ADMIN
+DELETE {{base-url}}/subscriber/{{user-id}}/rent HTTP/1.1
+Content-Type: application/json

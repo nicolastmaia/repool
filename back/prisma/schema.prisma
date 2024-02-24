@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["selectRelationCount"]
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  name      String
+  password  String
+  avatar    String?
+  bio       String?
+  role      userRole   @default(USER)
+  sex       userSex    @default(NOTKNOW)
+  tel       String
+  cel       String
+  rent      Rent[]
+  property  Property[] @relation(name: "ownProperty")
+  favorited Property[] @relation(name: "favoriteProperties")
+  interests Interest[] @relation(name: "userInterest")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Interest {
+  id            Int      @id @default(autoincrement())
+  uConfirmation Boolean  @default(false)
+  pConfirmation Boolean  @default(false)
+  userId        Int
+  User          User     @relation("userInterest", fields: [userId], references: [id])
+  propertyId    Int
+  Property      Property @relation("interestProperties", fields: [propertyId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Property {
+  id              Int              @id @default(autoincrement())
+  name            String
+  description     String?
+  img             String[]
+  category        propertyCategory @default(HOUSE)
+  vacancyPrice    Float
+  cep             String
+  street          String
+  neighborhood    String
+  city            String
+  uf              String
+  country         String
+  number          String?
+  complement      String?
+  hasPool         Boolean          @default(false)
+  hasGarage       Boolean          @default(false)
+  hasGourmet      Boolean          @default(false)
+  hasInternet     Boolean          @default(false)
+  isPetFriendly   Boolean          @default(false)
+  vacancyNumber   Int              @default(1)
+  isAdvertisement Boolean          @default(false)
+  viewed          Int              @default(0)
+  ownerId         Int
+  rent            Rent[]           @relation(name: "propertyRent")
+  owner           User             @relation(name: "ownProperty", fields: [ownerId], references: [id])
+  interests       Interest[]       @relation(name: "interestProperties")
+  favorited       User[]           @relation(name: "favoriteProperties")
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model Rent {
+  id         Int      @id @default(autoincrement())
+  value      Int?
+  comment    String?
+  isActive   Boolean  @default(true)
+  guestId    Int
+  guest      User     @relation(fields: [guestId], references: [id])
+  property   Property @relation("propertyRent", fields: [propertyId], references: [id])
+  propertyId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+enum userRole {
+  USER
+  OWNER
+  ADMIN
+}
+
+enum propertyCategory {
+  HOUSE
+  APARTMENT
+}
+
+enum userSex {
+  NOTKNOW
+  MALE
+  FEMALE
+  NOTAPPLICABLE
+}

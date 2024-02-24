@@ -1,0 +1,23 @@
+@base-url = http://localhost:5050
+
+// ADMIN
+
+### Get count users by sex, and all users
+GET {{base-url}}/admin/sex HTTP/1.1
+Content-Type: application/json
+
+### Get count users by sex, and all users, created in 30-day range
+GET {{base-url}}/admin/sex-month HTTP/1.1
+Content-Type: application/json
+
+### Get count properties by uf(federative unit), and all properties
+GET {{base-url}}/admin/properties HTTP/1.1
+Content-Type: application/json
+
+### Get count properties by uf(federative unit), and all properties, created in 30-day range
+GET {{base-url}}/admin/properties-month HTTP/1.1
+Content-Type: application/json
+
+### Get count in-advertising properties, created in 30-day range
+GET {{base-url}}/admin/ad-month HTTP/1.1
+Content-Type: application/json
