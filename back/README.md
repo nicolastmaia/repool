@@ -1,6 +1,6 @@
 # Necessary files
 
-credentials.json: Google Cloud Storage credentials. Can be generated [here](https://cloud.google.com/storage/docs/getting-service-account?hl=pt).
+credentials.json: Google Cloud Storage credentials. It can be generated [here](https://cloud.google.com/storage/docs/getting-service-account?hl=pt).
 
 .env: environment variables file. Must have the following format:
 
